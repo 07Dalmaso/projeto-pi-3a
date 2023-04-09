@@ -17,19 +17,16 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
-        
+
         primarySwatch: Colors.deepPurple,
         //primaryColor: Color.fromARGB(255, 104, 36, 206),
-
       ),
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
 
       initialRoute: '/login',
       routes: {
-      '/main': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
-      '/login': (context) => LoginPage(),
-    },
-
+        '/main': (context) => const MyHomePage(title: 'Bem vindo(a), Usuário!'),
+        '/login': (context) => LoginPage(),
+      },
     );
   }
 }
@@ -37,52 +34,94 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-      appBar: AppBar(
-        
-        title: Text(widget.title),
-      ),
-      body: Center(
-      
-        child: Column(
-          
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                // Implementar ação do botão "Configurações"
+              },
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                // Implementar ação das opções do menu
+              },
+              itemBuilder: (BuildContext context) {
+                return {'Meu Perfil', 'Configurações'}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              },
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        body: Center(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+           SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              // Código para lidar com o clique no botão
+            },
+            child: Text(
+              'Meus Cartões',
+              style: TextStyle(fontSize: 20),
+              
+            ),
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(
+                  Size(300, 80)), // Largura de 200 e altura de 50
+              backgroundColor: MaterialStateProperty.all(
+                  Colors.deepPurple), // Cor de fundo azul
+            ),
+          ),
+           SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              // Código para lidar com o clique no botão
+            },
+            child: Text(
+              'Controle de Gastos',
+              style: TextStyle(fontSize: 20),
+
+            ),
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(
+                  Size(300, 80)), // Largura de 200 e altura de 50
+              backgroundColor: MaterialStateProperty.all(
+                  Colors.deepPurple), // Cor de fundo azul
+            ),
+          ),
+           SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              // Código para lidar com o clique no botão
+            },
+            child: Text(
+              'Histórico de Finanças',
+              style: TextStyle(fontSize: 20),
+              
+            ),
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(
+                  Size(300, 80)), // Largura de 200 e altura de 50
+              backgroundColor: MaterialStateProperty.all(
+                  Colors.deepPurple), // Cor de fundo azul
+            ),
+          ),
+        ])));
   }
 }
