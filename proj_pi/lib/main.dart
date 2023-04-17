@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:proj_pi/login_screen.dart';
+import 'package:proj_pi/user.dart';
+import 'package:proj_pi/cadastro.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/main': (context) => const MyHomePage(title: 'Bem vindo(a), Usuário!'),
         '/login': (context) => LoginPage(),
+        '/cadastro': (context) => CadastroPage(), 
       },
     );
   }
