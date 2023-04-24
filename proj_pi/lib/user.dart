@@ -1,8 +1,12 @@
+import 'main.dart';
+
 class User {
   String email;
   String password;
+  String name; 
+  String cpf;
 
-  User({required this.email, required this.password});
+  User({required this.email, required this.password, required this.name, required this.cpf});
 }
 
 class UserList {
@@ -21,3 +25,5 @@ class UserList {
     return false;
   }
 }
+
+

@@ -13,7 +13,8 @@ class LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
-
+  String name= '';
+  String cpf='';
   
   void fazerLogin() {
     if (_formKey.currentState!.validate()) {
@@ -23,7 +24,11 @@ class LoginPageState extends State<LoginPage> {
       bool isLoginValid = UserList.checkLogin(email, password);
 
       if (isLoginValid) {
-        Navigator.pushNamed(context, '/main');
+        Navigator.pushNamed(
+        context,
+        '/main',
+          arguments: User(email: email, password: password, name: name,cpf: cpf ),
+        );
       } else {
         showDialog(
           context: context,
@@ -48,63 +53,80 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Padding(
+  return Scaffold(
+    appBar: AppBar(
+      //title: Text('Entrar'),
+    ),
+    body: Container(
+      child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  setState(() {
-                    email = value!.trim();
-                  });
-                },
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      email = value!.trim();
+                    });
+                  },
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Senha'),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Insira a sua senha';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  password = value!.trim();
-                },
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Senha',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Insira a sua senha';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    password = value!.trim();
+                  },
+                ),
               ),
-         SizedBox(height: 16.0),
+              SizedBox(height: 16.0),
               ElevatedButton(
-          onPressed: () {
-                fazerLogin(); 
-                 },
-                child: Text('Login'),
+                onPressed: () {
+                  fazerLogin();
+                },
+                child: Text('Entrar'),
               ),
               SizedBox(height: 16.0),
               TextButton(
                 onPressed: () {
                   irParaCadastro();
-                  }, 
+                },
                 child: Text('Criar Cadastro'),
               ),
-              
             ],
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
