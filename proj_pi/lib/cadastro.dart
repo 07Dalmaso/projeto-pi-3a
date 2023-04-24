@@ -11,7 +11,9 @@ class CadastroPageState extends State<CadastroPage> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
-
+  String name ='';
+  String cpf = '';
+  
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Por favor, insira um email válido';
@@ -32,8 +34,25 @@ class CadastroPageState extends State<CadastroPage> {
     }
     return null; 
   }
+
+  String? _validateName(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Por favor, insira um nome válido';
+  }
+  return null;
+}
+
+String? _validateCPF(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Por favor, insira um CPF válido';
+  }
+  return null;
+}
+
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
+      print('Nome: $name');
+      print('CPF: $cpf');
       print('Email: $email');
       print('Senha: $password');
     }
@@ -67,7 +86,7 @@ class CadastroPageState extends State<CadastroPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      User novoUsuario = User(email: email, password: password);
+      User novoUsuario = User(email: email, password: password, name: name, cpf: cpf);
       UserList.addUser(novoUsuario);
 
       _showCadastro(context); 
@@ -87,6 +106,46 @@ class CadastroPageState extends State<CadastroPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+
+               SizedBox(height: 16.0),
+              TextFormField(
+  onChanged: (value) => setState(() => name = value),
+  validator: _validateName,
+  onSaved: (value) {
+    setState(() {
+      name = value!.trim();
+    });
+  },
+  decoration: InputDecoration(
+    labelText: 'Nome Completo',
+    suffixIcon: Icon(Icons.person),
+    border: OutlineInputBorder(),
+    focusedBorder: OutlineInputBorder(),
+    errorBorder: OutlineInputBorder(),
+    errorText: _validateName(name),
+  ),
+),
+
+ SizedBox(height: 16.0),
+TextFormField(
+  onChanged: (value) => setState(() => cpf = value),
+  validator: _validateCPF,
+  onSaved: (value) {
+    setState(() {
+      cpf = value!.trim();
+    });
+  },
+  decoration: InputDecoration(
+    labelText: 'CPF',
+    suffixIcon: Icon(Icons.credit_card),
+    border: OutlineInputBorder(),
+    focusedBorder: OutlineInputBorder(),
+    errorBorder: OutlineInputBorder(),
+    errorText: _validateCPF(cpf),
+  ),
+),
+
+ SizedBox(height: 16.0),
         TextFormField(
   onChanged: (value) => setState(() => email = value),
   validator: _validateEmail, 
@@ -105,6 +164,7 @@ class CadastroPageState extends State<CadastroPage> {
     errorText: _validateEmail(email), 
   ),
 ),
+ SizedBox(height: 16.0),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Senha'),
                 obscureText: true,
@@ -120,6 +180,7 @@ class CadastroPageState extends State<CadastroPage> {
                   });
                 },
               ),
+              
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: cadastrar,
