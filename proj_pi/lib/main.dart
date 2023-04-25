@@ -5,6 +5,7 @@ import 'package:proj_pi/login_screen.dart';
 import 'package:proj_pi/user.dart';
 import 'package:proj_pi/cadastro.dart'; 
 import 'package:proj_pi/splash_screen.dart';
+import 'package:proj_pi/test.dart';
 
 
 void main() {
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/cadastro': (context) => CadastroPage(), 
         '/splash_screen':(context) => SplashScreen(),
+        '/test':(context) => TestPage(),
       },
     );
   }
