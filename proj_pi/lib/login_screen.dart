@@ -59,7 +59,7 @@ class LoginPageState extends State<LoginPage> {
       Color.fromARGB(255, 246, 247, 248)!,
     ];
     return Scaffold(
-      appBar: AppBar(),
+      appBar: null,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
