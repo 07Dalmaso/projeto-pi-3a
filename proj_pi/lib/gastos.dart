@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proj_pi/common/extensions/sizes.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class GastosPage extends StatefulWidget {
+  const GastosPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<GastosPage> createState() => _GastosPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _GastosPageState extends State<GastosPage> {
   bool showBalance = true;
   double get textScaleFactor =>
       MediaQuery.of(context).size.width < 360 ? 0.7 : 1.0;
