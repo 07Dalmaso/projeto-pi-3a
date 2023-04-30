@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:proj_pi/add_card.dart';
 import 'package:proj_pi/login_screen.dart';
 import 'package:proj_pi/user.dart';
-import 'package:proj_pi/cadastro.dart'; 
+import 'package:proj_pi/cadastro.dart';
 import 'package:proj_pi/splash_screen.dart';
 import 'package:proj_pi/test.dart';
-
 
 /*class _User extends User {
    User minhaInstancia = User();
@@ -30,14 +30,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         //primaryColor: Color.fromARGB(255, 104, 36, 206),
       ),
-
       initialRoute: '/splash_screen',
       routes: {
         '/main': (context) => const MyHomePage(title: 'Bem vindo(a), Usuário!'),
         '/login': (context) => LoginPage(),
-        '/cadastro': (context) => CadastroPage(), 
-        '/splash_screen':(context) => SplashScreen(),
-        '/test':(context) => TestPage(),
+        '/cadastro': (context) => CadastroPage(),
+        '/splash_screen': (context) => SplashScreen(),
+        '/test': (context) => TestPage(),
+        '/add_card': (context) => AddCard()
       },
     );
   }
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-           SizedBox(height: 20),
+          SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               // Código para lidar com o clique no botão
@@ -91,7 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text(
               'Meus Cartões',
               style: TextStyle(fontSize: 20),
-              
             ),
             style: ButtonStyle(
               minimumSize: MaterialStateProperty.all(
@@ -100,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Colors.deepPurple), // Cor de fundo azul
             ),
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               // Código para lidar com o clique no botão
@@ -108,7 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text(
               'Controle de Gastos',
               style: TextStyle(fontSize: 20),
-
             ),
             style: ButtonStyle(
               minimumSize: MaterialStateProperty.all(
@@ -117,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Colors.deepPurple), // Cor de fundo azul
             ),
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               // Código para lidar com o clique no botão
@@ -125,7 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text(
               'Histórico de Finanças',
               style: TextStyle(fontSize: 20),
-              
             ),
             style: ButtonStyle(
               minimumSize: MaterialStateProperty.all(
