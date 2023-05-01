@@ -368,7 +368,7 @@ class _AddCardState extends State<AddCard> {
                     ElevatedButton(
                       child: Text('Cancelar'),
                       onPressed: () {
-                        // Lógica para adicionar o cartão de crédito
+                        Navigator.pushNamed(context, '/main');
                       },
                       style: ButtonStyle(
                         fixedSize: MaterialStateProperty.all<Size>(

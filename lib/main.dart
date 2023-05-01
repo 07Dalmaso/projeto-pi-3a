@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              //Navigator.pushNamed(context, '/profile');
+              Navigator.pushNamed(context, '/add_card');
             },
             child: Text(
               'Adicionar Cartão',
