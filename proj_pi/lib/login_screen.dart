@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proj_pi/user.dart';
 import 'package:proj_pi/cadastro.dart';
-import 'package:proj_pi/add_card.dart'
 
 class LoginPage extends StatefulWidget {
   @override
