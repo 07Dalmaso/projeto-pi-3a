@@ -7,8 +7,12 @@ class AddCard extends StatefulWidget {
 }
 
 class _AddCardState extends State<AddCard> {
-  TextEditingController _numeroCartaoController = TextEditingController();
-  TextEditingController _nomeTitularController = TextEditingController();
+  TextEditingController _cardNumberController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _cpfController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _cvvController = TextEditingController();
+  TextEditingController _cardNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +55,7 @@ class _AddCardState extends State<AddCard> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.04,
+                        height: MediaQuery.of(context).size.height * 0.045,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5.0),
@@ -66,7 +70,7 @@ class _AddCardState extends State<AddCard> {
                           children: <Widget>[
                             SizedBox(
                               height: MediaQuery.of(context).size.height *
-                                  0.025, // define a altura do container das logos
+                                  0.035, // define a altura do container das logos
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -123,7 +127,7 @@ class _AddCardState extends State<AddCard> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: TextFormField(
-                              controller: _numeroCartaoController,
+                              controller: _nameController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Insira o nome do titular',
@@ -167,7 +171,7 @@ class _AddCardState extends State<AddCard> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: TextFormField(
-                              controller: _numeroCartaoController,
+                              controller: _cpfController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Insira o CPF ou CPNJ',
@@ -211,7 +215,7 @@ class _AddCardState extends State<AddCard> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: TextFormField(
-                              controller: _numeroCartaoController,
+                              controller: _cardNumberController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Insira o número do cartão',
@@ -255,7 +259,7 @@ class _AddCardState extends State<AddCard> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: TextFormField(
-                              controller: _numeroCartaoController,
+                              controller: _dateController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Insira a data de validade',
@@ -299,7 +303,7 @@ class _AddCardState extends State<AddCard> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: TextFormField(
-                              controller: _numeroCartaoController,
+                              controller: _cvvController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Insira o CVV do cartão',
@@ -343,7 +347,7 @@ class _AddCardState extends State<AddCard> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: TextFormField(
-                              controller: _numeroCartaoController,
+                              controller: _cardNameController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Escolha um nome para o cartão',
@@ -368,11 +372,8 @@ class _AddCardState extends State<AddCard> {
                       },
                       style: ButtonStyle(
                         fixedSize: MaterialStateProperty.all<Size>(
-                          Size(
-                            MediaQuery.of(context).size.width *
-                                0.4, // 80% da largura da tela
-                            50.0, // altura desejada
-                          ),
+                          Size(MediaQuery.of(context).size.width * 0.4,
+                              MediaQuery.of(context).size.height * 0.07),
                         ),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -399,10 +400,8 @@ class _AddCardState extends State<AddCard> {
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Colors.green), // set background color to green
                         fixedSize: MaterialStateProperty.all<Size>(
-                          Size(
-                            MediaQuery.of(context).size.width * 0.4,
-                            50.0,
-                          ),
+                          Size(MediaQuery.of(context).size.width * 0.4,
+                              MediaQuery.of(context).size.height * 0.07),
                         ),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
