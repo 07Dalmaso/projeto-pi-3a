@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,40 +18,144 @@ class _GastosPageState extends State<GastosPage> {
   double get iconSize => MediaQuery.of(context).size.width < 360 ? 16.0 : 24.0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        // parte de trás fica embaixo da outra, parte do cartão
+    List<Color> colors = [
+      Color.fromARGB(255, 69, 72, 73)!,
+      Color.fromARGB(255, 97, 104, 107)!,
+      Color.fromARGB(255, 154, 165, 171)!,
+      Color.fromARGB(255, 246, 247, 248)!,
+    ];
+     return Scaffold(
+  body: Stack(
+    children: [
+      Column(
         children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.green],
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.elliptical(500, 30),
-                  bottomRight: Radius.elliptical(500, 30),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: colors,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                "Histórico de Gastos",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 206, 202, 202),
+                  fontSize: 25.0,
                 ),
               ),
-              height: 287.h,
             ),
           ),
-          Positioned(
-              left: 24.0,
-              right: 24.0,
-              top: 74.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Saldo',
+                textScaleFactor: textScaleFactor,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              Visibility(
+                visible: showBalance,
+                child: Text(
+                  '\$ 1,500.89',
+                  textScaleFactor: textScaleFactor,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                showBalance = !showBalance;
+              });
+            },
+            child: Text(
+              showBalance ? 'Ocultar saldo' : 'Mostrar saldo',
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+          SizedBox(height: 36.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
                 children: [
+                  Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.06),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(16.0),
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.arrow_downward,
+                      color: Colors.white,
+                      size: iconSize,
+                    ),
+                  ),
+                  SizedBox(height: 50.0),
+                  const SizedBox(width: 4.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'GASTOS',
+                        'Saldo',
+                        textScaleFactor: textScaleFactor,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '\$ 1,840.00',
+                        textScaleFactor: textScaleFactor,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+                      Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.06),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(16.0),
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.arrow_upward,
+                      color: Colors.white,
+                      size: iconSize,
+                    ),
+                  ),
+                  SizedBox(height: 50.0),
+                  const SizedBox(width: 4.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Despesas',
+                        textScaleFactor: textScaleFactor,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '\$ 2,824.00',
                         textScaleFactor: textScaleFactor,
                         style: const TextStyle(
                           color: Colors.white,
@@ -59,150 +164,10 @@ class _GastosPageState extends State<GastosPage> {
                     ],
                   ),
                 ],
-              )),
-          Positioned(
-            left: 24.w,
-            right: 24.w,
-            top: 155.h,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 24.w,
-                vertical: 32.h,
-              ),
-              decoration: const BoxDecoration(
-                  color: Color(0xFF007504),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(16.0),
-                  )),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Saldo',
-                            textScaleFactor: textScaleFactor,
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          Visibility(
-                            visible: showBalance,
-                            child: Text(
-                              '\$ 1,500.89',
-                              textScaleFactor: textScaleFactor,
-                              style: const TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            showBalance = !showBalance;
-                          });
-                        },
-                        child: Text(
-                          showBalance ? 'Ocultar saldo' : 'Mostrar saldo',
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 36.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(4.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.06),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(16.0),
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.arrow_downward,
-                              color: Colors.white,
-                              size: iconSize,
-                            ),
-                          ),
-                          const SizedBox(width: 4.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Income',
-                                textScaleFactor: textScaleFactor,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                '\$ 1,840.00',
-                                textScaleFactor: textScaleFactor,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(4.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.06),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(16.0),
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.arrow_upward,
-                              color: Colors.white,
-                              size: iconSize,
-                            ),
-                          ),
-                          const SizedBox(width: 4.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Expenses',
-                                textScaleFactor: textScaleFactor,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                '\$ 2,824.00',
-                                textScaleFactor: textScaleFactor,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
+              )
+            ]
           ),
+    ]),
           Positioned(
             top: 387.h,
             left: 0,
@@ -210,16 +175,20 @@ class _GastosPageState extends State<GastosPage> {
             bottom: 0,
             child: Column(
               children: [
+                SizedBox(height: 170.0),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: const 
+                    [
+                      //SizedBox(height: 50.0),
                       Text(
-                        'Transaction History',
+                        'Histórico de transações',
                       ),
+                      //SizedBox(height: 50.0),
                       Text(
-                        'See all',
+                        'Ver Tudo',
                       ),
                     ],
                   ),
@@ -230,9 +199,10 @@ class _GastosPageState extends State<GastosPage> {
                     padding: EdgeInsets.zero,
                     itemCount: 4,
                     itemBuilder: (context, index) {
-                      final color = index % 2 == 0 ? Colors.green : Colors.red;
+                    //index % 2 == 0 ? Colors.green : Colors.red;
                       final value =
-                          index % 2 == 0 ? "+ \$ 100.00" : "\$ 100.00";
+                          index % 2 == 0 ? "+ \$ 100.00" : "- \$ 100.00";
+                          index % 2 == 0 ? Colors.green : Colors.red;
                       return ListTile(
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 8.0),
@@ -248,10 +218,10 @@ class _GastosPageState extends State<GastosPage> {
                           ),
                         ),
                         title: const Text(
-                          'Upwork',
+                          'Data',
                         ),
                         subtitle: const Text(
-                          '1969-07-20',
+                          '02-07-2023',
                         ),
                         trailing: Text(
                           value,
@@ -260,11 +230,28 @@ class _GastosPageState extends State<GastosPage> {
                     },
                   ),
                 ),
-              ],
+                //SizedBox(height: 5.0),
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(top: 10.0, bottom: 10.0, left:12.0),
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pushNamed(context, '/main');
+              },
+              icon: Icon(Icons.arrow_back),
+              label: Text('Voltar'),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromARGB(255, 215, 207, 206)),
             ),
           ),
-        ],
-      ),
-    );
+        )
+      ]
+     ),
+   ),
+   //SizedBox(height: 5.0),
+  ]
+   ),
+     );
   }
 }

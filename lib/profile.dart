@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:proj_pi/user.dart';
 
@@ -16,12 +17,36 @@ class _ProfilePageState extends State<ProfilePage> {
 
  @override
  Widget build(BuildContext context) {
+
+  List<Color> colors = [
+      Color.fromARGB(255, 69, 72, 73)!,
+      Color.fromARGB(255, 97, 104, 107)!,
+      Color.fromARGB(255, 154, 165, 171)!,
+      Color.fromARGB(255, 246, 247, 248)!,
+    ];
   return Scaffold(
-    appBar: AppBar(
-      centerTitle: true,
-      title: Text('Meu Perfil'),
-    ),
-    body: Padding(
+    body: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: colors,
+              ),
+            ),
+       child: Center(
+              child: Text(
+                "Meu Perfil",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 206, 202, 202),
+                  fontSize: 25.0,
+                  ),
+                  ),
+              ),
+            ),
+     Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Center(
             child: CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage('assets/profile_picture.jpg'),
+              backgroundImage: AssetImage('assets/image.jpg'),
               backgroundColor: Color.fromARGB(255, 78, 74, 84), // Cor de fundo azul
             ),
           ),
@@ -65,19 +90,22 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
+          //SizedBox(height: 20.0),
           Container(
-            margin: EdgeInsets.only(top: 16.0),
+            margin: EdgeInsets.only(top: 7.0),
             child: ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/main');
               },
               icon: Icon(Icons.arrow_back),
               label: Text('Voltar'),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromARGB(255, 215, 207, 206)),
             ),
           ),
-        ],
-      ),
-    ),
-  );
+     )]),
+    )]),
+    );
 }
 }
