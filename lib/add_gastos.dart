@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:proj_pi/add_gastos_1.dart';
+import './common/extensions/CustomInputField.dart';
 //import 'main.dart';
 
 class AddGastos extends StatefulWidget {
@@ -7,12 +9,10 @@ class AddGastos extends StatefulWidget {
 }
 
 class _AddGastosState extends State<AddGastos> {
-  TextEditingController _cardNumberController = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _cpfController = TextEditingController();
+  TextEditingController _valueController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-  TextEditingController _cvvController = TextEditingController();
-  TextEditingController _cardNameController = TextEditingController();
+  TextEditingController _descpt_Controller = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +57,65 @@ class _AddGastosState extends State<AddGastos> {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.045,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.grey,
                           borderRadius: BorderRadius.circular(5.0),
                           border: Border.all(
                             color: Colors.grey,
                             width: 1.0,
                           ),
                         ),
+                        child: Center(
+                        child: Text(
+                               "Saldo: R\$254,69",
+                        style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        )
+    ),
+  ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 20.0),
+Padding(
+  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      Container(
+        height: MediaQuery.of(context).size.height * 0.045,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.0),
+          border: Border.all(
+            color: Colors.grey,
+            width: 3.0,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            'Cartão Selecionado',
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 18.0),
+          child: CustomInputField(
+            label: 'Banco do Brasil',
+            hintText: 'Banco do b5225 *** **** 5123',
+            controller: _nameController,
+          ),
+        ),
+    ],
+  ),
+),
+                SizedBox(height: 30.0),
                 Padding(
                   padding: EdgeInsets.only(top: 16.0),
                   child: Container(
@@ -98,10 +146,10 @@ class _AddGastosState extends State<AddGastos> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: TextFormField(
-                              controller: _nameController,
+                              controller: _valueController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                hintText: 'Insira o valor da transação',
+                                hintText:   'Ex: R\$100,00',
                                 hintStyle: TextStyle(fontSize: 16.0),
                                 border: InputBorder.none,
                               ),
@@ -130,95 +178,7 @@ class _AddGastosState extends State<AddGastos> {
                         Padding(
                           padding: EdgeInsets.only(left: 16.0, top: 6.0),
                           child: Text(
-                            'Valor Recebido/Pago',
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: TextFormField(
-                              controller: _cpfController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'Insira o valor da transação',
-                                hintStyle: TextStyle(fontSize: 16.0),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.085,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.0, top: 6.0),
-                          child: Text(
-                            'Número do Cartão *',
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: TextFormField(
-                              controller: _cardNumberController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'Insira o número do cartão',
-                                hintStyle: TextStyle(fontSize: 16.0),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.09,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.0, top: 6.0),
-                          child: Text(
-                            'Data de Validade *',
+                            'Data da transação *',
                             style: TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.grey[700],
@@ -233,7 +193,7 @@ class _AddGastosState extends State<AddGastos> {
                               controller: _dateController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                hintText: 'Insira a data de validade',
+                                hintText: 'Ex: 01/05/2023',
                                 hintStyle: TextStyle(fontSize: 16.0),
                                 border: InputBorder.none,
                               ),
@@ -247,7 +207,7 @@ class _AddGastosState extends State<AddGastos> {
                 Padding(
                   padding: EdgeInsets.only(top: 16.0),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.09,
+                    height: MediaQuery.of(context).size.height * 0.085,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5.0),
@@ -262,7 +222,7 @@ class _AddGastosState extends State<AddGastos> {
                         Padding(
                           padding: EdgeInsets.only(left: 16.0, top: 6.0),
                           child: Text(
-                            'Código de Verificação *',
+                            'Descrição da Transação',
                             style: TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.grey[700],
@@ -274,10 +234,10 @@ class _AddGastosState extends State<AddGastos> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: TextFormField(
-                              controller: _cvvController,
+                              controller: _descpt_Controller,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                hintText: 'Insira o CVV do cartão',
+                                hintText: 'Ex: Compra do mês no Carrefour',
                                 hintStyle: TextStyle(fontSize: 16.0),
                                 border: InputBorder.none,
                               ),
@@ -288,50 +248,7 @@ class _AddGastosState extends State<AddGastos> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.09,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.0, top: 6.0),
-                          child: Text(
-                            'Nome do Cartão',
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: TextFormField(
-                              controller: _cardNameController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'Escolha um nome para o cartão',
-                                hintStyle: TextStyle(fontSize: 16.0),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                SizedBox(height: 20.0),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -384,11 +301,8 @@ class _AddGastosState extends State<AddGastos> {
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+             ]
+           )
+      )]));
   }
 }
