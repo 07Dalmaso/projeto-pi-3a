@@ -6,13 +6,14 @@ import 'package:proj_pi/login_screen.dart';
 //import 'package:proj_pi/user.dart';
 import 'package:proj_pi/cadastro.dart'; 
 import 'package:proj_pi/splash_screen.dart';
-import 'package:proj_pi/test.dart';
+//import 'package:proj_pi/test.dart';
 import 'package:proj_pi/profile.dart';
 import 'package:proj_pi/gastos.dart';
 import 'package:proj_pi/score_card.dart';
 import 'package:proj_pi/cartao.dart';
 import 'package:proj_pi/add_card.dart';
 import 'package:proj_pi/add_gastos.dart';
+import 'package:proj_pi/add_gastos_1.dart';
 import 'dart:ui';
 
 void main() {
@@ -159,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
            SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/addGastos');
+              Navigator.pushNamed(context, '/test');
             },
             child: Text(
               'Adicionar de Transações',
