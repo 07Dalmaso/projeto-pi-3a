@@ -41,56 +41,124 @@ class _TestPageState extends State<TestPage> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 25.0,
-                ),
-              ),
+                 ),
             ),
           ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+        ),
+             Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: CustomInputField(
-                    label: 'Cartão Banco do Brasil',
-                    hintText: '5225 *** **** 5123',
-                    controller: _nameController,
-                  ),
-                ),
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.045,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: Center(
+                        child: Text(
+                               "Selecione um cartão",
+                        style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        )
+    ),
+                        ),
+                      ),
+          Padding(
+  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: InkWell(
+    onTap: () {
+      Navigator.pushNamed(context, '/addGastos');
+    },
+        child: CustomInputField(
+          label: 'Cartão Banco do Brasil',
+          hintText: '5225 *** **** 5123',
+          controller: _nameController,
+        ),
+      ),
+      )
+    ],
+  ),
+),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: CustomInputField(
-                    label: 'Cartão Banco do Brasil',
-                    hintText: '5225 *** **** 5123',
-                    controller: _nameController,
-                  ),
-                ),
+  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: InkWell(
+    onTap: () {
+      Navigator.pushNamed(context, '/addGastos');
+    },
+        child: CustomInputField(
+          label: 'Cartão Banco do Brasil',
+          hintText: '5225 *** **** 5123',
+          controller: _nameController,
+        ),
+      ),
+      )
+    ],
+  ),
+),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: CustomInputField(
-                    label: 'Cartão Banco do Brasil',
-                    hintText: '5225 *** **** 5123',
-                    controller: _nameController,
-                  ),
-                ),
+  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: InkWell(
+    onTap: () {
+      Navigator.pushNamed(context, '/addGastos');
+    },
+        child: CustomInputField(
+          label: 'Cartão Banco do Brasil',
+          hintText: '5225 *** **** 5123',
+          controller: _nameController,
+        ),
+      ),
+      )
+    ],
+  ),
+),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: CustomInputField(
-                    label: 'Cartão Banco do Brasil',
-                    hintText: '5225 *** **** 5123',
-                    controller: _nameController,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: CustomInputField(
-                    label: 'Cartão Banco do Brasil',
-                    hintText: '5225 *** **** 5123',
-                    controller: _nameController,
-                  ),
-                ),
+  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: InkWell(
+    onTap: () {
+      Navigator.pushNamed(context, '/addGastos');
+    },
+        child: CustomInputField(
+          label: 'Cartão Banco do Brasil',
+          hintText: '5225 *** **** 5123',
+          controller: _nameController,
+        ),
+      ),
+      )
+    ],
+  ),
+),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,9 +193,10 @@ class _TestPageState extends State<TestPage> {
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+              ]
+    )
+             )
+        ]));
   }
 }
