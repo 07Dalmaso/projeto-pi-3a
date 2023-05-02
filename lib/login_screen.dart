@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:proj_pi/user.dart';
 import 'package:proj_pi/cadastro.dart';
@@ -53,10 +54,10 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     List<Color> colors = [
-      Color.fromARGB(255, 69, 72, 73)!,
-      Color.fromARGB(255, 97, 104, 107)!,
-      Color.fromARGB(255, 154, 165, 171)!,
-      Color.fromARGB(255, 246, 247, 248)!,
+      Color.fromARGB(255, 69, 72, 73),
+      Color.fromARGB(255, 97, 104, 107),
+      Color.fromARGB(255, 154, 165, 171),
+      Color.fromARGB(255, 246, 247, 248),
     ];
     return Scaffold(
       appBar: null,
@@ -121,7 +122,10 @@ class LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: fazerLogin,
+                  onPressed: () {
+              Navigator.pushNamed(context, '/main');
+            },
+                 // onPressed: fazerLogin,
                   child: Text('Entrar'),
                   style: ButtonStyle(
                     backgroundColor:
