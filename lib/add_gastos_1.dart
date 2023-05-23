@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import './common/extensions/CustomInputField.dart';
 
-class TestPage extends StatefulWidget {
+class Add_Gastos extends StatefulWidget {
   @override
-  _TestPageState createState() => _TestPageState();
+  _AddGastosState createState() => _AddGastosState();
 }
 
-class _TestPageState extends State<TestPage> {
+class _AddGastosState extends State<Add_Gastos> {
   final TextEditingController _nameController = TextEditingController();
 
   @override
