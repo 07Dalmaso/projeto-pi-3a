@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/cadastro': (context) => CadastroPage(),
         '/splash_screen': (context) => SplashScreen(),
-        '/test': (context) => TestPage(),
+        '/add_Gastos': (context) => Add_Gastos(),
         '/profile': (context) => ProfilePage(),
         '/gastos': (context) => GastosPage(),
         '/cartao': (context) => CartaoPage(),
@@ -160,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
            SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/test');
+              Navigator.pushNamed(context, '/add_Gastos');
             },
             child: Text(
               'Adicionar de Transações',

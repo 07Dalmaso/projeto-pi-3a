@@ -282,7 +282,7 @@ Padding(
                     ElevatedButton(
                       child: Text('Confirmar'),
                       onPressed: () {
-                        // Lógica para adicionar o cartão de crédito
+                        Navigator.pushNamed(context, '/gastos');
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(

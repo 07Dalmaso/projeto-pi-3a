@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:proj_pi/user.dart';
-import 'package:proj_pi/login_screen.dart';
+//import 'package:proj_pi/login_screen.dart';
+import 'package:proj_pi/main.dart';
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -72,7 +73,7 @@ String? _validateCPF(String? value) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LoginPage(),
+                builder:(context) => MyHomePage(title:'Bem vindo(a), Usuário!'),
               ),
             );
           },
