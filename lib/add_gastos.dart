@@ -256,7 +256,7 @@ Padding(
                     ElevatedButton(
                       child: Text('Cancelar'),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/main');
+                        Navigator.pushNamed(context, '/add_Gastos');
                       },
                       style: ButtonStyle(
                         fixedSize: MaterialStateProperty.all<Size>(
