@@ -24,39 +24,47 @@ class _ProfilePageState extends State<ProfilePage> {
       Color.fromARGB(255, 154, 165, 171)!,
       Color.fromARGB(255, 246, 247, 248)!,
     ];
-  
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            centerTitle: false,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pushNamed(context, '/main'); // Navegar de volta à página anterior
-              },
+   return Scaffold(
+  body: CustomScrollView(
+    slivers: <Widget>[
+      SliverAppBar(
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        expandedHeight: MediaQuery.of(context).size.height * 0.3,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.bottomRight,
+              colors: colors,
             ),
-            expandedHeight: MediaQuery.of(context).size.height * 0.3,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: colors,
-                ),
+          ),
+               child: Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/main');
+                },
               ),
-              child: Center(
-                child: Text(
-                  "Meu Perfil",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 206, 202, 202),
-                    fontSize: 25.0,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Meu Perfil",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 206, 202, 202),
+                      fontSize: 25.0,
+                    ),
                   ),
                 ),
               ),
-            ),
-            pinned: true,
+            ],
           ),
+        ),
+        pinned: true,
+      ),
           SliverFillRemaining(
             child: Padding(
               padding: EdgeInsets.all(16.0),
