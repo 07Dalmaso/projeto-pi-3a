@@ -98,9 +98,7 @@ String? _validateCPF(String? value) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Cadastro'),
-      ),
+    appBar: CustomAppBar(title: "Cadastro",),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
