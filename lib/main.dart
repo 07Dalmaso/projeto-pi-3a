@@ -15,6 +15,8 @@ import 'package:proj_pi/add_card.dart';
 import 'package:proj_pi/add_gastos.dart';
 import 'package:proj_pi/add_gastos_1.dart';
 import 'dart:ui';
+import 'alterar_perfil.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -70,6 +72,7 @@ class MyApp extends StatelessWidget {
         '/splash_screen': (context) => SplashScreen(),
         '/add_Gastos': (context) => Add_Gastos(),
         '/profile': (context) => ProfilePage(),
+        '/alterar_perfil': (context) => UpdateProfileScreen(),
         '/gastos': (context) => GastosPage(),
         '/cartao': (context) => CartaoPage(),
         '/addCard': (context) => AddCard(),
@@ -84,6 +87,9 @@ class MyApp extends StatelessWidget {
       ))
     );
   }
+}
+
+class AlterarPerfilPage {
 }
          
 class MyHomePage extends StatefulWidget {
