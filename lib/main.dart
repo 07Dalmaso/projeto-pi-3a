@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/splash_screen': (context) => SplashScreen(),
         '/add_Gastos': (context) => Add_Gastos(),
         '/profile': (context) => ProfilePage(),
+        '/alterar_perfil': (context) => UpdateProfileScreen(),
         '/gastos': (context) => GastosPage(),
         '/cartao': (context) => CartaoPage(),
         '/addCard': (context) => AddCard(),
@@ -83,7 +84,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
