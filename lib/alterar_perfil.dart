@@ -24,8 +24,7 @@ class UpdateProfileScreen extends StatelessWidget {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.pushNamed(
-                    context, '/profile'); // Navegar de volta à página anterior
+                Navigator.pushNamed(context, '/Profile');
               },
             ),
             expandedHeight: MediaQuery.of(context).size.height * 0.3,
