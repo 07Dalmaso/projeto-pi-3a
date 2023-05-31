@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'common/extensions/colors.dart';
+//import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+//import 'common/extensions/colors.dart';
 import 'common/extensions/sizes.dart';
-import 'constants/text_strings.dart';
+//import 'constants/text_strings.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
   const UpdateProfileScreen({Key? key}) : super(key: key);
@@ -69,22 +69,25 @@ class UpdateProfileScreen extends StatelessWidget {
                       children: [
                         TextFormField(
                           decoration: const InputDecoration(
-                              label: Text('Nome'),
-                              prefixIcon: Icon(LineAwesomeIcons.user)),
+                            labelText: 'Nome',
+                            prefixIcon: Icon(Icons.person),
+                          ),
                         ),
-                        const SizedBox(height: tFormHeight - 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           decoration: const InputDecoration(
-                              label: Text('Email'),
-                              prefixIcon: Icon(LineAwesomeIcons.envelope_1)),
+                            labelText: 'Email',
+                             prefixIcon: Icon(Icons.email),
+                          ),
                         ),
-                        const SizedBox(height: tFormHeight - 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           decoration: const InputDecoration(
-                              label: Text('CPF'),
-                              prefixIcon: Icon(Icons.perm_identity)),
+                            labelText: 'CPF',
+                            prefixIcon: Icon(Icons.perm_identity),
+                          ),
                         ),
-                        const SizedBox(height: tFormHeight - 20),
+                        const SizedBox(height: 20),
 
                         // -- Form Submit Button
                         SizedBox(
@@ -94,14 +97,17 @@ class UpdateProfileScreen extends StatelessWidget {
                               Navigator.pushNamed(context, '/profile');
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: tPrimaryColor,
-                                side: BorderSide.none,
-                                shape: const StadiumBorder()),
-                            child: const Text(tEditProfile,
-                                style: TextStyle(color: tDarkColor)),
+                              backgroundColor: Colors.blue,
+                              side: BorderSide.none,
+                              shape: const StadiumBorder(),
+                            ),
+                            child: const Text(
+                              'Salvar Perfil',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
-                        const SizedBox(height: tFormHeight),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:proj_pi/user.dart';
 
@@ -14,15 +15,15 @@ class _ProfilePageState extends State<ProfilePage> {
     cpf: '123.456.789-00',
   );
 
-  @override
-  Widget build(BuildContext context) {
-    List<Color> colors = [
-      Color.fromARGB(255, 69, 72, 73),
-      Color.fromARGB(255, 97, 104, 107),
-      Color.fromARGB(255, 154, 165, 171),
-      Color.fromARGB(255, 246, 247, 248),
-    ];
+ @override
+ Widget build(BuildContext context) {
 
+  List<Color> colors = [
+      Color.fromARGB(255, 69, 72, 73)!,
+      Color.fromARGB(255, 97, 104, 107)!,
+      Color.fromARGB(255, 154, 165, 171)!,
+      Color.fromARGB(255, 246, 247, 248)!,
+    ];
    return Scaffold(
   body: CustomScrollView(
     slivers: <Widget>[
@@ -80,9 +81,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height: 16),
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+                      padding: EdgeInsets.all(12.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ListTile(
                             leading: CircleAvatar(
@@ -156,15 +157,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     ), // Adicionar cantos arredondados ao botão
                   ),
                 ),
-              ],
+              ]
             ),
           ],
-        ),
+            ),
+                ),
+                ],
       ),
-                ]
-  )
-          ))
-  ]));
+          )
+          )
+        ]));
 
   }
 }
