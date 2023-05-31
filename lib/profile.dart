@@ -110,12 +110,63 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                ],
-              ),
+                   Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  child: Text('Alterar Perfil'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/alt_perfil');
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.green), // Definir a cor de fundo para verde
+                    fixedSize: MaterialStateProperty.all<Size>(
+                      Size(MediaQuery.of(context).size.width * 0.4,
+                          MediaQuery.of(context).size.height * 0.07),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ), // Adicionar cantos arredondados ao botão
+                  ),
+                ),
+                SizedBox(width: 16),
+                ElevatedButton(
+                  child: Text('Log out'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.red), // Definir a cor de fundo para vermelho
+                    fixedSize: MaterialStateProperty.all<Size>(
+                      Size(MediaQuery.of(context).size.width * 0.4,
+                          MediaQuery.of(context).size.height * 0.07),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ), // Adicionar cantos arredondados ao botão
+                  ),
+                ),
+              ]
             ),
-          ),
-        ],
+          ],
+            ),
+                ),
+                ],
       ),
-    );
+          )
+          )
+        ]));
+
   }
 }
