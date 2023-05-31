@@ -124,6 +124,7 @@ class LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: () {
               Navigator.pushNamed(context, '/main');
+              // Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
             },
                  // onPressed: fazerLogin,
                   child: Text('Entrar'),

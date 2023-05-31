@@ -1,12 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-//import 'package:flutter/widgets.dart';
 import 'package:proj_pi/login_screen.dart';
-//import 'package:proj_pi/user.dart';
-import 'package:proj_pi/cadastro.dart'; 
+import 'package:proj_pi/cadastro.dart';
 import 'package:proj_pi/splash_screen.dart';
-//import 'package:proj_pi/test.dart';
 import 'package:proj_pi/profile.dart';
 import 'package:proj_pi/gastos.dart';
 import 'package:proj_pi/score_card.dart';
@@ -14,9 +9,6 @@ import 'package:proj_pi/cartao.dart';
 import 'package:proj_pi/add_card.dart';
 import 'package:proj_pi/add_gastos.dart';
 import 'package:proj_pi/add_gastos_1.dart';
-import 'dart:ui';
-import 'alterar_perfil.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -27,42 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    List<Color> colors = [
-      Color.fromARGB(255, 69, 72, 73)!,
-      Color.fromARGB(255, 97, 104, 107)!,
-      Color.fromARGB(255, 154, 165, 171)!,
-      Color.fromARGB(255, 246, 247, 248)!,
-    ];
-
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-        title: const Text('My App'),
-        ),
-        body: Column(
-          children: [
-            Container(/*
-              //height: MediaQuery.of(context).size.height * 0.3,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: colors,
-                ),
-              ),
-            */),
-           const SizedBox(height: 50.0),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                ScoreCard(),]
-              ),
-            ),
-          ],
-        ),
-      ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/splash_screen',
       routes: {
@@ -78,22 +35,58 @@ class MyApp extends StatelessWidget {
         '/addCard': (context) => AddCard(),
         '/addGastos': (context) => AddGastos(),
       },
-      theme: ThemeData(
-      appBarTheme: AppBarTheme(
-      color: Color.fromARGB(255, 69, 72, 73),
-      elevation: 0,
-      toolbarHeight: 150,
-      centerTitle: true,
-      ))
     );
   }
 }
 
-class AlterarPerfilPage {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final bool automaticallyImplyLeading;
+
+  const CustomAppBar({
+    required this.title,
+    this.automaticallyImplyLeading = true,
+  });
+
+  @override
+  Size get preferredSize => Size.fromHeight(150);
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Color> colors = [
+      const Color.fromARGB(255, 69, 72, 73),
+      const Color.fromARGB(255, 97, 104, 107),
+      const Color.fromARGB(255, 154, 165, 171),
+      const Color.fromARGB(255, 246, 247, 248),
+    ];
+
+    return AppBar(
+      elevation: 0,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: colors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
-         
+
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -104,100 +97,209 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-            child:
-              //crossAxisCount: 2,
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/cartao');
-            },
-            child: Text(
-              'Meus Cartões',
-              style: TextStyle(fontSize: 20),
-              
-            ),
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(
-                  Size(150, 40)), // Largura de 200 e altura de 50
-              backgroundColor: MaterialStateProperty.all(
-                   Color.fromARGB(255, 78, 74, 84)), // Cor de fundo azul
-            ),
-          ),
-           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/addCard');
-            },
-            
-            child: Text(
-              'Adicionar Cartão',
-              style: TextStyle(fontSize: 20),
-            ),
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(
-                  Size(150, 40)), // Largura de 200 e altura de 50
-              backgroundColor: MaterialStateProperty.all(
-                  Color.fromARGB(255,78, 74, 84)), // Cor de fundo azul
-            ),
-          ),
-           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/gastos');
-            },
-            child: Text(
-              'Controle de Gastos',
-              style: TextStyle(fontSize: 20),
+    final List<Color> colors = [
+      const Color.fromARGB(255, 69, 72, 73),
+      const Color.fromARGB(255, 97, 104, 107),
+      const Color.fromARGB(255, 154, 165, 171),
+      const Color.fromARGB(255, 246, 247, 248),
+    ];
 
+    return Scaffold(
+      appBar: CustomAppBar(title: "Bem-Vindo", automaticallyImplyLeading:false),
+      body: Center(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(100.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: AssetImage('caminho/para/imagem.jpg'),
+                  ),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Nome do Usuário',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        'Saldo: R\$ 1.000,00',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(
-                  Size(150, 40)), // Largura de 200 e altura de 50
-              backgroundColor: MaterialStateProperty.all(
-                   Color.fromARGB(255, 78, 74, 84)), // Cor de fundo azul
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/cartao');
+                      },
+                      icon: Icon(Icons.credit_card),
+                      label: Text(
+                        'Meus Cartões',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 100),
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/profile');
+                      },
+                      icon: Icon(Icons.person),
+                      label: Text(
+                        'Meu Perfil',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 100),
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/gastos');
+                      },
+                      icon: Icon(Icons.money),
+                      label: Text(
+                        'Controle de Gastos',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 100),
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/add_Gastos');
+                      },
+                      icon: Icon(Icons.add_circle),
+                      label: Text(
+                        'Adicionar Transações',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 100),
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 80,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Ação do botão Voltar
+                },
+                icon: Icon(Icons.arrow_back),
+                label: Text('Voltar'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  onPrimary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/login', (route) => false);
+                },
+                icon: Icon(Icons.exit_to_app),
+                label: Text('Sair'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red,
+                  onPrimary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                ),
+              ),
+            ],
           ),
-           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/add_Gastos');
-            },
-            child: Text(
-              'Adicionar de Transações',
-              style: TextStyle(fontSize: 20),
-              
-            ),
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(
-                  Size(150, 40)), // Largura de 200 e altura de 50
-              backgroundColor: MaterialStateProperty.all(
-                   Color.fromARGB(255, 78, 74, 84)), // Cor de fundo azul
-            ),
-          ),
-           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/profile');
-            },
-            
-            child: Text(
-              'Meu Perfil',
-              style: TextStyle(fontSize: 20),
-            ),
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(
-                  Size(150, 40)), // Largura de 200 e altura de 50
-              backgroundColor: MaterialStateProperty.all(
-                   Color.fromARGB(255, 78, 74, 84)), // Cor de fundo azul
-            ),
-          ),
-           SizedBox(height: 20),
-        ])));
+        ),
+      ),
+    );
   }
 }
