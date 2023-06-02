@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -41,12 +42,9 @@ class _SplashScreenState extends State<SplashScreen> {
             //   height: 150,
             // ),
             SizedBox(height: 24),
-            Text(
-              'LOGO', // substitua pelo nome do seu aplicativo
-              style: TextStyle(
-                fontSize: 24,
-                color: Colors.white,
-              ),
+            Image.asset(
+              '../assets/imagem/logo.png',
+              height: MediaQuery.of(context).size.height * 0.5,
             ),
           ],
         ),
