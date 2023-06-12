@@ -1,40 +1,58 @@
-
 import 'package:flutter/material.dart';
-import 'package:proj_pi/user.dart';
-import 'package:proj_pi/cadastro.dart';
+import 'package:proj_pi/user_model.dart';
+import 'package:proj_pi/user_store.dart';
+import 'package:provider/provider.dart';
+
+void main() {
+  runApp(
+    Provider(
+      create: (_) => UserStore(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: LoginPage(),
+      ),
+    ),
+  );
+}
 
 class LoginPage extends StatefulWidget {
   @override
-  LoginPageState createState() => LoginPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
-  String name = '';
-  String cpf = '';
 
-  void fazerLogin() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+  void irParaCadastro() {
+    Navigator.pushNamed(context, '/cadastro');
+  }
 
-      // Verifica se o email e senha informados correspondem a um usuário cadastrado
-      bool isLoginValid = UserList.checkLogin(email, password);
+ void fazerLogin() {
+  if (_formKey.currentState!.validate()) {
+    _formKey.currentState!.save();
 
-      if (isLoginValid) {
+    UserStore userStore = Provider.of<UserStore>(context, listen: false);
+
+    userStore.setEmail(email);
+    userStore.setPassword(password);
+
+    userStore.login().then((_) {
+      if (userStore.isRegistered) {
+        // Login successful
         Navigator.pushNamed(
           context,
           '/main',
-          arguments:
-              User(email: email, password: password, name: name, cpf: cpf),
+          arguments: userStore.loggedInUser,
         );
       } else {
+        // Login failed
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Login inválido'),
-            content: Text('Email ou senha incorretos.'),
+            title: Text('Falha no Login'),
+            content: Text('Email ou senha inválidos.'),
             actions: <Widget>[
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
@@ -44,12 +62,9 @@ class LoginPageState extends State<LoginPage> {
           ),
         );
       }
-    }
+    });
   }
-
-  void irParaCadastro() {
-    Navigator.pushNamed(context, '/cadastro');
-  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -120,31 +135,37 @@ class LoginPageState extends State<LoginPage> {
                     },
                   ),
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 45.0),
                 ElevatedButton(
-                  onPressed: () {
-              Navigator.pushNamed(context, '/main');
-              // Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
-            },
-                 // onPressed: fazerLogin,
-                  child: Text('Entrar'),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ),
+  onPressed: fazerLogin,
+  style: ButtonStyle(
+    backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(
+        color: Colors.green,
+        width: 2.0),
+      ),
+    ),
+    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+  ),
+  child: Text('Entrar'),
+),
                 SizedBox(height: 16.0),
                 TextButton(
                   onPressed: irParaCadastro,
                   child: Text('Criar Cadastro'),
                   style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                   side: MaterialStateProperty.all<BorderSide>(
+      BorderSide(color: Colors.white, width: 2.0),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ),
                   ),
                 ),
               ],

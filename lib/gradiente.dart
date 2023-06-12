@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
+//import 'dart:ui';
 
 class AppGradients{
   static final List<Color> colors = [

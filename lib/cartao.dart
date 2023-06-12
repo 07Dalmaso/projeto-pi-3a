@@ -1,7 +1,12 @@
-
 import 'package:flutter/material.dart';
+import 'card_store.dart';
 
 class CartaoPage extends StatelessWidget {
+  final CardStore cardStore;
+  final List<String> ids;
+
+  const CartaoPage({required this.cardStore, required this.ids});
+
   @override
   Widget build(BuildContext context) {
     List<Color> colors = [
@@ -10,7 +15,7 @@ class CartaoPage extends StatelessWidget {
       Color.fromARGB(255, 154, 165, 171)!,
       Color.fromARGB(255, 246, 247, 248)!,
     ];
-    return Scaffold(
+      return Scaffold(
   body: CustomScrollView(
     slivers: <Widget>[
       SliverAppBar(
@@ -61,7 +66,7 @@ class CartaoPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16.0),
           child: TextButton(
             onPressed: () {
-             // Navigator.pushNamed(context, '/addCard');
+             Navigator.pushNamed(context, '/dados_cartao');
             },
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(16.0),
@@ -97,7 +102,7 @@ class CartaoPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16.0),
           child: TextButton(
             onPressed: () {
-              //Navigator.pushNamed(context, '/addCard');
+              Navigator.pushNamed(context, '/dados_cartao');
             },
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(16.0),
@@ -133,7 +138,7 @@ class CartaoPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16.0),
           child: TextButton(
             onPressed: () {
-              //Navigator.pushNamed(context, '/addCard');
+              Navigator.pushNamed(context, '/dados_cartao');
             },
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(16.0),
@@ -169,7 +174,7 @@ class CartaoPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16.0),
           child: TextButton(
             onPressed: () {
-             // Navigator.pushNamed(context, '/addCard');
+            Navigator.pushNamed(context, '/dados_cartao');
             },
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(16.0),
