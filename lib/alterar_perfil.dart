@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 //import 'common/extensions/colors.dart';
-import 'common/extensions/sizes.dart';
+//import 'common/extensions/sizes.dart';
 //import 'constants/text_strings.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
@@ -16,37 +16,46 @@ class UpdateProfileScreen extends StatelessWidget {
       Color.fromARGB(255, 246, 247, 248),
     ];
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            centerTitle: false,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pushNamed(context, '/Profile');
-              },
+   return Scaffold(
+  body: CustomScrollView(
+    slivers: <Widget>[
+      SliverAppBar(
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        expandedHeight: MediaQuery.of(context).size.height * 0.3,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.bottomRight,
+              colors: colors,
             ),
-            expandedHeight: MediaQuery.of(context).size.height * 0.3,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: colors,
-                ),
+          ),
+               child: Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
               ),
-              child: Center(
-                child: Text(
-                  "Alterar Perfil",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 206, 202, 202),
-                    fontSize: 25.0,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Alterar Perfil",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 206, 202, 202),
+                      fontSize: 25.0,
+                    ),
                   ),
                 ),
               ),
-            ),
-            pinned: true,
+            ],
+          ),
+        ),
+        pinned: true,
           ),
           SliverFillRemaining(
             child: Padding(
@@ -97,7 +106,7 @@ class UpdateProfileScreen extends StatelessWidget {
                               Navigator.pushNamed(context, '/profile');
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
+                              backgroundColor: Colors.green,
                               side: BorderSide.none,
                               shape: const StadiumBorder(),
                             ),

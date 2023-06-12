@@ -1,30 +1,16 @@
 import 'package:flutter/material.dart';
-import './common/extensions/CustomInputField.dart';
-import 'main.dart';
+//import './common/extensions/CustomInputField.dart';
+import 'card_store.dart';
+
 
 class AddCard extends StatefulWidget {
   @override
   _AddCardState createState() => _AddCardState();
 }
 
-class _AddCardState extends State<AddCard> {
-  final TextEditingController _cardNumberController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _cpfController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _cvvController = TextEditingController();
-  final TextEditingController _cardNameController = TextEditingController();
-
-  @override
-  void dispose() {
-    _cardNumberController.dispose();
-    _nameController.dispose();
-    _cpfController.dispose();
-    _dateController.dispose();
-    _cvvController.dispose();
-    _cardNameController.dispose();
-    super.dispose();
-  }
+  class _AddCardState extends State<AddCard> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final CardStore _cardStore = CardStore();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +41,7 @@ class _AddCardState extends State<AddCard> {
                 icon: Icon(Icons.arrow_back),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/main');
+                  Navigator.pushNamed(context, '/cartao');
                 },
               ),
               Expanded(
@@ -84,7 +70,7 @@ class _AddCardState extends State<AddCard> {
                  Padding(
                     padding: const EdgeInsets.only(top: 2.0),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.045,
+                      height: MediaQuery.of(context).size.height * 0.070,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(5.0),
@@ -124,67 +110,79 @@ class _AddCardState extends State<AddCard> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CustomInputField(
-                      label: 'Nome do Titular *',
-                      hintText: 'Insira o nome do titular',
-                      controller: _nameController,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CustomInputField(
-                      label: 'CPF/CNPJ',
-                      hintText: 'Insira o CPF ou CNPJ',
-                      controller: _cpfController,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CustomInputField(
-                      label: 'Numero do Cartão*',
-                      hintText: 'Insira o numero do cartão',
-                      controller: _cardNumberController,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CustomInputField(
-                      label: 'Data de Validade *',
-                      hintText: 'Insira a data de validade',
-                      controller: _dateController,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CustomInputField(
-                      label: 'Código de Verificação *',
-                      hintText: 'Insira o CVV do cartão',
-                      controller: _cvvController,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CustomInputField(
-                      label: 'Nome do Cartão',
-                      hintText: 'Insira o nome do cartão',
-                      controller: _cardNameController,
-                    ),
-                  ),
+           Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Número do Cartão',
+                ),
+                onChanged: _cardStore.setCardNumber,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Insira o número do cartão';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Nome do Cartão',
+                ),
+                onChanged: _cardStore.setCardName,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Insira o nome do cartão';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Nome do Titular',
+                ),
+                onChanged: _cardStore.setCardHolderName,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Insira o nome do titular do cartão';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Data de Validade',
+                ),
+                onChanged: _cardStore.setExpirationDate,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Insira a data de validade';
+                  }
+                  return null;
+                },
+              ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ElevatedButton(
-                        child: Text('Confirmar'),
-                        onPressed: () {
-                          // Lógica para adicionar o cartão de crédito
-                        },
+                     ElevatedButton(
+                  onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _cardStore.saveCard();
+                                    if (_cardStore.isFormValid) {
+                                      _cardStore.saveCard();
+                                      _formKey.currentState!.reset();
+                                    }
+                                  }
+                                },
+                      child: Text('Salvar'),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                             Colors.green,
-                          ), // set background color to green
+                          ), 
                           fixedSize: MaterialStateProperty.all<Size>(
                             Size(
                               MediaQuery.of(context).size.width * 0.4,
@@ -203,9 +201,9 @@ class _AddCardState extends State<AddCard> {
                 ],
               ),
             ),
-          ),
-        ],
+           ),
+                ],
       ),
-    );
+    ))]));
   }
 }

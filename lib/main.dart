@@ -4,23 +4,37 @@ import 'package:proj_pi/cadastro.dart';
 import 'package:proj_pi/splash_screen.dart';
 import 'package:proj_pi/profile.dart';
 import 'package:proj_pi/gastos.dart';
-import 'package:proj_pi/score_card.dart';
 import 'package:proj_pi/cartao.dart';
 import 'package:proj_pi/add_card.dart';
 import 'package:proj_pi/add_gastos.dart';
 import 'package:proj_pi/add_gastos_1.dart';
 import 'package:proj_pi/alterar_perfil.dart';
+import 'package:proj_pi/dados_cartao.dart';
+import 'package:proj_pi/card_store.dart';
+import 'package:proj_pi/user_store.dart';
+import 'package:provider/provider.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  final cardStore = CardStore();
+  final userStore = UserStore();
+  runApp(MyApp(cardStore: cardStore, userStore: userStore));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  final CardStore cardStore;
+  final UserStore userStore;
+
+  const MyApp({Key? key, required this.cardStore, required this.userStore}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return  MultiProvider(
+      providers: [
+        Provider<CardStore>.value(value: cardStore),
+        Provider<UserStore>.value(value: userStore),
+      ],
+      child: MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/splash_screen',
       routes: {
@@ -32,10 +46,12 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => ProfilePage(),
         '/alt_perfil': (context) => UpdateProfileScreen(),
         '/gastos': (context) => GastosPage(),
-        '/cartao': (context) => CartaoPage(),
+        '/cartao': (context) => CartaoPage(cardStore: cardStore, ids: cardStore.cardIds),
+        '/dados_cartao': (context) => DadosCartaoPage(),
         '/addCard': (context) => AddCard(),
         '/addGastos': (context) => AddGastos(),
       },
+      )
     );
   }
 }
@@ -107,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Bem-Vindo", automaticallyImplyLeading:false),
+      appBar: CustomAppBar(title: "Bem-Vindo, Usuário", automaticallyImplyLeading:false),
       body: Center(
         child: Column(
           children: [
