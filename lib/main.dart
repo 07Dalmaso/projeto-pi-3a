@@ -14,7 +14,6 @@ import 'package:proj_pi/card_store.dart';
 import 'package:proj_pi/user_store.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
   final cardStore = CardStore();
   final userStore = UserStore();
@@ -25,34 +24,36 @@ class MyApp extends StatelessWidget {
   final CardStore cardStore;
   final UserStore userStore;
 
-  const MyApp({Key? key, required this.cardStore, required this.userStore}) : super(key: key);
+  const MyApp({Key? key, required this.cardStore, required this.userStore})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  MultiProvider(
-      providers: [
-        Provider<CardStore>.value(value: cardStore),
-        Provider<UserStore>.value(value: userStore),
-      ],
-      child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/splash_screen',
-      routes: {
-        '/main': (context) => const MyHomePage(title: 'Bem vindo(a), Usuário!'),
-        '/login': (context) => LoginPage(),
-        '/cadastro': (context) => CadastroPage(),
-        '/splash_screen': (context) => SplashScreen(),
-        '/add_Gastos': (context) => Add_Gastos(),
-        '/profile': (context) => ProfilePage(),
-        '/alt_perfil': (context) => UpdateProfileScreen(),
-        '/gastos': (context) => GastosPage(),
-        '/cartao': (context) => CartaoPage(cardStore: cardStore, ids: cardStore.cardIds),
-        '/dados_cartao': (context) => DadosCartaoPage(),
-        '/addCard': (context) => AddCard(),
-        '/addGastos': (context) => AddGastos(),
-      },
-      )
-    );
+    return MultiProvider(
+        providers: [
+          Provider<CardStore>.value(value: cardStore),
+          Provider<UserStore>.value(value: userStore),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/splash_screen',
+          routes: {
+            '/main': (context) =>
+                const MyHomePage(title: 'Bem vindo(a), Usuário!'),
+            '/login': (context) => LoginPage(),
+            '/cadastro': (context) => CadastroPage(),
+            '/splash_screen': (context) => SplashScreen(),
+            '/add_Gastos': (context) => Add_Gastos(),
+            '/profile': (context) => ProfilePage(),
+            '/alt_perfil': (context) => UpdateProfileScreen(),
+            '/gastos': (context) => GastosPage(),
+            '/cartao': (context) =>
+                CartaoPage(cardStore: cardStore, ids: cardStore.cardIds),
+            '/dados_cartao': (context) => DadosCartaoPage(),
+            '/addCard': (context) => AddCard(),
+            '/addGastos': (context) => AddGastos(),
+          },
+        ));
   }
 }
 
@@ -102,7 +103,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -123,12 +123,14 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Bem-Vindo, Usuário", automaticallyImplyLeading:false),
+      appBar: CustomAppBar(
+          title: "Bem-Vindo, Usuário", automaticallyImplyLeading: false),
       body: Center(
         child: Column(
           children: [
             Container(
               padding: const EdgeInsets.all(12.0),
+              margin: const EdgeInsets.only(top: 20, left: 12, right: 12),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(100.0),

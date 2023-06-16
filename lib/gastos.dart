@@ -1,10 +1,21 @@
-//import 'dart:developer';
-//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 import 'package:proj_pi/common/extensions/sizes.dart';
 
+class Transaction {
+  final String cardName;
+  final double value;
+  final String date;
+
+  Transaction({
+    required this.cardName,
+    required this.value,
+    required this.date,
+  });
+}
+
 class GastosPage extends StatefulWidget {
-  const GastosPage({super.key});
+  const GastosPage({Key? key});
 
   @override
   State<GastosPage> createState() => _GastosPageState();
@@ -15,6 +26,30 @@ class _GastosPageState extends State<GastosPage> {
   double get textScaleFactor =>
       MediaQuery.of(context).size.width < 360 ? 0.7 : 1.0;
   double get iconSize => MediaQuery.of(context).size.width < 360 ? 16.0 : 24.0;
+
+  List<Transaction> transactions = [
+    Transaction(
+      cardName: 'Cartão A',
+      value: -120.0,
+      date: '12/06/2023',
+    ),
+    Transaction(
+      cardName: 'Cartão B',
+      value: -45.0,
+      date: '10/06/2023',
+    ),
+    Transaction(
+      cardName: 'Cartão C',
+      value: -200.0,
+      date: '08/06/2023',
+    ),
+    Transaction(
+      cardName: 'Cartão D',
+      value: -80.0,
+      date: '06/06/2023',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     List<Color> colors = [
@@ -23,234 +58,194 @@ class _GastosPageState extends State<GastosPage> {
       Color.fromARGB(255, 154, 165, 171)!,
       Color.fromARGB(255, 246, 247, 248)!,
     ];
-     return Scaffold(
-  body: Stack(
-    children: [
-      Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: colors,
-              ),
-            ),
-            child: Center(
-              child: Text(
-                "Histórico de Gastos",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 206, 202, 202),
-                  fontSize: 25.0,
+    return Scaffold(
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            centerTitle: false,
+            automaticallyImplyLeading: false,
+            expandedHeight: MediaQuery.of(context).size.height * 0.3,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.bottomRight,
+                  colors: colors,
                 ),
               ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Saldo',
-                textScaleFactor: textScaleFactor,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              Visibility(
-                visible: showBalance,
-                child: Text(
-                  '\$ 1,500.89',
-                  textScaleFactor: textScaleFactor,
-                  style: const TextStyle(
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
                     color: Colors.white,
-                  ),
-                ),
-              )
-            ],
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                showBalance = !showBalance;
-              });
-            },
-            child: Text(
-              showBalance ? 'Ocultar saldo' : 'Mostrar saldo',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-          SizedBox(height: 36.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(4.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.06),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(16.0),
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.arrow_downward,
-                      color: Colors.white,
-                      size: iconSize,
-                    ),
-                  ),
-                  SizedBox(height: 50.0),
-                  const SizedBox(width: 4.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Saldo',
-                        textScaleFactor: textScaleFactor,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '\$ 1,840.00',
-                        textScaleFactor: textScaleFactor,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-                      Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(4.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.06),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(16.0),
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.arrow_upward,
-                      color: Colors.white,
-                      size: iconSize,
-                    ),
-                  ),
-                  SizedBox(height: 50.0),
-                  const SizedBox(width: 4.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Despesas',
-                        textScaleFactor: textScaleFactor,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        '\$ 2,824.00',
-                        textScaleFactor: textScaleFactor,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              )
-            ]
-          ),
-    ]),
-          Positioned(
-            top: 387.h,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Column(
-              children: [
-                SizedBox(height: 170.0),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const 
-                    [
-                      //SizedBox(height: 50.0),
-                      Text(
-                        'Histórico de transações',
-                      ),
-                      //SizedBox(height: 50.0),
-                      Text(
-                        'Ver Tudo',
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                    //index % 2 == 0 ? Colors.green : Colors.red;
-                      final value =
-                          index % 2 == 0 ? "+ \$ 100.00" : "- \$ 100.00";
-                          index % 2 == 0 ? Colors.green : Colors.red;
-                      return ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 8.0),
-                        leading: Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          padding: const EdgeInsets.all(8.0),
-                          child: const Icon(
-                            Icons.monetization_on_outlined,
-                          ),
-                        ),
-                        title: const Text(
-                          'Data',
-                        ),
-                        subtitle: const Text(
-                          '02-07-2023',
-                        ),
-                        trailing: Text(
-                          value,
-                        ),
-                      );
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/main');
                     },
                   ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Histórico de Gastos",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 206, 202, 202),
+                          fontSize: 25.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            pinned: true,
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 16.0),
+                Container(
+                  padding: const EdgeInsets.all(12.0),
+                  margin: const EdgeInsets.only(top: 20, left: 12, right: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 3),
+                          Text(
+                            'Saldo',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Text(
+                          showBalance ? 'R\$ 1.000,00' : '******',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          showBalance ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey[600],
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            showBalance = !showBalance;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                //SizedBox(height: 5.0),
-          Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: 10.0, bottom: 10.0, left:12.0),
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pushNamed(context, '/main');
-              },
-              icon: Icon(Icons.arrow_back),
-              label: Text('Voltar'),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Color.fromARGB(255, 215, 207, 206)),
+                SizedBox(height: 36.h),
+              ],
             ),
           ),
-        )
-      ]
-     ),
-   ),
-   //SizedBox(height: 5.0),
-  ]
-   ),
-     );
+          SliverPadding(
+            padding: const EdgeInsets.all(8.0),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final transaction = transactions[index];
+                  final value = transaction.value.toStringAsFixed(2);
+                  final color =
+                      transaction.value < 0 ? Colors.red : Colors.green;
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(16.0),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Detalhes da transação'),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Cartão: ${transaction.cardName}'),
+                                Text('Valor: $value'),
+                                Text('Data: ${transaction.date}'),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                child: Text('Fechar'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 8.0),
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: const Icon(
+                          Icons.credit_card,
+                        ),
+                      ),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            transaction.cardName,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                      subtitle: Text(
+                        transaction.date,
+                      ),
+                      trailing: Text(
+                        value,
+                        style: TextStyle(
+                          color: color,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                childCount: transactions.length,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
