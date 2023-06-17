@@ -122,7 +122,7 @@ mixin _$UserStore on _UserStore, Store {
       AsyncAction('_UserStore.login', context: context);
 
   @override
-  Future<void> login() {
+  Future<UserModel?> login() {
     return _$loginAsyncAction.run(() => super.login());
   }
 
@@ -168,6 +168,17 @@ mixin _$UserStore on _UserStore, Store {
         _$_UserStoreActionController.startAction(name: '_UserStore.setCPF');
     try {
       return super.setCPF(value);
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void mostrarDados(List<UserModel> user) {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.mostrarDados');
+    try {
+      return super.mostrarDados(user);
     } finally {
       _$_UserStoreActionController.endAction(_$actionInfo);
     }

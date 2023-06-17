@@ -8,6 +8,9 @@ set(FLUTTER_VERSION_MINOR 0 PARENT_SCOPE)
 set(FLUTTER_VERSION_PATCH 0 PARENT_SCOPE)
 set(FLUTTER_VERSION_BUILD 1 PARENT_SCOPE)
 
+# Add the desired directory to the PATH environment variable
+list(APPEND ENV{PATH} "C:/Users/sabri/AppData/Local/Pub/Cache/bin")
+
 # Environment variables to pass to tool_backend.sh
 list(APPEND FLUTTER_TOOL_ENVIRONMENT
   "FLUTTER_ROOT=C:\\src\\flutter"

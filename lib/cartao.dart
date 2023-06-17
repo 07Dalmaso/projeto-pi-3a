@@ -59,7 +59,8 @@ class CartaoPage extends StatelessWidget {
  SliverFillRemaining(
   child: Padding(
     padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-    child: Column(
+    child: Column( //listView listTile (fazer trailing iconButton)
+    //observerv listview listbuilder olhar github 
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Padding(
