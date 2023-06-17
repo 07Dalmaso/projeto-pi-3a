@@ -5,8 +5,12 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    Provider(
-      create: (_) => UserStore(),
+    MultiProvider(
+      providers: [
+        Provider<UserStore>(
+          create: (_) => UserStore(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: LoginPage(),

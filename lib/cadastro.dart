@@ -4,6 +4,18 @@ import 'package:provider/provider.dart';
 import 'package:proj_pi/user_store.dart';
 import 'package:proj_pi/user_model.dart';
 
+void main() {
+  runApp(
+    Provider(
+      create: (_) => UserStore(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: CadastroPage(),
+      ),
+    ),
+  );
+}
+
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -65,23 +77,22 @@ class CadastroPageState extends State<CadastroPage> {
 
     return null;
   }
+Future<void> _submitForm(BuildContext context) async {
+  if (!_formKey.currentState!.validate()) {
+    return;
+  }
 
-  Future<void> _submitForm(BuildContext context) async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
+  setState(() => _errorCadastro = '');
 
-    setState(() => _errorCadastro = '');
+  try {
+    UserStore userStore = Provider.of<UserStore>(context, listen: false);
+    // Salvar os dados do usuário no UserStore
+    userStore.setEmail(_emailController.text);
+    userStore.setPassword(_senhaController.text);
+    userStore.setName(_nameController.text);
+    userStore.setCPF(_cpfController.text);
 
-    try {
-      UserStore userStore = Provider.of<UserStore>(context, listen: false);
-    
-      userStore.setEmail(_emailController.text);
-      userStore.setPassword(_senhaController.text);
-      userStore.setName(_nameController.text);
-      userStore.setCPF(_cpfController.text);
-
-      UserModel newUser = UserModel(
+    UserModel newUser = UserModel(
       email: _emailController.text,
       password: _senhaController.text,
       name: _nameController.text,
@@ -89,13 +100,12 @@ class CadastroPageState extends State<CadastroPage> {
     );
 
     userStore.addRegisteredUser(newUser);
-      
-      Navigator.pushReplacementNamed(context, '/main');
-    } catch (e) {
-      setState(() => _errorCadastro = e.toString());
-    }
-  }
 
+    Navigator.pushReplacementNamed(context, '/main');
+  } catch (e) {
+    setState(() => _errorCadastro = e.toString());
+  }
+}
  
   @override
   Widget build(BuildContext context) {
@@ -202,7 +212,7 @@ class CadastroPageState extends State<CadastroPage> {
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        SizedBox(height: 90.0),
+                        SizedBox(height: 70.0),
                         ElevatedButton(
                           onPressed: () => _submitForm(context),
                           child: Text('Cadastrar'),

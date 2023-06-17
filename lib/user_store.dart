@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:proj_pi/user_model.dart';
+import 'package:email_validator/email_validator.dart';
 
 part 'user_store.g.dart';
 
@@ -62,26 +63,42 @@ abstract class _UserStore with Store {
     }
   }
 
+ @action
+void mostrarDados(List<UserModel> user) {
+  registeredUsers = user;
+}
+
   @action
   void addRegisteredUser(UserModel user) {
   registeredUsers.add(user);
 }
-
   @action
-Future<void> login() async {
-  // Simulando um processo de login assíncrono
- // await Future.delayed(Duration(seconds: 2));
+  Future<UserModel?> login() async {
+  // Verificar se o email é válido
+  if (!EmailValidator.validate(email)) {
+      isRegistered = false;
+      return null;
+    }
 
-  // Verificar se o email e a senha correspondem a um usuário cadastrado
-  for (var user in registeredUsers) {
-    if (user.email == email && user.password == password) {
+    // Encontrar o usuário correspondente ao email
+    UserModel? foundUser;
+
+    for (var user in registeredUsers) {
+      if (user.email == email) {
+        foundUser = user;
+        break;
+      }
+    }
+
+    if (foundUser != null && foundUser.password == password) {
+      // Usuário encontrado e senha válida
+      loggedInUser = foundUser;
       isRegistered = true;
-      loggedInUser = user;
-      return;
+      return foundUser;
+    } else {
+      // Email ou senha inválidos
+      isRegistered = false;
+      return null;
     }
   }
-
-  // Se nenhum usuário correspondente for encontrado
-  isRegistered = false;
-}
 }
