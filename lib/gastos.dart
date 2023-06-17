@@ -4,11 +4,13 @@ import 'package:proj_pi/common/extensions/sizes.dart';
 
 class Transaction {
   final String cardName;
+  final String type;
   final double value;
   final String date;
 
   Transaction({
     required this.cardName,
+    required this.type,
     required this.value,
     required this.date,
   });
@@ -30,22 +32,26 @@ class _GastosPageState extends State<GastosPage> {
   List<Transaction> transactions = [
     Transaction(
       cardName: 'Cartão A',
-      value: -120.0,
+      type: 'Alimentação',
+      value: 120.0,
       date: '12/06/2023',
     ),
     Transaction(
       cardName: 'Cartão B',
-      value: -45.0,
+      type: 'Educação',
+      value: 45.0,
       date: '10/06/2023',
     ),
     Transaction(
       cardName: 'Cartão C',
-      value: -200.0,
+      type: 'Transporte',
+      value: 200.0,
       date: '08/06/2023',
     ),
     Transaction(
       cardName: 'Cartão D',
-      value: -80.0,
+      type: 'Saúde',
+      value: 90.0,
       date: '06/06/2023',
     ),
   ];
@@ -171,11 +177,9 @@ class _GastosPageState extends State<GastosPage> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final transaction = transactions[index];
-                  final value = transaction.value.toStringAsFixed(2);
-                  final color =
-                      transaction.value < 0 ? Colors.red : Colors.green;
+                  final value =
+                      transaction.value.toStringAsFixed(2).replaceAll('.', ',');
                   return InkWell(
-                    borderRadius: BorderRadius.circular(16.0),
                     onTap: () {
                       showDialog(
                         context: context,
@@ -187,7 +191,7 @@ class _GastosPageState extends State<GastosPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text('Cartão: ${transaction.cardName}'),
-                                Text('Valor: $value'),
+                                Text('Valor: R\$ $value'),
                                 Text('Data: ${transaction.date}'),
                               ],
                             ),
@@ -203,39 +207,79 @@ class _GastosPageState extends State<GastosPage> {
                         },
                       );
                     },
-                    child: ListTile(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 8.0),
-                      leading: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        ),
-                        padding: const EdgeInsets.all(8.0),
-                        child: const Icon(
-                          Icons.credit_card,
-                        ),
-                      ),
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            transaction.cardName,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                            ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
                           ),
                         ],
                       ),
-                      subtitle: Text(
-                        transaction.date,
-                      ),
-                      trailing: Text(
-                        value,
-                        style: TextStyle(
-                          color: color,
-                        ),
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      padding: EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.credit_card,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(width: 16.0),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  transaction.cardName,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  transaction.type,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'R\$ ${value}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 8.0),
+                              Text(
+                                transaction.date,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   );
