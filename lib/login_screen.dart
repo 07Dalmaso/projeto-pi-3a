@@ -3,22 +3,6 @@ import 'package:proj_pi/user_model.dart';
 import 'package:proj_pi/user_store.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        Provider<UserStore>(
-          create: (_) => UserStore(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: LoginPage(),
-      ),
-    ),
-  );
-}
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -28,6 +12,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  String userId= '';
 
   void irParaCadastro() {
     Navigator.pushNamed(context, '/cadastro');
@@ -41,17 +26,16 @@ class _LoginPageState extends State<LoginPage> {
 
     userStore.setEmail(email);
     userStore.setPassword(password);
+    //userStore.setLogin(userId);
 
     userStore.login().then((_) {
       if (userStore.isRegistered) {
         // Login successful
-        Navigator.pushNamed(
-          context,
-          '/main',
-          arguments: userStore.loggedInUser,
-        );
+        print('Login successful'); // Debug print
+        Navigator.pushNamed(context, '/main');
       } else {
         // Login failed
+        print('Login failed'); // Debug print
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -72,6 +56,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+     final userStore = Provider.of<UserStore>(context);
+
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73),
       Color.fromARGB(255, 97, 104, 107),

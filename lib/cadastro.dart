@@ -4,113 +4,18 @@ import 'package:provider/provider.dart';
 import 'package:proj_pi/user_store.dart';
 import 'package:proj_pi/user_model.dart';
 
-void main() {
-  runApp(
-    Provider(
-      create: (_) => UserStore(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: CadastroPage(),
-      ),
-    ),
-  );
-}
-
-
 class CadastroPage extends StatefulWidget {
   @override
   CadastroPageState createState() => CadastroPageState();
 }
 
 class CadastroPageState extends State<CadastroPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _senhaController = TextEditingController();
-  final _nameController = TextEditingController();
-  final _cpfController = TextEditingController();
 
-
-  String _errorCadastro = '';
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _senhaController.dispose();
-    _nameController.dispose();
-    _cpfController.dispose();
-    super.dispose();
-  }
-   String? _validateNome(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Nome é obrigatório';
-    }
-    return null;
-   }
-
-     String? _validateCPF(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email é obrigatório';
-    }
-    return null;
-     }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email é obrigatório';
-    }
-
-    if (!EmailValidator.validate(value)) {
-      return 'Email inválido';
-    }
-
-    return null;
-  }
-
-  String? _validateSenha(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Senha é obrigatória';
-    }
-
-    if (value.length < 6) {
-      return 'Senha deve ter no mínimo 6 caracteres';
-    }
-
-    return null;
-  }
-Future<void> _submitForm(BuildContext context) async {
-  if (!_formKey.currentState!.validate()) {
-    return;
-  }
-
-  setState(() => _errorCadastro = '');
-
-  try {
-    UserStore userStore = Provider.of<UserStore>(context, listen: false);
-    // Salvar os dados do usuário no UserStore
-    userStore.setEmail(_emailController.text);
-    userStore.setPassword(_senhaController.text);
-    userStore.setName(_nameController.text);
-    userStore.setCPF(_cpfController.text);
-
-    UserModel newUser = UserModel(
-      email: _emailController.text,
-      password: _senhaController.text,
-      name: _nameController.text,
-      cpf: _cpfController.text,
-    );
-
-    userStore.addRegisteredUser(newUser);
-
-    Navigator.pushReplacementNamed(context, '/main');
-  } catch (e) {
-    setState(() => _errorCadastro = e.toString());
-  }
-}
- 
   @override
   Widget build(BuildContext context) {
   UserStore userStore = Provider.of<UserStore>(context);
-  UserModel? loggedInUser = userStore.loggedInUser;
+  //final List<UserModel> registeredUsers = userStore.registeredUsers;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   List<Color> colors = [
     Color.fromARGB(255, 69, 72, 73),
@@ -147,7 +52,7 @@ Future<void> _submitForm(BuildContext context) async {
                       Navigator.pushNamed(context, '/login');
                     },
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -171,65 +76,101 @@ Future<void> _submitForm(BuildContext context) async {
                 [
                   Form(
                     key: _formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         SizedBox(height: 16.0),
                         TextFormField(
-                          controller: _nameController,
-                          validator: _validateNome,
+                          initialValue: userStore.name,
+                          onChanged: userStore.setName,
+                          validator: (value) {
+                       if (value!.isEmpty) {
+                       return 'Nome é obrigatório';
+                           }
+                         return null;
+                          },
                           decoration: InputDecoration(
                             labelText: 'Nome',
                             border: OutlineInputBorder(),
                           ),
                         ),
+
                         SizedBox(height: 16.0),
                         TextFormField(
-                          controller: _cpfController,
-                          validator: _validateCPF,
+                           initialValue: userStore.cpf,
+                          onChanged: userStore.setCPF,
+                          validator: (value) {
+                       if (value!.isEmpty) {
+                       return 'CPF é obrigatório';
+                           }
+                         return null;
+                          },
                           decoration: InputDecoration(
                             labelText: 'CPF',
                             border: OutlineInputBorder(),
                           ),
                         ),
+
                         SizedBox(height: 16.0),
                         TextFormField(
-                          controller: _emailController,
-                          validator: _validateEmail,
+                          initialValue: userStore.email,
+                          onChanged: userStore.setEmail,
+                          validator: (value) {
+                       if (value!.isEmpty) {
+                       return 'Email é obrigatório';
+                           }
+                           if (!EmailValidator.validate(value)) {
+                           return 'Email inválido';
+                         }
+                         return null;
+                          },
                           decoration: InputDecoration(
                             labelText: 'Email',
                             border: OutlineInputBorder(),
                           ),
                         ),
+
                         SizedBox(height: 16.0),
                         TextFormField(
-                          controller: _senhaController,
-                          validator: _validateSenha,
+                           initialValue: userStore.password,
+                          onChanged: userStore.setPassword,
+                          validator: (value) {
+                       if (value!.isEmpty) {
+                       return 'Senha é obrigatória';
+                           }
+                           if (value.length<6) {
+                           return 'Senha inválida. Requer mínimo de 6 dígitos';
+                         }
+                         return null;
+                          },
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Senha',
                             border: OutlineInputBorder(),
                           ),
                         ),
+                        
                         SizedBox(height: 70.0),
-                        ElevatedButton(
-                          onPressed: () => _submitForm(context),
-                          child: Text('Cadastrar'),
-                          style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          minimumSize: Size(150, 60),
-                          shape: RoundedRectangleBorder(
-                           borderRadius: BorderRadius.circular(10), 
-                         ),
-                         )
-                        ),
-                        Text(
-                          _errorCadastro,
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        ),
+ElevatedButton(
+  onPressed: () {
+    if (_formKey.currentState!.validate()) {
+       if (userStore.isFormValid) {
+      userStore.saveUser();
+      _formKey.currentState!.reset();
+      Navigator.pushReplacementNamed(context, '/main');
+       }
+    }
+  },
+  child: Text('Cadastrar'),
+  style: ElevatedButton.styleFrom(
+    primary: Colors.green,
+    minimumSize: Size(150, 60),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  ),
+),
+
                       ],
                     ),
                   ),

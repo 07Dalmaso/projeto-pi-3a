@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import './common/extensions/CustomInputField.dart';
+import 'package:provider/provider.dart';
 import 'card_store.dart';
-
 
 class AddCard extends StatefulWidget {
   @override
@@ -9,11 +9,12 @@ class AddCard extends StatefulWidget {
 }
 
   class _AddCardState extends State<AddCard> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final CardStore _cardStore = CardStore();
-
+ 
   @override
   Widget build(BuildContext context) {
+    final cardStore = Provider.of<CardStore>(context);
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
     final colors = [
       const Color.fromARGB(255, 69, 72, 73),
       const Color.fromARGB(255, 97, 104, 107),
@@ -110,100 +111,129 @@ class AddCard extends StatefulWidget {
                       ),
                     ),
                   ),
-           Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Número do Cartão',
-                ),
-                onChanged: _cardStore.setCardNumber,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Insira o número do cartão';
+     Padding(
+  padding: const EdgeInsets.all(16.0),
+  child: Form(
+    key: _formKey,
+    child: Column(
+      children: [
+         TextFormField(
+          decoration: InputDecoration(
+            labelText: 'Nome do Titular',
+            border: OutlineInputBorder(),
+          ),
+          style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+          initialValue: cardStore.cardHolderName,
+          onChanged: cardStore.setCardHolderName,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Insira o nome do titular do cartão';
+            }
+            return null;
+          },
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.023),
+        TextFormField(
+          decoration: InputDecoration(
+            labelText: 'Nome do Cartão',
+            border: OutlineInputBorder(),
+          ),
+          style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+          initialValue: cardStore.cardName,
+          onChanged: cardStore.setCardName,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Insira o nome do cartão';
+            }
+            return null;
+          },
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.023),
+        TextFormField(
+          decoration: const InputDecoration(
+            labelText: 'Últimos 4 dígitos do cartão',
+            border: OutlineInputBorder(),
+          ),
+          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+          initialValue: cardStore.cardNumber,
+          onChanged: cardStore.setCardNumber,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Insira o número do cartão';
+            }
+            else {
+              if (value.length > 4) {
+              return 'Insira apenas os 4 últimos dígitos';
+            }
+            if(value.length<4){
+               return 'Insira os 4 últimos dígitos';
+            }
+
+  return null;
+}
+          },
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.023),
+        TextFormField(
+          decoration: InputDecoration(
+            labelText: 'Data de Vencimento',
+            border: OutlineInputBorder(),
+          ),
+          style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+          initialValue: cardStore.expirationDate,
+          onChanged: cardStore.setExpirationDate,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Insira a data de vencimento';
+            }else {
+    // Regular expression pattern for "mm/yyyy" format
+    final pattern = r'^\d{2}/\d{2}$';
+    final regExp = RegExp(pattern);
+    if (!regExp.hasMatch(value)) {
+      return 'Insira a data no formato mês/ano (ex: 06/24)';
+    }
+  }
+         return null;
+          },
+        ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.023),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  if (cardStore.isFormValid) {
+                    cardStore.saveCard();
+                    _formKey.currentState!.reset();
                   }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Nome do Cartão',
+                }
+              },
+              child: Text('Salvar'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Colors.green,
                 ),
-                onChanged: _cardStore.setCardName,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Insira o nome do cartão';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Nome do Titular',
-                ),
-                onChanged: _cardStore.setCardHolderName,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Insira o nome do titular do cartão';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Data de Validade',
-                ),
-                onChanged: _cardStore.setExpirationDate,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Insira a data de validade';
-                  }
-                  return null;
-                },
-              ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.023),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                     ElevatedButton(
-                  onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    _cardStore.saveCard();
-                                    if (_cardStore.isFormValid) {
-                                      _cardStore.saveCard();
-                                      _formKey.currentState!.reset();
-                                    }
-                                  }
-                                },
-                      child: Text('Salvar'),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.green,
-                          ), 
-                          fixedSize: MaterialStateProperty.all<Size>(
-                            Size(
-                              MediaQuery.of(context).size.width * 0.4,
-                              MediaQuery.of(context).size.height * 0.07,
-                            ),
-                          ),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ), // add rounded corners to the button
-                        ),
-                      ),
-                    ],
+                fixedSize: MaterialStateProperty.all<Size>(
+                  Size(
+                    MediaQuery.of(context).size.width * 0.4,
+                    MediaQuery.of(context).size.height * 0.07,
                   ),
-                ],
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
             ),
-           ),
-                ],
-      ),
-    ))]));
-  }
-}
+          ],
+        ),
+      ],
+    ),
+  ),
+)])
+                 )
+      )]
+     ));
+  }}

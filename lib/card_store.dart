@@ -18,11 +18,12 @@ abstract class _CardStore with Store {
   @observable
   String expirationDate = '';
 
-  @observable
-  ObservableList<CardModel> cards = ObservableList<CardModel>();
+   @observable
+  String cardId = '';
+
 
   @observable
-  ObservableList<String> cardIds = ObservableList<String>();
+  ObservableList<CardModel> cards = ObservableList<CardModel>();
 
   @action
   void setCardNumber(String value) {
@@ -53,26 +54,41 @@ abstract class _CardStore with Store {
 
   @action
 void addCard(CardModel card) {
-  card.id = UniqueKey().toString();
+  card.cardId = UniqueKey().toString();
   cards.add(card);
-  cardIds.add(card.id);
 }
 
+@action
+  CardModel? getCardById(String cardId) {
+    return cards.firstWhere((card) => card.cardId == cardId);
+  }
+
  @action
-  void removeCardById(String id) {
-  cards.removeWhere((card) => card.id == id);
-  cardIds.remove(id);
+ void removeCardById(CardModel cardToRemove) {
+  cards.removeWhere((card) => card.cardId == cardToRemove.cardId);
 }
+@action
+    void printAllCards() {
+    print('Cartões Salvos:');
+    for (var card in cards) {
+    print('Número do Cartão: ${card.cardNumber}');
+    print('Nome do Cartão: ${card.cardName}');
+    print('Nome do Titular: ${card.cardHolderName}');
+    print('Data de Validade: ${card.expirationDate}');
+    print('id do cartao: ${card.cardId}');
+    }
+  }
   @action
   void saveCard() {
     // Aqui você pode implementar a lógica para salvar o cartão
     CardModel newCard = CardModel(
-      id: UniqueKey().toString(),
+      cardId: cardId,
       cardNumber: cardNumber,
       cardName: cardName,
       cardHolderName: cardHolderName,
       expirationDate: expirationDate,
     );
     addCard(newCard);
+    printAllCards();
   }
 }
