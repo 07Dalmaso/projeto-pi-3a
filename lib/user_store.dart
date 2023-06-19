@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:flutter/material.dart';
 import 'package:proj_pi/user_model.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -22,56 +23,72 @@ abstract class _UserStore with Store {
   @observable
   String cpf = '';
 
+   @observable
+  String userId = '';
+
   @observable
   bool isRegistered = false;
+
+   @observable
+  String isLoggedin = '';
 
   @observable
   String errorMessage = '';
 
-  @observable
-  UserModel? loggedInUser;
+   @action
+  void setLogin(String value) {
+    isLoggedin = value;
+  }
 
   @action
   void setEmail(String value) {
     email = value;
-    if (loggedInUser != null) {
-      loggedInUser!.email = value;
-    }
   }
 
   @action
   void setPassword(String value) {
     password = value;
-    if (loggedInUser != null) {
-      loggedInUser!.password = value;
-    }
   }
 
   @action
   void setName(String value) {
     name = value;
-    if (loggedInUser != null) {
-      loggedInUser!.name = value;
-    }
   }
 
   @action
   void setCPF(String value) {
     cpf = value;
-    if (loggedInUser != null) {
-      loggedInUser!.cpf = value;
-    }
   }
 
+  @computed
+  bool get isFormValid =>
+      name.isNotEmpty &&
+      cpf.isNotEmpty &&
+      email.isNotEmpty &&
+      password.isNotEmpty;
+
  @action
-void mostrarDados(List<UserModel> user) {
-  registeredUsers = user;
+void mostrarDados() {
+  print('Usuários Salvos:');
+    for (var user in registeredUsers) {
+    print('Nome do Usuário: ${user.name}');
+    print('CPF do Usuário: ${user.cpf}');
+    print('Email do Usuário: ${user.email}');
+    print('Senha do Usuário: ${user.password}');
+    print('id do Usuário: ${user.userId}');
+    }
 }
 
   @action
   void addRegisteredUser(UserModel user) {
   registeredUsers.add(user);
+  user.userId = UniqueKey().toString();
+  //setLogin(userId);
 }
+ @action
+  UserModel? getUserById(String userId) {
+    return registeredUsers.firstWhere((user) => user.userId == userId);
+  }
   @action
   Future<UserModel?> login() async {
   // Verificar se o email é válido
@@ -91,14 +108,26 @@ void mostrarDados(List<UserModel> user) {
     }
 
     if (foundUser != null && foundUser.password == password) {
-      // Usuário encontrado e senha válida
-      loggedInUser = foundUser;
       isRegistered = true;
+      setLogin(foundUser.userId);
       return foundUser;
     } else {
-      // Email ou senha inválidos
       isRegistered = false;
       return null;
     }
   }
+  @action
+  void saveUser() {
+    // Aqui você pode implementar a lógica para salvar o cartão
+    UserModel newUser = UserModel(
+      userId: userId,
+      name : name,
+      password: password,
+      email: email,
+      cpf: cpf,
+    );
+    addRegisteredUser(newUser);
+    mostrarDados();
+    isLoggedin = newUser.userId;
+ }
 }

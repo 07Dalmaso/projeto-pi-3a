@@ -3,35 +3,20 @@ import 'package:proj_pi/user_store.dart';
 import 'package:provider/provider.dart';
 import 'package:proj_pi/user_model.dart';
 
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        Provider<UserStore>(
-          create: (_) => UserStore(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: ProfilePage(),
-      ),
-    ),
-  );
-}
-
 class ProfilePage extends StatelessWidget {
- final _formKey = GlobalKey<FormState>();
-  final nameController = '';
-  final emailController = '';
-  final cpfController = '';
+  final String userId;
+
+  ProfilePage({required this.userId});
 
   @override
   Widget build(BuildContext context) {
+  UserStore userStore = Provider.of<UserStore>(context);
+  final UserModel? user = userStore.getUserById(userId);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    
     return Scaffold(
       body: Consumer<UserStore>(
         builder: (context, userStore, _) {
-          UserModel? loggedInUser = userStore.loggedInUser;
-           userStore.mostrarDados(userStore.registeredUsers);
 
           List<Color> colors = [
             Color.fromARGB(255, 69, 72, 73)!,
@@ -39,10 +24,6 @@ class ProfilePage extends StatelessWidget {
             Color.fromARGB(255, 154, 165, 171)!,
             Color.fromARGB(255, 246, 247, 248)!,
           ];
-
-    userStore.setEmail(emailController);
-    userStore.setPassword(nameController);
-    userStore.setEmail(cpfController);
 
      return CustomScrollView(
             slivers: <Widget>[
@@ -67,7 +48,7 @@ class ProfilePage extends StatelessWidget {
                           Navigator.pushNamed(context, '/main');
                         },
                       ),
-                      Expanded(
+                     const Expanded(
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
@@ -84,72 +65,59 @@ class ProfilePage extends StatelessWidget {
                 ),
                 pinned: true,
               ),
-            SliverList(
-  delegate: SliverChildListDelegate(
-    [
-    Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: AssetImage('assets/image.jpg'),
-                              backgroundColor: Color.fromARGB(255, 78, 74, 84),
-                            ),
-                          ),
+         SliverList( 
+          delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+            Center(
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('assets/image.jpg'),
+                backgroundColor: Color.fromARGB(255, 78, 74, 84),
+              ),
+            ),
                           SizedBox(height: 16),
                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: 'Nome do Titular',
-                                hintText: nameController,
-                                border: OutlineInputBorder(),
-                              ),
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color.fromARGB(255, 69, 72, 73),
-                              ),
-                              //controller: nameController,
-                              enabled: false,
-                            ),
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: TextField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            labelText: 'Nome do Titular',
+                            border: OutlineInputBorder(),
                           ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: 'Email',
-                                hintText: emailController,
-                                border: OutlineInputBorder(),
-                              ),
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color.fromARGB(255, 69, 72, 73),
-                              ),
-                              //controller: emailController,
-                              enabled: false,
-                            ),
+                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                          controller: TextEditingController(text: user?.name),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: TextField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            labelText: 'CPF',
+                            border: OutlineInputBorder(),
                           ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: 'CPF',
-                                hintText: cpfController,
-                                border: OutlineInputBorder(),
-                              ),
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Color.fromARGB(255, 69, 72, 73),
-                              ),
-                              //controller: cpfController,
-                              enabled: false,
-                            ),
+                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                          controller: TextEditingController(text: user?.cpf),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: TextField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            labelText: 'Email',
+                            border: OutlineInputBorder(),
                           ),
+                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                          controller: TextEditingController(text: user?.email),
+                        ),
+                      ),
+                   const SizedBox(height: 100.0),
                             Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -200,21 +168,21 @@ class ProfilePage extends StatelessWidget {
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10.0),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            )
-    )]);
-        }
-      ));
-     }
-    }
+                ],
+              ),
+            ),
+          ],
+        ),
+                )
+                ]
+         ))]);
+    },
+  ),
+);
+}
+}

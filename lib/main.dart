@@ -44,12 +44,18 @@ class MyApp extends StatelessWidget {
             '/cadastro': (context) => CadastroPage(),
             '/splash_screen': (context) => SplashScreen(),
             '/add_Gastos': (context) => Add_Gastos(),
-            '/profile': (context) => ProfilePage(),
+            '/profile': (context) {
+            final userStore = Provider.of<UserStore>(context);
+            final userId = userStore.isLoggedin;
+            return ProfilePage(userId: userId);
+           },
             '/alt_perfil': (context) => UpdateProfileScreen(),
             '/gastos': (context) => GastosPage(),
-            '/cartao': (context) =>
-                CartaoPage(cardStore: cardStore, ids: cardStore.cardIds),
-            '/dados_cartao': (context) => DadosCartaoPage(),
+            '/cartao': (context) =>CartaoPage(),
+            '/dados_cartao': (context) {
+            final cardId = ModalRoute.of(context)!.settings.arguments as String;
+            return DadosCartaoPage(cardId: cardId);
+          },
             '/addCard': (context) => AddCard(),
             '/addGastos': (context) => AddGastos(),
           },

@@ -81,6 +81,21 @@ mixin _$CardStore on _CardStore, Store {
     });
   }
 
+  late final _$cardIdAtom = Atom(name: '_CardStore.cardId', context: context);
+
+  @override
+  String get cardId {
+    _$cardIdAtom.reportRead();
+    return super.cardId;
+  }
+
+  @override
+  set cardId(String value) {
+    _$cardIdAtom.reportWrite(value, super.cardId, () {
+      super.cardId = value;
+    });
+  }
+
   late final _$cardsAtom = Atom(name: '_CardStore.cards', context: context);
 
   @override
@@ -93,21 +108,6 @@ mixin _$CardStore on _CardStore, Store {
   set cards(ObservableList<CardModel> value) {
     _$cardsAtom.reportWrite(value, super.cards, () {
       super.cards = value;
-    });
-  }
-
-  late final _$cardIdsAtom = Atom(name: '_CardStore.cardIds', context: context);
-
-  @override
-  ObservableList<String> get cardIds {
-    _$cardIdsAtom.reportRead();
-    return super.cardIds;
-  }
-
-  @override
-  set cardIds(ObservableList<String> value) {
-    _$cardIdsAtom.reportWrite(value, super.cardIds, () {
-      super.cardIds = value;
     });
   }
 
@@ -170,11 +170,33 @@ mixin _$CardStore on _CardStore, Store {
   }
 
   @override
-  void removeCardById(String id) {
+  CardModel? getCardById(String cardId) {
+    final _$actionInfo = _$_CardStoreActionController.startAction(
+        name: '_CardStore.getCardById');
+    try {
+      return super.getCardById(cardId);
+    } finally {
+      _$_CardStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeCardById(CardModel cardToRemove) {
     final _$actionInfo = _$_CardStoreActionController.startAction(
         name: '_CardStore.removeCardById');
     try {
-      return super.removeCardById(id);
+      return super.removeCardById(cardToRemove);
+    } finally {
+      _$_CardStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void printAllCards() {
+    final _$actionInfo = _$_CardStoreActionController.startAction(
+        name: '_CardStore.printAllCards');
+    try {
+      return super.printAllCards();
     } finally {
       _$_CardStoreActionController.endAction(_$actionInfo);
     }
@@ -198,8 +220,8 @@ cardNumber: ${cardNumber},
 cardName: ${cardName},
 cardHolderName: ${cardHolderName},
 expirationDate: ${expirationDate},
+cardId: ${cardId},
 cards: ${cards},
-cardIds: ${cardIds},
 isFormValid: ${isFormValid}
     ''';
   }

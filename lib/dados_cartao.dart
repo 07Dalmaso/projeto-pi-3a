@@ -1,15 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:proj_pi/card_model.dart';
 //import 'package:proj_pi/cartao.dart';
+import 'package:provider/provider.dart';
+import 'card_store.dart';
 
 class DadosCartaoPage extends StatelessWidget {
+  final String cardId;
+
+  DadosCartaoPage({required this.cardId});
+
   @override
   Widget build(BuildContext context) {
+     final cardStore = Provider.of<CardStore>(context);
+     final CardModel? card = cardStore.getCardById(cardId);
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
       Color.fromARGB(255, 97, 104, 107)!,
       Color.fromARGB(255, 154, 165, 171)!,
       Color.fromARGB(255, 246, 247, 248)!,
     ];
+
+    void showDeleteSuccessMessage(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Cartão deletado com sucesso!'),
+    ),
+  ).closed.then((_) {
+    Navigator.pushNamed(context, '/cartao');
+  });
+}
+     
     return Scaffold(
   body: CustomScrollView(
     shrinkWrap: true,
@@ -52,63 +74,62 @@ class DadosCartaoPage extends StatelessWidget {
         ),
         pinned: true,
       ),
-  SliverList(
-        delegate: SliverChildListDelegate(
-          [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-              //spacer(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: TextField(
-                      enabled: false,
-                      decoration:const InputDecoration(
-                        labelText: 'Nome do Titular',
-                        border: OutlineInputBorder(),
+   SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: TextField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            labelText: 'Nome do Titular',
+                            border: OutlineInputBorder(),
+                          ),
+                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                          controller: TextEditingController(text: card?.cardHolderName),
+                        ),
                       ),
-                      style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                      controller: TextEditingController(text: 'Sabrina'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: TextField(
-                      enabled: false,
-                      decoration: const InputDecoration(
-                        labelText: 'Nome do Cartão',
-                        border: OutlineInputBorder(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: TextField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            labelText: 'Nome do Cartão',
+                            border: OutlineInputBorder(),
+                          ),
+                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                          controller: TextEditingController(text: card?.cardName),
+                        ),
                       ),
-                      style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                      controller: TextEditingController(text: 'Cartão Banco do Brasil'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: TextField(
-                      enabled: false,
-                      decoration:const  InputDecoration(
-                        labelText: 'Número do Cartão',
-                        border: OutlineInputBorder(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: TextField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            labelText: 'Número do Cartão',
+                            border: OutlineInputBorder(),
+                          ),
+                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                          controller: TextEditingController(text: card?.cardNumber),
+                        ),
                       ),
-                      style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                      controller: TextEditingController(text: '5225 *** **** 5123'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: TextField(
-                      enabled: false,
-                      decoration: const InputDecoration(
-                        labelText: 'Data de validade',
-                        border: OutlineInputBorder(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: TextField(
+                          enabled: false,
+                          decoration: const InputDecoration(
+                            labelText: 'Data de validade',
+                            border: OutlineInputBorder(),
+                          ),
+                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                          controller: TextEditingController(text: card?.expirationDate),
+                        ),
                       ),
-                      style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                      controller: TextEditingController(text: '06/2023'),
-                    ),
-                  ),
                    const SizedBox(height: 100.0),
                    Row(
   mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +161,8 @@ class DadosCartaoPage extends StatelessWidget {
     Expanded(
       child: GestureDetector(
         onTap: () {
-          // Lógica para excluir o cartão
+         cardStore.removeCardById(cardStore.cardId as CardModel);
+         showDeleteSuccessMessage(context);
         },
         child: Container(
           padding: EdgeInsets.all(20.0),

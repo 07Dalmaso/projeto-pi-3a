@@ -9,6 +9,14 @@ part of 'user_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$UserStore on _UserStore, Store {
+  Computed<bool>? _$isFormValidComputed;
+
+  @override
+  bool get isFormValid =>
+      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
+              name: '_UserStore.isFormValid'))
+          .value;
+
   late final _$emailAtom = Atom(name: '_UserStore.email', context: context);
 
   @override
@@ -70,6 +78,21 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  late final _$userIdAtom = Atom(name: '_UserStore.userId', context: context);
+
+  @override
+  String get userId {
+    _$userIdAtom.reportRead();
+    return super.userId;
+  }
+
+  @override
+  set userId(String value) {
+    _$userIdAtom.reportWrite(value, super.userId, () {
+      super.userId = value;
+    });
+  }
+
   late final _$isRegisteredAtom =
       Atom(name: '_UserStore.isRegistered', context: context);
 
@@ -99,22 +122,6 @@ mixin _$UserStore on _UserStore, Store {
   set errorMessage(String value) {
     _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
       super.errorMessage = value;
-    });
-  }
-
-  late final _$loggedInUserAtom =
-      Atom(name: '_UserStore.loggedInUser', context: context);
-
-  @override
-  UserModel? get loggedInUser {
-    _$loggedInUserAtom.reportRead();
-    return super.loggedInUser;
-  }
-
-  @override
-  set loggedInUser(UserModel? value) {
-    _$loggedInUserAtom.reportWrite(value, super.loggedInUser, () {
-      super.loggedInUser = value;
     });
   }
 
@@ -174,11 +181,11 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void mostrarDados(List<UserModel> user) {
+  void mostrarDados() {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.mostrarDados');
     try {
-      return super.mostrarDados(user);
+      return super.mostrarDados();
     } finally {
       _$_UserStoreActionController.endAction(_$actionInfo);
     }
@@ -196,15 +203,27 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
+  void saveUser() {
+    final _$actionInfo =
+        _$_UserStoreActionController.startAction(name: '_UserStore.saveUser');
+    try {
+      return super.saveUser();
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 password: ${password},
 name: ${name},
 cpf: ${cpf},
+userId: ${userId},
 isRegistered: ${isRegistered},
 errorMessage: ${errorMessage},
-loggedInUser: ${loggedInUser}
+isFormValid: ${isFormValid}
     ''';
   }
 }

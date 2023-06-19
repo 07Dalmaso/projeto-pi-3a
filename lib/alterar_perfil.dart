@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-//import 'common/extensions/colors.dart';
-//import 'common/extensions/sizes.dart';
-//import 'constants/text_strings.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
   const UpdateProfileScreen({Key? key}) : super(key: key);
