@@ -109,6 +109,22 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  late final _$isLoggedinAtom =
+      Atom(name: '_UserStore.isLoggedin', context: context);
+
+  @override
+  String get isLoggedin {
+    _$isLoggedinAtom.reportRead();
+    return super.isLoggedin;
+  }
+
+  @override
+  set isLoggedin(String value) {
+    _$isLoggedinAtom.reportWrite(value, super.isLoggedin, () {
+      super.isLoggedin = value;
+    });
+  }
+
   late final _$errorMessageAtom =
       Atom(name: '_UserStore.errorMessage', context: context);
 
@@ -135,6 +151,17 @@ mixin _$UserStore on _UserStore, Store {
 
   late final _$_UserStoreActionController =
       ActionController(name: '_UserStore', context: context);
+
+  @override
+  void setLogin(String value) {
+    final _$actionInfo =
+        _$_UserStoreActionController.startAction(name: '_UserStore.setLogin');
+    try {
+      return super.setLogin(value);
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setEmail(String value) {
@@ -203,6 +230,17 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
+  UserModel? getUserById(String userId) {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.getUserById');
+    try {
+      return super.getUserById(userId);
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void saveUser() {
     final _$actionInfo =
         _$_UserStoreActionController.startAction(name: '_UserStore.saveUser');
@@ -222,6 +260,7 @@ name: ${name},
 cpf: ${cpf},
 userId: ${userId},
 isRegistered: ${isRegistered},
+isLoggedin: ${isLoggedin},
 errorMessage: ${errorMessage},
 isFormValid: ${isFormValid}
     ''';

@@ -91,6 +91,7 @@ class CadastroPageState extends State<CadastroPage> {
                           },
                           decoration: InputDecoration(
                             labelText: 'Nome',
+                            hintText: 'Ex: Sabrina',
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -107,6 +108,7 @@ class CadastroPageState extends State<CadastroPage> {
                           },
                           decoration: InputDecoration(
                             labelText: 'CPF',
+                            hintText: 'Ex: 123.456.789-00',
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -126,6 +128,7 @@ class CadastroPageState extends State<CadastroPage> {
                           },
                           decoration: InputDecoration(
                             labelText: 'Email',
+                            hintText: 'Ex: exemplo@gmail.com',
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -146,6 +149,7 @@ class CadastroPageState extends State<CadastroPage> {
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Senha',
+                            hintText: 'Ex: sua_senha',
                             border: OutlineInputBorder(),
                           ),
                         ),

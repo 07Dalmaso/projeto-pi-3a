@@ -120,6 +120,7 @@ class AddCard extends StatefulWidget {
          TextFormField(
           decoration: InputDecoration(
             labelText: 'Nome do Titular',
+            hintText: 'Ex: Sabrina',
             border: OutlineInputBorder(),
           ),
           style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
@@ -135,7 +136,8 @@ class AddCard extends StatefulWidget {
         SizedBox(height: MediaQuery.of(context).size.height * 0.023),
         TextFormField(
           decoration: InputDecoration(
-            labelText: 'Nome do Cartão',
+            labelText: 'Apelido do Cartão',
+            hintText: 'Ex: Cartão da Nubank',
             border: OutlineInputBorder(),
           ),
           style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
@@ -143,7 +145,7 @@ class AddCard extends StatefulWidget {
           onChanged: cardStore.setCardName,
           validator: (value) {
             if (value!.isEmpty) {
-              return 'Insira o nome do cartão';
+              return 'Insira o apelido do cartão';
             }
             return null;
           },
@@ -152,6 +154,7 @@ class AddCard extends StatefulWidget {
         TextFormField(
           decoration: const InputDecoration(
             labelText: 'Últimos 4 dígitos do cartão',
+            hintText: 'Ex: 1111',
             border: OutlineInputBorder(),
           ),
           style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
@@ -177,6 +180,7 @@ class AddCard extends StatefulWidget {
         TextFormField(
           decoration: InputDecoration(
             labelText: 'Data de Vencimento',
+            hintText: 'Ex: 06/23',
             border: OutlineInputBorder(),
           ),
           style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
@@ -190,7 +194,7 @@ class AddCard extends StatefulWidget {
     final pattern = r'^\d{2}/\d{2}$';
     final regExp = RegExp(pattern);
     if (!regExp.hasMatch(value)) {
-      return 'Insira a data no formato mês/ano (ex: 06/24)';
+      return 'Insira a data no formato mês/ano';
     }
   }
          return null;
@@ -206,6 +210,8 @@ class AddCard extends StatefulWidget {
                   if (cardStore.isFormValid) {
                     cardStore.saveCard();
                     _formKey.currentState!.reset();
+
+                    Navigator.pushNamed(context, '/cartao');
                   }
                 }
               },
