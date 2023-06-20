@@ -1,51 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-class Transaction {
-  final double value;
-  final DateTime date;
-  final String description;
-
-  Transaction(this.value, this.date, this.description);
-}
+import 'package:proj_pi/card_model.dart';
+import 'package:proj_pi/trans_model.dart';
+import 'package:provider/provider.dart';
+import 'card_store.dart';
+import 'trans_store.dart';
 
 class AddGastos extends StatefulWidget {
+  final String cardId;
+
+  AddGastos({required this.cardId});
   @override
   _AddGastosState createState() => _AddGastosState();
+
 }
 
 class _AddGastosState extends State<AddGastos> {
-  TextEditingController _valueController = TextEditingController();
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _descpt_Controller = TextEditingController();
-
-  List<Transaction> transactions = [];
-
-void saveTransaction() {
-  double? value = double.tryParse(_valueController.text);
-  DateTime? date = DateFormat('dd/MM/yyyy').parseStrict(_dateController.text);
-  String description = _descpt_Controller.text;
-
-  if (value != null && date != null && description.isNotEmpty) {
-    Transaction transaction = Transaction(value, date, description);
-    transactions.add(transaction);
-
-    _valueController.clear();
-    _dateController.clear();
-    _descpt_Controller.clear();
-
-    print('Transação salva localmente: $transaction, $value, $date, $description');
-    print(transactions);
-
-
-    Navigator.pushNamed(context, '/gastos', arguments: transactions);
-  } else {
-    print('erro ao salvar');
-  }
-}
 
   @override
   Widget build(BuildContext context) {
+     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+      final cardStore = Provider.of<CardStore>(context);
+      final CardModel? card = cardStore.getCardById(widget.cardId);
+    final tranStore = Provider.of<TranStore>(context);
+    
+    tranStore.setCard(widget.cardId);
+     
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
       Color.fromARGB(255, 97, 104, 107)!,
@@ -110,7 +90,7 @@ void saveTransaction() {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 16.0),
+                      vertical: 5.0, horizontal: 20.0),
                   child: SizedBox(
                     height: 70.0,
                     child: Container(
@@ -127,14 +107,14 @@ void saveTransaction() {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '\t\t\tCartão Banco do Brasil',
+                              '\t\t\t' + card!.cardName,
                               style: TextStyle(
-                                  fontSize: 16.0,
+                                  fontSize: 18.0,
                                   color: Color.fromARGB(255, 69, 72, 73)),
                             ),
                             SizedBox(height: 8.0),
                             Text(
-                              '\t\t\t5225 *** **** 5123',
+                                '\t\t\t**** **** **** ' + card!.cardNumber,
                               style:
                                   TextStyle(fontSize: 16.0, color: Colors.grey),
                             ),
@@ -144,91 +124,114 @@ void saveTransaction() {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 16.0),
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            labelText: 'Valor da Transação',
-                            hintText: 'Ex: RS100,00',
-                            border: OutlineInputBorder(),
+     const SizedBox(height: 20.0),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                   Padding(
+                  padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 8.0),
+                  child: TextFormField(
+                    decoration:const InputDecoration(
+                      labelText: 'Valor da transação',
+                      hintText: 'Ex: R\$100,00',
+                      border: OutlineInputBorder(),
+                    ),
+                    style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                    initialValue: tranStore.valor,
+                    onChanged: tranStore.setGasto,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Insira o valor da transação';
+                      }
+                      return null;
+                    },
+                  ),
+              ),
+                 // const SizedBox(height: 10.0),
+                  Padding(
+                  padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 8.0),
+                  child: TextFormField(
+                    decoration:const  InputDecoration(
+                      labelText: 'Data da transação',
+                      hintText: 'Ex: 21/06/2023',
+                      border: OutlineInputBorder(),
+                    ),
+                    style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                    initialValue: tranStore.data,
+                    onChanged: tranStore.setDate,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Insira a data da transação';
+                      } else {
+                        final pattern = r'^\d{2}/\d{2}/\d{4}$';
+                        final regExp = RegExp(pattern);
+                        if (!regExp.hasMatch(value)) {
+                          return 'Insira a data no formato dia/mês/ano';
+                        }
+                      }
+                      return null;
+                    },
+                  ),
+                  ),
+                  //const SizedBox(height: 10.0),
+                  Padding(
+                  padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 8.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Descrição da transação',
+                      hintText: 'Ex: Alimentação',
+                      border: OutlineInputBorder(),
+                    ),
+                    style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                    initialValue: tranStore.descpt,
+                    onChanged: tranStore.setDescricao,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Insira uma descrição para a transação';
+                      }
+                      return null;
+                    },
+                  ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.023,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            if (tranStore.isFormValid) {
+                              tranStore.saveTrasaction();
+                              _formKey.currentState!.reset();
+
+                              Navigator.pushNamed(context, '/gastos');
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          fixedSize: Size(
+                            MediaQuery.of(context).size.width * 0.4,
+                            MediaQuery.of(context).size.height * 0.07,
                           ),
-                          style: const TextStyle(
-                              fontSize: 16.0,
-                              color: Color.fromARGB(255, 69, 72, 73)),
-                          controller: _valueController,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            labelText: 'Data da transação',
-                            hintText: 'Ex: 21/06/2023',
-                            border: OutlineInputBorder(),
-                          ),
-                          style: const TextStyle(
-                              fontSize: 16.0,
-                              color: Color.fromARGB(255, 69, 72, 73)),
-                          controller: _dateController,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            labelText: 'Descrição da transação',
-                            hintText: 'Ex: Compra do mês carrefour',
-                            border: OutlineInputBorder(),
-                          ),
-                          style: const TextStyle(
-                              fontSize: 16.0,
-                              color: Color.fromARGB(255, 69, 72, 73)),
-                          controller: _descpt_Controller,
-                        ),
-                      ),
-                      const SizedBox(height: 20.0),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.023),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton(
-                            child: Text('Confirmar'),
-                            onPressed: saveTransaction,
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.green),
-                              fixedSize: MaterialStateProperty.all<Size>(
-                                Size(
-                                  MediaQuery.of(context).size.width * 0.4,
-                                  MediaQuery.of(context).size.height * 0.07,
-                                ),
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        child: Text('Confirmar'),
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    );
+    ]));
   }
 }

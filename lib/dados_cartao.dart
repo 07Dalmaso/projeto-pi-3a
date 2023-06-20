@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proj_pi/card_model.dart';
-//import 'package:proj_pi/cartao.dart';
 import 'package:provider/provider.dart';
 import 'card_store.dart';
 
