@@ -252,6 +252,17 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
+  void updateUserProfile(UserModel newUser) {
+    final _$actionInfo = _$_UserStoreActionController.startAction(
+        name: '_UserStore.updateUserProfile');
+    try {
+      return super.updateUserProfile(newUser);
+    } finally {
+      _$_UserStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
