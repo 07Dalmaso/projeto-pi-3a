@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/user_model.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:proj_pi/user_store.dart';
 import 'package:provider/provider.dart';
 
@@ -20,55 +20,57 @@ void main() {
 }
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
+  final _emailController = TextEditingController();
+  final _senhaController = TextEditingController();
 
   void irParaCadastro() {
     Navigator.pushNamed(context, '/cadastro');
   }
 
- void fazerLogin() {
-  if (_formKey.currentState!.validate()) {
-    _formKey.currentState!.save();
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Email é obrigatório";
+    }
 
-    UserStore userStore = Provider.of<UserStore>(context, listen: false);
+    if (!value.contains('@')) {
+      return "Email inválido";
+    }
 
-    userStore.setEmail(email);
-    userStore.setPassword(password);
-
-    userStore.login().then((_) {
-      if (userStore.isRegistered) {
-        // Login successful
-        Navigator.pushNamed(
-          context,
-          '/main',
-          arguments: userStore.loggedInUser,
-        );
-      } else {
-        // Login failed
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Falha no Login'),
-            content: Text('Email ou senha inválidos.'),
-            actions: <Widget>[
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
-    });
+    return null;
   }
-}
+
+  String? _validateSenha(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Senha é obrigatória";
+    }
+
+    if (value.length < 6) {
+      return "Senha deve ter no mínimo 6 caracteres";
+    }
+
+    return null;
+  }
+
+  Future<void> _submitForm(BuildContext context, UserStore userStore) async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    final response =
+        await userStore.login(_emailController.text, _senhaController.text);
+
+    if (!response) return;
+
+    if (context.mounted) Navigator.pushReplacementNamed(context, '/home');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
+            autovalidateMode: AutovalidateMode.always,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -99,28 +102,20 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: TextFormField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
                       border: OutlineInputBorder(),
                       filled: true,
                       fillColor: Colors.white,
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      setState(() {
-                        email = value!.trim();
-                      });
-                    },
+                    validator: _validateEmail,
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: TextFormField(
+                    controller: _senhaController,
                     decoration: InputDecoration(
                       labelText: 'Senha',
                       border: OutlineInputBorder(),
@@ -128,48 +123,47 @@ class _LoginPageState extends State<LoginPage> {
                       fillColor: Colors.white,
                     ),
                     obscureText: true,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Insira a sua senha';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      password = value!.trim();
-                    },
+                    validator: _validateSenha,
                   ),
                 ),
                 SizedBox(height: 45.0),
                 ElevatedButton(
-  onPressed: fazerLogin,
-  style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(
-        color: Colors.green,
-        width: 2.0),
-      ),
-    ),
-    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-  ),
-  child: Text('Entrar'),
-),
+                  onPressed: () => _submitForm(context, Provider.of<UserStore>(context)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.green),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.green, width: 2.0),
+                      ),
+                    ),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                  ),
+                  child: Text('Entrar'),
+                ),
+                Observer(
+                  builder: (_) {
+                    final userStore = Provider.of<UserStore>(context);
+                    return Text(userStore.errorMessage);
+                  },
+                ),
                 SizedBox(height: 16.0),
                 TextButton(
                   onPressed: irParaCadastro,
                   child: Text('Criar Cadastro'),
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                   side: MaterialStateProperty.all<BorderSide>(
-      BorderSide(color: Colors.white, width: 2.0),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    side: MaterialStateProperty.all<BorderSide>(
+                      BorderSide(color: Colors.white, width: 2.0),
                     ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    ),
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
                   ),
                 ),
               ],

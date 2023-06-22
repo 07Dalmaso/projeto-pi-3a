@@ -122,8 +122,16 @@ mixin _$UserStore on _UserStore, Store {
       AsyncAction('_UserStore.login', context: context);
 
   @override
-  Future<UserModel?> login() {
-    return _$loginAsyncAction.run(() => super.login());
+  Future<bool> login(String email, String senha) {
+    return _$loginAsyncAction.run(() => super.login(email, senha));
+  }
+
+  late final _$logoutAsyncAction =
+      AsyncAction('_UserStore.logout', context: context);
+
+  @override
+  Future<void> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
   }
 
   late final _$_UserStoreActionController =

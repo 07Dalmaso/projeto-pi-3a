@@ -1,13 +1,13 @@
 import 'package:mobx/mobx.dart';
 import 'package:proj_pi/user_model.dart';
-import 'package:email_validator/email_validator.dart';
 
 part 'user_store.g.dart';
 
 class UserStore = _UserStore with _$UserStore;
 
 abstract class _UserStore with Store {
-
+  // Remova a linha final _service = FirebaseService();
+  
   List<UserModel> registeredUsers = [];
 
   @observable
@@ -63,42 +63,33 @@ abstract class _UserStore with Store {
     }
   }
 
- @action
-void mostrarDados(List<UserModel> user) {
-  registeredUsers = user;
-}
+  @action
+  void mostrarDados(List<UserModel> user) {
+    registeredUsers = user;
+  }
 
   @action
   void addRegisteredUser(UserModel user) {
-  registeredUsers.add(user);
-}
+    registeredUsers.add(user);
+  }
+
   @action
-  Future<UserModel?> login() async {
-  // Verificar se o email é válido
-  if (!EmailValidator.validate(email)) {
-      isRegistered = false;
-      return null;
+  Future<bool> login(String email, String senha) async {
+    try {
+      // await _service.login(email, senha);
+      this.email = email;
+      errorMessage = "";
+      return true;
+    } catch (e) {
+      errorMessage = e.toString();
+      this.email = "";
+      return false;
     }
+  }
 
-    // Encontrar o usuário correspondente ao email
-    UserModel? foundUser;
-
-    for (var user in registeredUsers) {
-      if (user.email == email) {
-        foundUser = user;
-        break;
-      }
-    }
-
-    if (foundUser != null && foundUser.password == password) {
-      // Usuário encontrado e senha válida
-      loggedInUser = foundUser;
-      isRegistered = true;
-      return foundUser;
-    } else {
-      // Email ou senha inválidos
-      isRegistered = false;
-      return null;
-    }
+  @action
+  Future<void> logout() async {
+    // await _service.logout();
+    email = "";
   }
 }
