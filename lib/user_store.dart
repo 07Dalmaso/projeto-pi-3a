@@ -130,4 +130,15 @@ void mostrarDados() {
     mostrarDados();
     isLoggedin = newUser.userId;
  }
+
+ @action
+void updateUserProfile(UserModel newUser) {
+  UserModel? existingUser = getUserById(newUser.userId);
+
+  if (existingUser != null) {
+    existingUser.name = newUser.name;
+    existingUser.cpf = newUser.cpf;
+    existingUser.email = newUser.email;
+  }
+}
 }
