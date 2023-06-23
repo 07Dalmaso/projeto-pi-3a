@@ -15,13 +15,8 @@ import 'package:proj_pi/store/user_store.dart';
 import 'package:proj_pi/store/trans_store.dart';
 import 'package:proj_pi/models/trans_model.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'config.dart';
-import 'firebase_options.dart';
 
 void main() async {
-  await initConfigurations();
-
   final cardStore = CardStore();
   final userStore = UserStore();
   final tranStore = TranStore();

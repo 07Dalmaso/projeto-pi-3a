@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
-import 'card_model.dart';
+import '../models/card_model.dart';
 part 'card_store.g.dart'; // Arquivo gerado pelo MobX
 
 class CardStore = _CardStore with _$CardStore;
@@ -18,9 +18,8 @@ abstract class _CardStore with Store {
   @observable
   String expirationDate = '';
 
-   @observable
+  @observable
   String cardId = '';
-
 
   @observable
   ObservableList<CardModel> cards = ObservableList<CardModel>();
@@ -53,31 +52,33 @@ abstract class _CardStore with Store {
       expirationDate.isNotEmpty;
 
   @action
-void addCard(CardModel card) {
-  card.cardId = UniqueKey().toString();
-  cards.add(card);
-}
+  void addCard(CardModel card) {
+    card.cardId = UniqueKey().toString();
+    cards.add(card);
+  }
 
-@action
+  @action
   CardModel? getCardById(String cardId) {
     return cards.firstWhere((card) => card.cardId == cardId);
   }
 
- @action
- void removeCardById(CardModel cardToRemove) {
-  cards.removeWhere((card) => card.cardId == cardToRemove.cardId);
-}
-@action
-    void printAllCards() {
+  @action
+  void removeCardById(CardModel cardToRemove) {
+    cards.removeWhere((card) => card.cardId == cardToRemove.cardId);
+  }
+
+  @action
+  void printAllCards() {
     print('Cartões Salvos:');
     for (var card in cards) {
-    print('Número do Cartão: ${card.cardNumber}');
-    print('Nome do Cartão: ${card.cardName}');
-    print('Nome do Titular: ${card.cardHolderName}');
-    print('Data de Validade: ${card.expirationDate}');
-    print('id do cartao: ${card.cardId}');
+      print('Número do Cartão: ${card.cardNumber}');
+      print('Nome do Cartão: ${card.cardName}');
+      print('Nome do Titular: ${card.cardHolderName}');
+      print('Data de Validade: ${card.expirationDate}');
+      print('id do cartao: ${card.cardId}');
     }
   }
+
   @action
   void saveCard() {
     // Aqui você pode implementar a lógica para salvar o cartão

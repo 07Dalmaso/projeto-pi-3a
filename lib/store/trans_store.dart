@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
-import 'trans_model.dart';
+import '../models/trans_model.dart';
 part 'trans_store.g.dart'; // Arquivo gerado pelo MobX
 
 class TranStore = _TranStore with _$TranStore;
@@ -10,19 +10,19 @@ abstract class _TranStore with Store {
   String valor = '';
 
   @observable
-  String data= '';
+  String data = '';
 
   @observable
-  String descpt= '';
-
-   @observable
-  String transId= '';
-
-   @observable
-  String transCardId= '';
+  String descpt = '';
 
   @observable
-  ObservableList<TransModel> trans= ObservableList<TransModel>();
+  String transId = '';
+
+  @observable
+  String transCardId = '';
+
+  @observable
+  ObservableList<TransModel> trans = ObservableList<TransModel>();
 
   @observable
   ObservableList<String> ids = ObservableList<String>();
@@ -42,28 +42,26 @@ abstract class _TranStore with Store {
     descpt = value;
   }
 
-   @action
+  @action
   void setID(String value) {
     transId = value;
   }
 
-   @action
+  @action
   void setCard(String value) {
     transCardId = value;
   }
 
   @computed
   bool get isFormValid =>
-      valor.isNotEmpty &&
-      data.isNotEmpty &&
-      descpt.isNotEmpty;
+      valor.isNotEmpty && data.isNotEmpty && descpt.isNotEmpty;
 
   @action
-void addTrans(TransModel tran) {
-  tran.transId = UniqueKey().toString();
-  trans.add(tran);
-  ids.add(tran.transId);
-}
+  void addTrans(TransModel tran) {
+    tran.transId = UniqueKey().toString();
+    trans.add(tran);
+    ids.add(tran.transId);
+  }
 
   @action
   void saveTrasaction() {
@@ -73,7 +71,7 @@ void addTrans(TransModel tran) {
       valor: valor,
       data: data,
       descpt: descpt,
-      transCardId:  transId,
+      transCardId: transId,
     );
     addTrans(newTran);
   }
