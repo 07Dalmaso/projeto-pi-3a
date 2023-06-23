@@ -10,17 +10,23 @@ import 'package:proj_pi/add_gastos.dart';
 import 'package:proj_pi/add_gastos_1.dart';
 import 'package:proj_pi/alterar_perfil.dart';
 import 'package:proj_pi/dados_cartao.dart';
-import 'package:proj_pi/card_store.dart';
-import 'package:proj_pi/user_store.dart';
-import 'package:proj_pi/trans_store.dart';
-import 'package:proj_pi/trans_model.dart';
+import 'package:proj_pi/store/card_store.dart';
+import 'package:proj_pi/store/user_store.dart';
+import 'package:proj_pi/store/trans_store.dart';
+import 'package:proj_pi/models/trans_model.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'config.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  await initConfigurations();
+
   final cardStore = CardStore();
   final userStore = UserStore();
   final tranStore = TranStore();
-  runApp(MyApp(cardStore: cardStore, userStore: userStore, tranStore: tranStore));
+  runApp(
+      MyApp(cardStore: cardStore, userStore: userStore, tranStore: tranStore));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,45 +34,51 @@ class MyApp extends StatelessWidget {
   final UserStore userStore;
   final TranStore tranStore;
 
-  const MyApp({Key? key, required this.cardStore, required this.userStore, required this.tranStore})
+  const MyApp(
+      {Key? key,
+      required this.cardStore,
+      required this.userStore,
+      required this.tranStore})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        Provider<CardStore>.value(value: cardStore),
-        Provider<UserStore>.value(value: userStore),
-        Provider<TranStore>.value(value: tranStore),
-      ],
+        providers: [
+          Provider<CardStore>.value(value: cardStore),
+          Provider<UserStore>.value(value: userStore),
+          Provider<TranStore>.value(value: tranStore),
+        ],
         child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialRoute: '/splash_screen',
-          routes: {
-            '/main': (context) =>
-                const MyHomePage(title: 'Bem vindo(a), Usuário!'),
-            '/login': (context) => LoginPage(),
-            '/cadastro': (context) => CadastroPage(),
-            '/splash_screen': (context) => SplashScreen(),
-            '/add_Gastos': (context) => Add_Gastos(),
-            '/profile': (context) {
-            final userStore = Provider.of<UserStore>(context);
-            final userId = userStore.isLoggedin;
-            return ProfilePage(userId: userId);
-           },
-            '/alt_perfil': (context) => UpdateProfileScreen(),
-            '/gastos': (context) => GastosPage(),
-            '/cartao': (context) =>CartaoPage(),
-            '/dados_cartao': (context) {
-            final cardId = ModalRoute.of(context)!.settings.arguments as String;
-            return DadosCartaoPage(cardId: cardId);
-          },
-            '/addCard': (context) => AddCard(),
-            '/addGastos': (context) {
-              final cardId = ModalRoute.of(context)!.settings.arguments as String;
-            return AddGastos(cardId: cardId);
-          },
-  }));
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/splash_screen',
+            routes: {
+              '/main': (context) =>
+                  const MyHomePage(title: 'Bem vindo(a), Usuário!'),
+              '/login': (context) => LoginPage(),
+              '/cadastro': (context) => CadastroPage(),
+              '/splash_screen': (context) => SplashScreen(),
+              '/add_Gastos': (context) => Add_Gastos(),
+              '/profile': (context) {
+                final userStore = Provider.of<UserStore>(context);
+                final userId = userStore.isLoggedin;
+                return ProfilePage(userId: userId);
+              },
+              '/alt_perfil': (context) => UpdateProfileScreen(),
+              '/gastos': (context) => GastosPage(),
+              '/cartao': (context) => CartaoPage(),
+              '/dados_cartao': (context) {
+                final cardId =
+                    ModalRoute.of(context)!.settings.arguments as String;
+                return DadosCartaoPage(cardId: cardId);
+              },
+              '/addCard': (context) => AddCard(),
+              '/addGastos': (context) {
+                final cardId =
+                    ModalRoute.of(context)!.settings.arguments as String;
+                return AddGastos(cardId: cardId);
+              },
+            }));
   }
 }
 
