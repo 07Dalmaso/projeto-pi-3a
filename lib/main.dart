@@ -132,9 +132,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+    bool showBalance = true; 
   @override
   Widget build(BuildContext context) {
      UserStore userStore = Provider.of<UserStore>(context);
+     TranStore tranStore= Provider.of<TranStore>(context);
      final String identifier= userStore.isLoggedin;
      final user = userStore.getUserById(identifier);
 
@@ -186,7 +188,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        'Gasto Total: R\$ 1.000,00',
+                        'Gasto Total: ${showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******'}',
+
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],

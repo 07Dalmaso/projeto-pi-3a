@@ -124,7 +124,7 @@ class AddCard extends StatefulWidget {
             border: OutlineInputBorder(),
           ),
           style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-          initialValue: cardStore.cardHolderName,
+          //initialValue: cardStore.cardHolderName,
           onChanged: cardStore.setCardHolderName,
           validator: (value) {
             if (value!.isEmpty) {
@@ -141,7 +141,7 @@ class AddCard extends StatefulWidget {
             border: OutlineInputBorder(),
           ),
           style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-          initialValue: cardStore.cardName,
+          //initialValue: cardStore.cardName,
           onChanged: cardStore.setCardName,
           validator: (value) {
             if (value!.isEmpty) {
@@ -158,7 +158,7 @@ class AddCard extends StatefulWidget {
             border: OutlineInputBorder(),
           ),
           style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-          initialValue: cardStore.cardNumber,
+          //initialValue: cardStore.cardNumber,
           onChanged: cardStore.setCardNumber,
           validator: (value) {
             if (value!.isEmpty) {
@@ -184,7 +184,7 @@ class AddCard extends StatefulWidget {
             border: OutlineInputBorder(),
           ),
           style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-          initialValue: cardStore.expirationDate,
+          //initialValue: cardStore.expirationDate,
           onChanged: cardStore.setExpirationDate,
           validator: (value) {
             if (value!.isEmpty) {

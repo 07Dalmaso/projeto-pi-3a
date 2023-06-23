@@ -1,73 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 import 'package:proj_pi/common/extensions/sizes.dart';
-import 'package:proj_pi/card_model.dart';
 import 'package:proj_pi/trans_model.dart';
 import 'package:provider/provider.dart';
-import 'card_store.dart';
 import 'trans_store.dart';
 
-class Transaction {
-  final String cardName;
-  final String type;
-  final double value;
-  final String date;
-
-  Transaction({
-    required this.cardName,
-    required this.type,
-    required this.value,
-    required this.date,
-  });
-}
-
 class GastosPage extends StatefulWidget {
-  const GastosPage({Key? key});
 
   @override
   State<GastosPage> createState() => _GastosPageState();
 }
 
 class _GastosPageState extends State<GastosPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool showBalance = true;
+
   double get textScaleFactor =>
       MediaQuery.of(context).size.width < 360 ? 0.7 : 1.0;
   double get iconSize => MediaQuery.of(context).size.width < 360 ? 16.0 : 24.0;
 
-  List<Transaction> transactions = [
-    Transaction(
-      cardName: 'Cartão A',
-      type: 'Alimentação',
-      value: 120.0,
-      date: '12/06/2023',
-    ),
-    Transaction(
-      cardName: 'Cartão B',
-      type: 'Educação',
-      value: 45.0,
-      date: '10/06/2023',
-    ),
-    Transaction(
-      cardName: 'Cartão C',
-      type: 'Transporte',
-      value: 200.0,
-      date: '08/06/2023',
-    ),
-    Transaction(
-      cardName: 'Cartão D',
-      type: 'Saúde',
-      value: 90.0,
-      date: '06/06/2023',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+
+     TranStore tranStore = Provider.of<TranStore>(context);
+      final List<TransModel> trans = tranStore.trans;
+     
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
       Color.fromARGB(255, 97, 104, 107)!,
       Color.fromARGB(255, 154, 165, 171)!,
       Color.fromARGB(255, 246, 247, 248)!,
     ];
+    
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -149,7 +114,7 @@ class _GastosPageState extends State<GastosPage> {
                       ),
                       Expanded(
                         child: Text(
-                          showBalance ? 'R\$ 1.000,00' : '******',
+                          showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,
@@ -180,9 +145,8 @@ class _GastosPageState extends State<GastosPage> {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  final transaction = transactions[index];
-                  final value =
-                      transaction.value.toStringAsFixed(2).replaceAll('.', ',');
+                  TransModel tran = trans[index];
+                  //final value =tranStore.valor;
                   return InkWell(
                     onTap: () {
                       showDialog(
@@ -194,9 +158,9 @@ class _GastosPageState extends State<GastosPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text('Cartão: ${transaction.cardName}'),
-                                Text('Valor: R\$ $value'),
-                                Text('Data: ${transaction.date}'),
+                                Text('Cartão: ${tran.cartaoT}'),
+                                Text('Valor: R\$ ${tran.valor}'),
+                                Text('Data: ${tran.data}'),
                               ],
                             ),
                             actions: [
@@ -245,7 +209,7 @@ class _GastosPageState extends State<GastosPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  transaction.cardName,
+                                  tran.descpt,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -253,7 +217,7 @@ class _GastosPageState extends State<GastosPage> {
                                   ),
                                 ),
                                 Text(
-                                  transaction.type,
+                                  tran.cartaoT,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey[600],
@@ -266,7 +230,7 @@ class _GastosPageState extends State<GastosPage> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                'R\$ ${value}',
+                                'R\$ ${tran.valor}',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -275,7 +239,7 @@ class _GastosPageState extends State<GastosPage> {
                               ),
                               SizedBox(height: 8.0),
                               Text(
-                                transaction.date,
+                                tran.data,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey[600],
@@ -288,7 +252,7 @@ class _GastosPageState extends State<GastosPage> {
                     ),
                   );
                 },
-                childCount: transactions.length,
+                childCount: trans.length,
               ),
             ),
           ),

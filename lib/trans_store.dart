@@ -19,13 +19,16 @@ abstract class _TranStore with Store {
   String transId= '';
 
    @observable
-  String transCardId= '';
+  String cartaoT= '';
 
   @observable
   ObservableList<TransModel> trans= ObservableList<TransModel>();
 
   @observable
   ObservableList<String> ids = ObservableList<String>();
+
+    @observable
+  ObservableList<String> saldo = ObservableList<String>();
 
   @action
   void setGasto(String value) {
@@ -49,7 +52,7 @@ abstract class _TranStore with Store {
 
    @action
   void setCard(String value) {
-    transCardId = value;
+    cartaoT = value;
   }
 
   @computed
@@ -73,8 +76,18 @@ void addTrans(TransModel tran) {
       valor: valor,
       data: data,
       descpt: descpt,
-      transCardId:  transId,
+      cartaoT: cartaoT,
     );
     addTrans(newTran);
+  }
+
+   @computed
+  double get calcularTotal {
+    double total = 0.0;
+    for (var tran in trans) {
+      double valorTransacao = double.tryParse(tran.valor) ?? 0.0;
+      total += valorTransacao;
+    }
+    return total;
   }
 }

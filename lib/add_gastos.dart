@@ -24,7 +24,7 @@ class _AddGastosState extends State<AddGastos> {
       final CardModel? card = cardStore.getCardById(widget.cardId);
     final tranStore = Provider.of<TranStore>(context);
     
-    tranStore.setCard(widget.cardId);
+    tranStore.setCard(card!.cardName);
      
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
@@ -134,11 +134,11 @@ class _AddGastosState extends State<AddGastos> {
                   child: TextFormField(
                     decoration:const InputDecoration(
                       labelText: 'Valor da transação',
-                      hintText: 'Ex: R\$100,00',
+                      hintText: 'Ex: 100',
                       border: OutlineInputBorder(),
                     ),
                     style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                    initialValue: tranStore.valor,
+                    //initialValue: tranStore.valor,
                     onChanged: tranStore.setGasto,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -158,7 +158,7 @@ class _AddGastosState extends State<AddGastos> {
                       border: OutlineInputBorder(),
                     ),
                     style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                    initialValue: tranStore.data,
+                    //initialValue: tranStore.data,
                     onChanged: tranStore.setDate,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -184,7 +184,7 @@ class _AddGastosState extends State<AddGastos> {
                       border: OutlineInputBorder(),
                     ),
                     style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                    initialValue: tranStore.descpt,
+                    //initialValue: tranStore.descpt,
                     onChanged: tranStore.setDescricao,
                     validator: (value) {
                       if (value!.isEmpty) {
