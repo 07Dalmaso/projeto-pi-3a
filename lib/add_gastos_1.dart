@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobx/src/api/observable_collections.dart';
 //import './common/extensions/CustomInputField.dart';
 import 'package:provider/provider.dart';
 import 'card_store.dart';
@@ -23,7 +24,7 @@ class _AddGastosState extends State<Add_Gastos> {
  @override
   Widget build(BuildContext context) {
     final cardStore = Provider.of<CardStore>(context);
-    final List<CardModel> cards = cardStore.cards;
+    final ObservableList cards = cardStore.cards;
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     List<Color> colors = [

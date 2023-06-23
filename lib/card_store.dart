@@ -1,6 +1,9 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
-import 'card_model.dart';
+import 'package:proj_pi/card_model.dart';
+import 'package:proj_pi/card_store.dart';
+
+//imcard_model.dart';
 part 'card_store.g.dart'; // Arquivo gerado pelo MobX
 
 class CardStore = _CardStore with _$CardStore;
@@ -65,7 +68,13 @@ void addCard(CardModel card) {
 
  @action
  void removeCardById(CardModel cardToRemove) {
-  cards.removeWhere((card) => card.cardId == cardToRemove.cardId);
+  cards.removeWhere((element) => element.cardId == cardToRemove.cardId);
+  updateCardList();
+}
+
+@action
+void updateCardList() {
+  cards = ObservableList<CardModel>.of(cards);
 }
 @action
     void printAllCards() {
@@ -91,4 +100,26 @@ void addCard(CardModel card) {
     addCard(newCard);
     printAllCards();
   }
+
+
+void updateCard(String cardId) {
+  CardModel? foundCard;
+
+  for (var card in cards) {
+    if (card.cardId == cardId) {
+      foundCard = card;
+      break;
+    }
+  }
+
+  if (foundCard != null) {
+    foundCard.cardNumber = cardNumber;
+    foundCard.cardName = cardName;
+    foundCard.cardHolderName = cardHolderName;
+    foundCard.expirationDate = expirationDate;
+  }
+
+  printAllCards();
+}
+
 }

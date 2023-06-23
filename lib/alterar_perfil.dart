@@ -125,7 +125,7 @@ class UpdateProfileScreen extends StatelessWidget {
                                   userStore.saveUser();
                                   _formKey.currentState!.reset();
                                   Navigator.pushReplacementNamed(
-                                      context, '/main');
+                                      context, '/profile');
                                 }
                               }
                               // Chamar o método updateUserProfile passando o objeto UserModel com os dados atualizados

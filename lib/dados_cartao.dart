@@ -136,7 +136,7 @@ class DadosCartaoPage extends StatelessWidget {
     Expanded(
       child: GestureDetector(
         onTap: () {
-          // Lógica para editar o cartão
+            Navigator.pushNamed(context, '/editar_cartao', arguments: card!.cardId);
         },
         child: Container(
           padding: EdgeInsets.all(20.0),
@@ -160,8 +160,10 @@ class DadosCartaoPage extends StatelessWidget {
     Expanded(
       child: GestureDetector(
         onTap: () {
-         cardStore.removeCardById(cardStore.cardId as CardModel);
+         cardStore.removeCardById(card!);
          showDeleteSuccessMessage(context);
+         Navigator.pushNamed(context, '/cartao', arguments: card!.cardId)
+          .then((value) => cardStore.updateCardList());
         },
         child: Container(
           padding: EdgeInsets.all(20.0),

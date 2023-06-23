@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
 import 'package:proj_pi/common/extensions/sizes.dart';
+import 'package:proj_pi/card_model.dart';
+import 'package:proj_pi/trans_model.dart';
+import 'package:provider/provider.dart';
+import 'card_store.dart';
+import 'trans_store.dart';
 
 class Transaction {
   final String cardName;
@@ -135,7 +139,7 @@ class _GastosPageState extends State<GastosPage> {
                         children: [
                           const SizedBox(height: 3),
                           Text(
-                            'Saldo',
+                            'Gasto total',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[600],
