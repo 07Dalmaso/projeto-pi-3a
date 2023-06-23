@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:proj_pi/firebase_options.dart';
 import 'package:proj_pi/login_screen.dart';
 import 'package:proj_pi/cadastro.dart';
 import 'package:proj_pi/splash_screen.dart';
@@ -22,6 +24,9 @@ void main() async {
   final tranStore = TranStore();
   runApp(
       MyApp(cardStore: cardStore, userStore: userStore, tranStore: tranStore));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
