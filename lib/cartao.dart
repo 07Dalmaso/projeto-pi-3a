@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'card_store.dart';
-import 'card_model.dart';
+import './store/card_store.dart';
+import './models/card_model.dart';
 import 'package:provider/provider.dart';
 
 class CartaoPage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     final cardStore = Provider.of<CardStore>(context);
@@ -67,10 +66,12 @@ class CartaoPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 16.0),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/dados_cartao', arguments: card.cardId);
+                      Navigator.pushNamed(context, '/dados_cartao',
+                          arguments: card.cardId);
                     },
                     style: TextButton.styleFrom(
-                      padding:  const EdgeInsets.symmetric(vertical: 6.0, horizontal: 14.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6.0, horizontal: 14.0),
                       backgroundColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -94,7 +95,7 @@ class CartaoPage extends StatelessWidget {
                           ),
                           SizedBox(height: 8.0),
                           Text(
-                             '**** **** **** ' + card.cardNumber,
+                            '**** **** **** ' + card.cardNumber,
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.grey,

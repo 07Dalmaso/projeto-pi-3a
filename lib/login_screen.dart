@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/user_model.dart';
-import 'package:proj_pi/user_store.dart';
+import 'package:proj_pi/models/user_model.dart';
+import 'package:proj_pi/store/user_store.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,51 +12,51 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
-  String userId= '';
+  String userId = '';
 
   void irParaCadastro() {
     Navigator.pushNamed(context, '/cadastro');
   }
 
- void fazerLogin() {
-  if (_formKey.currentState!.validate()) {
-    _formKey.currentState!.save();
+  void fazerLogin() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
-    UserStore userStore = Provider.of<UserStore>(context, listen: false);
+      UserStore userStore = Provider.of<UserStore>(context, listen: false);
 
-    userStore.setEmail(email);
-    userStore.setPassword(password);
-    //userStore.setLogin(userId);
+      userStore.setEmail(email);
+      userStore.setPassword(password);
+      //userStore.setLogin(userId);
 
-    userStore.login().then((_) {
-      if (userStore.isRegistered) {
-        // Login successful
-        print('Login successful'); // Debug print
-        Navigator.pushNamed(context, '/main');
-      } else {
-        // Login failed
-        print('Login failed'); // Debug print
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Falha no Login'),
-            content: Text('Email ou senha inválidos.'),
-            actions: <Widget>[
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
-    });
+      userStore.login().then((_) {
+        if (userStore.isRegistered) {
+          // Login successful
+          print('Login successful'); // Debug print
+          Navigator.pushNamed(context, '/main');
+        } else {
+          // Login failed
+          print('Login failed'); // Debug print
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Falha no Login'),
+              content: Text('Email ou senha inválidos.'),
+              actions: <Widget>[
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      });
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
-     final userStore = Provider.of<UserStore>(context);
+    final userStore = Provider.of<UserStore>(context);
 
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73),
@@ -127,35 +127,36 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 45.0),
                 ElevatedButton(
-  onPressed: fazerLogin,
-  style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(
-        color: Colors.green,
-        width: 2.0),
-      ),
-    ),
-    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-  ),
-  child: Text('Entrar'),
-),
+                  onPressed: fazerLogin,
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.green),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.green, width: 2.0),
+                      ),
+                    ),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                  ),
+                  child: Text('Entrar'),
+                ),
                 SizedBox(height: 16.0),
                 TextButton(
                   onPressed: irParaCadastro,
                   child: Text('Criar Cadastro'),
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                   side: MaterialStateProperty.all<BorderSide>(
-      BorderSide(color: Colors.white, width: 2.0),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    side: MaterialStateProperty.all<BorderSide>(
+                      BorderSide(color: Colors.white, width: 2.0),
                     ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    ),
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
                   ),
                 ),
               ],

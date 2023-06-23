@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 //import './common/extensions/CustomInputField.dart';
 import 'package:provider/provider.dart';
-import 'card_store.dart';
+import './store/card_store.dart';
 
 class AddCard extends StatefulWidget {
   @override
   _AddCardState createState() => _AddCardState();
 }
 
-  class _AddCardState extends State<AddCard> {
- 
+class _AddCardState extends State<AddCard> {
   @override
   Widget build(BuildContext context) {
     final cardStore = Provider.of<CardStore>(context);
@@ -21,9 +20,8 @@ class AddCard extends StatefulWidget {
       const Color.fromARGB(255, 154, 165, 171),
       const Color.fromARGB(255, 246, 247, 248),
     ];
-     return Scaffold(
-  body: CustomScrollView(
-    slivers: <Widget>[
+    return Scaffold(
+        body: CustomScrollView(slivers: <Widget>[
       SliverAppBar(
         centerTitle: false,
         automaticallyImplyLeading: false,
@@ -63,183 +61,193 @@ class AddCard extends StatefulWidget {
         pinned: true,
       ),
       SliverPadding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-                 sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                 Padding(
-                    padding: const EdgeInsets.only(top: 2.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.070,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5.0),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                                  Image.asset(
-                                    '../assets/imagem/visa.png',
-                                    height: 30.0,
-                                  ),
-                                  Image.asset(
-                                    '../assets/imagem/mastercard.png',
-                                    height: 30.0,
-                                  ),
-                                  Image.asset(
-                                    '../assets/imagem/americanExpress.png',
-                                    height: 30.0,
-                                  ),
-                                  Image.asset(
-                                    '../assets/imagem/hipercard.png',
-                                    height: 30.0,
-                                  ),
-                                  Image.asset(
-                                    '../assets/imagem/elo.png',
-                                    height: 30.0,
-                                  ),
-                                  Image.asset(
-                                    '../assets/imagem/hiper.png',
-                                    height: 30.0,
-                                ),
-                        ],
-                      ),
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+          sliver: SliverList(
+              delegate: SliverChildListDelegate([
+            Padding(
+              padding: const EdgeInsets.only(top: 2.0),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.070,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5.0),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      '../assets/imagem/visa.png',
+                      height: 30.0,
                     ),
-                  ),
-     Padding(
-  padding: const EdgeInsets.all(16.0),
-  child: Form(
-    key: _formKey,
-    child: Column(
-      children: [
-         TextFormField(
-          decoration: InputDecoration(
-            labelText: 'Nome do Titular',
-            hintText: 'Ex: Sabrina',
-            border: OutlineInputBorder(),
-          ),
-          style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-          initialValue: cardStore.cardHolderName,
-          onChanged: cardStore.setCardHolderName,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Insira o nome do titular do cartão';
-            }
-            return null;
-          },
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.023),
-        TextFormField(
-          decoration: InputDecoration(
-            labelText: 'Apelido do Cartão',
-            hintText: 'Ex: Cartão da Nubank',
-            border: OutlineInputBorder(),
-          ),
-          style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-          initialValue: cardStore.cardName,
-          onChanged: cardStore.setCardName,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Insira o apelido do cartão';
-            }
-            return null;
-          },
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.023),
-        TextFormField(
-          decoration: const InputDecoration(
-            labelText: 'Últimos 4 dígitos do cartão',
-            hintText: 'Ex: 1111',
-            border: OutlineInputBorder(),
-          ),
-          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-          initialValue: cardStore.cardNumber,
-          onChanged: cardStore.setCardNumber,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Insira o número do cartão';
-            }
-            else {
-              if (value.length > 4) {
-              return 'Insira apenas os 4 últimos dígitos';
-            }
-            if(value.length<4){
-               return 'Insira os 4 últimos dígitos';
-            }
-
-  return null;
-}
-          },
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.023),
-        TextFormField(
-          decoration: InputDecoration(
-            labelText: 'Data de Vencimento',
-            hintText: 'Ex: 06/23',
-            border: OutlineInputBorder(),
-          ),
-          style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-          initialValue: cardStore.expirationDate,
-          onChanged: cardStore.setExpirationDate,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Insira a data de vencimento';
-            }else {
-    // Regular expression pattern for "mm/yyyy" format
-    final pattern = r'^\d{2}/\d{2}$';
-    final regExp = RegExp(pattern);
-    if (!regExp.hasMatch(value)) {
-      return 'Insira a data no formato mês/ano';
-    }
-  }
-         return null;
-          },
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.023),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  if (cardStore.isFormValid) {
-                    cardStore.saveCard();
-                    _formKey.currentState!.reset();
-
-                    Navigator.pushNamed(context, '/cartao');
-                  }
-                }
-              },
-              child: Text('Salvar'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  Colors.green,
-                ),
-                fixedSize: MaterialStateProperty.all<Size>(
-                  Size(
-                    MediaQuery.of(context).size.width * 0.4,
-                    MediaQuery.of(context).size.height * 0.07,
-                  ),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
+                    Image.asset(
+                      '../assets/imagem/mastercard.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      '../assets/imagem/americanExpress.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      '../assets/imagem/hipercard.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      '../assets/imagem/elo.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      '../assets/imagem/hiper.png',
+                      height: 30.0,
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
-      ],
-    ),
-  ),
-)])
-                 )
-      )]
-     ));
-  }}
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Nome do Titular',
+                        hintText: 'Ex: Sabrina',
+                        border: OutlineInputBorder(),
+                      ),
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 69, 72, 73)),
+                      initialValue: cardStore.cardHolderName,
+                      onChanged: cardStore.setCardHolderName,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Insira o nome do titular do cartão';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.023),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Apelido do Cartão',
+                        hintText: 'Ex: Cartão da Nubank',
+                        border: OutlineInputBorder(),
+                      ),
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 69, 72, 73)),
+                      initialValue: cardStore.cardName,
+                      onChanged: cardStore.setCardName,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Insira o apelido do cartão';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.023),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Últimos 4 dígitos do cartão',
+                        hintText: 'Ex: 1111',
+                        border: OutlineInputBorder(),
+                      ),
+                      style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 69, 72, 73)),
+                      initialValue: cardStore.cardNumber,
+                      onChanged: cardStore.setCardNumber,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Insira o número do cartão';
+                        } else {
+                          if (value.length > 4) {
+                            return 'Insira apenas os 4 últimos dígitos';
+                          }
+                          if (value.length < 4) {
+                            return 'Insira os 4 últimos dígitos';
+                          }
+
+                          return null;
+                        }
+                      },
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.023),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Data de Vencimento',
+                        hintText: 'Ex: 06/23',
+                        border: OutlineInputBorder(),
+                      ),
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 69, 72, 73)),
+                      initialValue: cardStore.expirationDate,
+                      onChanged: cardStore.setExpirationDate,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Insira a data de vencimento';
+                        } else {
+                          // Regular expression pattern for "mm/yyyy" format
+                          final pattern = r'^\d{2}/\d{2}$';
+                          final regExp = RegExp(pattern);
+                          if (!regExp.hasMatch(value)) {
+                            return 'Insira a data no formato mês/ano';
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.023),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (cardStore.isFormValid) {
+                                cardStore.saveCard();
+                                _formKey.currentState!.reset();
+
+                                Navigator.pushNamed(context, '/cartao');
+                              }
+                            }
+                          },
+                          child: Text('Salvar'),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.green,
+                            ),
+                            fixedSize: MaterialStateProperty.all<Size>(
+                              Size(
+                                MediaQuery.of(context).size.width * 0.4,
+                                MediaQuery.of(context).size.height * 0.07,
+                              ),
+                            ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ])))
+    ]));
+  }
+}
