@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:proj_pi/common/extensions/sizes.dart';
-import 'package:proj_pi/trans_model.dart';
 import 'package:provider/provider.dart';
-import 'trans_store.dart';
+import './store/trans_store.dart';
+import './models/trans_model.dart';
 
 class GastosPage extends StatefulWidget {
 
@@ -161,6 +161,7 @@ class _GastosPageState extends State<GastosPage> {
                                 Text('Cartão: ${tran.cartaoT}'),
                                 Text('Valor: R\$ ${tran.valor}'),
                                 Text('Data: ${tran.data}'),
+                                Text('Detalhes: ${tran.descpt}'),
                               ],
                             ),
                             actions: [
@@ -261,3 +262,4 @@ class _GastosPageState extends State<GastosPage> {
     );
   }
 }
+

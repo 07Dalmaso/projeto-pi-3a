@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:proj_pi/firebase_options.dart';
 import 'package:proj_pi/login_screen.dart';
 import 'package:proj_pi/cadastro.dart';
 import 'package:proj_pi/splash_screen.dart';
@@ -11,17 +13,22 @@ import 'package:proj_pi/add_gastos_1.dart';
 import 'package:proj_pi/alterar_perfil.dart';
 import 'package:proj_pi/editar_cartao.dart';
 import 'package:proj_pi/dados_cartao.dart';
-import 'package:proj_pi/card_store.dart';
-import 'package:proj_pi/user_store.dart';
-import 'package:proj_pi/user_model.dart';
-import 'package:proj_pi/trans_store.dart';
+import 'package:proj_pi/store/card_store.dart';
+import 'package:proj_pi/store/user_store.dart';
+import 'package:proj_pi/store/trans_store.dart';
+import 'package:proj_pi/models/trans_model.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
   final cardStore = CardStore();
   final userStore = UserStore();
   final tranStore = TranStore();
-  runApp(MyApp(cardStore: cardStore, userStore: userStore, tranStore: tranStore,));
+ 
+ runApp(
+      MyApp(cardStore: cardStore, userStore: userStore, tranStore: tranStore));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -67,7 +74,7 @@ class MyApp extends StatelessWidget {
               final cardId = ModalRoute.of(context)!.settings.arguments as String;
             return AddGastos(cardId: cardId);
           },
-           '/editar_cartao': (context) {
+          '/editar_cartao': (context) {
             final cardId = ModalRoute.of(context)!.settings.arguments as String;
             return EditCard(cardId: cardId);
           },
@@ -135,10 +142,10 @@ class _MyHomePageState extends State<MyHomePage> {
     bool showBalance = true; 
   @override
   Widget build(BuildContext context) {
-     UserStore userStore = Provider.of<UserStore>(context);
+     //UserStore userStore = Provider.of<UserStore>(context);
      TranStore tranStore= Provider.of<TranStore>(context);
-     final String identifier= userStore.isLoggedin;
-     final user = userStore.getUserById(identifier);
+     /*final String identifier= userStore.isLoggedin;
+     final user = userStore.getUserById(identifier);*/
 
     final List<Color> colors = [
       const Color.fromARGB(255, 69, 72, 73),
@@ -149,7 +156,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-          title: 'Bem vindo(a), ${user?.name}', automaticallyImplyLeading: false),
+        title: 'Bem vindo, Usuário', automaticallyImplyLeading: false),
+         // title: 'Bem vindo(a), ${user?.name}', automaticallyImplyLeading: false), //(funciona p/ mobx)
       body: Center(
         child: Column(
           children: [
@@ -180,7 +188,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user?.name as String,
+                        'Usuário',
+                        //user?.name as String, //(funciona p/mobx)
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -188,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        'Gasto Total: ${showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******'}',
+                        'Gasto Total:${showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******'}',
 
                         style: TextStyle(
                           fontSize: 14,
@@ -315,7 +324,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  // Ação do botão Voltar
+                  // AÃ§Ã£o do botÃ£o Voltar
                 },
                 icon: Icon(Icons.arrow_back),
                 label: Text('Voltar'),

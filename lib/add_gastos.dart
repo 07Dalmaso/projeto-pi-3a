@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:proj_pi/card_model.dart';
-import 'package:proj_pi/trans_model.dart';
+import 'package:proj_pi/models/card_model.dart';
+import 'package:proj_pi/models/trans_model.dart';
 import 'package:provider/provider.dart';
-import 'card_store.dart';
-import 'trans_store.dart';
+import './store/card_store.dart';
+import './store/trans_store.dart';
 
 class AddGastos extends StatefulWidget {
   final String cardId;
@@ -12,16 +12,14 @@ class AddGastos extends StatefulWidget {
   AddGastos({required this.cardId});
   @override
   _AddGastosState createState() => _AddGastosState();
-
 }
 
 class _AddGastosState extends State<AddGastos> {
-
   @override
   Widget build(BuildContext context) {
-     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-      final cardStore = Provider.of<CardStore>(context);
-      final CardModel? card = cardStore.getCardById(widget.cardId);
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final cardStore = Provider.of<CardStore>(context);
+    final CardModel? card = cardStore.getCardById(widget.cardId);
     final tranStore = Provider.of<TranStore>(context);
     
     tranStore.setCard(card!.cardName);
@@ -33,98 +31,95 @@ class _AddGastosState extends State<AddGastos> {
       Color.fromARGB(255, 246, 247, 248)!,
     ];
     return Scaffold(
-      body: CustomScrollView(
-        shrinkWrap: true,
-        slivers: <Widget>[
-          SliverAppBar(
-            centerTitle: false,
-            automaticallyImplyLeading: false,
-            expandedHeight: MediaQuery.of(context).size.height * 0.3,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.bottomRight,
-                  colors: colors,
-                ),
+        body: CustomScrollView(shrinkWrap: true, slivers: <Widget>[
+      SliverAppBar(
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        expandedHeight: MediaQuery.of(context).size.height * 0.3,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.bottomRight,
+              colors: colors,
+            ),
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/add_Gastos');
+                },
               ),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/add_Gastos');
-                    },
-                  ),
-                  const Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Adicionar transação",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 206, 202, 202),
-                          fontSize: 25.0,
-                        ),
-                      ),
+              const Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Adicionar transação",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 206, 202, 202),
+                      fontSize: 25.0,
                     ),
                   ),
-                ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        pinned: true,
+      ),
+      SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            const SizedBox(height: 20.0),
+            const Center(
+              child: Text(
+                'Cartão Selecionado',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
-            pinned: true,
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                const SizedBox(height: 20.0),
-                const Center(
-                  child: Text(
-                    'Cartão Selecionado',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+              child: SizedBox(
+                height: 70.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.green,
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '\t\t\t' + card!.cardName,
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Color.fromARGB(255, 69, 72, 73)),
+                        ),
+                        SizedBox(height: 8.0),
+                        Text(
+                          '\t\t\t**** **** **** ' + card!.cardNumber,
+                          style: TextStyle(fontSize: 16.0, color: Colors.grey),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 20.0),
-                  child: SizedBox(
-                    height: 70.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.green,
-                          width: 2.0,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '\t\t\t' + card!.cardName,
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Color.fromARGB(255, 69, 72, 73)),
-                            ),
-                            SizedBox(height: 8.0),
-                            Text(
-                                '\t\t\t**** **** **** ' + card!.cardNumber,
-                              style:
-                                  TextStyle(fontSize: 16.0, color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-     const SizedBox(height: 20.0),
+              ),
+            ),
+            const SizedBox(height: 20.0),
             Form(
               key: _formKey,
               child: Column(
@@ -158,7 +153,7 @@ class _AddGastosState extends State<AddGastos> {
                       border: OutlineInputBorder(),
                     ),
                     style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                    //initialValue: tranStore.data,
+                   // initialValue: tranStore.data,
                     onChanged: tranStore.setDate,
                     validator: (value) {
                       if (value!.isEmpty) {

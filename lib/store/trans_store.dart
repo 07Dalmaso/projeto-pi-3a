@@ -1,7 +1,8 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
-import 'trans_model.dart';
+import '../models/trans_model.dart';
 part 'trans_store.g.dart'; // Arquivo gerado pelo MobX
+
 
 class TranStore = _TranStore with _$TranStore;
 
@@ -70,7 +71,7 @@ void addTrans(TransModel tran) {
 
   @action
   void saveTrasaction() {
-    // Aqui você pode implementar a lógica para salvar o cartão
+    // Aqui vocÃª pode implementar a lÃ³gica para salvar o cartÃ£o
     TransModel newTran = TransModel(
       transId: transId,
       valor: valor,
@@ -91,3 +92,4 @@ void addTrans(TransModel tran) {
     return total;
   }
 }
+

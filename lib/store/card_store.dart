@@ -1,9 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
-import 'package:proj_pi/card_model.dart';
-import 'package:proj_pi/card_store.dart';
-
-//imcard_model.dart';
+import '../models/card_model.dart';
 part 'card_store.g.dart'; // Arquivo gerado pelo MobX
 
 class CardStore = _CardStore with _$CardStore;
@@ -89,7 +86,7 @@ void updateCardList() {
   }
   @action
   void saveCard() {
-    // Aqui você pode implementar a lógica para salvar o cartão
+    // Aqui vocÃª pode implementar a lÃ³gica para salvar o cartÃ£o
     CardModel newCard = CardModel(
       cardId: cardId,
       cardNumber: cardNumber,

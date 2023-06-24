@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 //import './common/extensions/CustomInputField.dart';
 import 'package:provider/provider.dart';
-import 'card_store.dart';
+import './store/card_store.dart';
 
 class AddCard extends StatefulWidget {
   @override
   _AddCardState createState() => _AddCardState();
 }
 
-  class _AddCardState extends State<AddCard> {
- 
+class _AddCardState extends State<AddCard> {
   @override
   Widget build(BuildContext context) {
     final cardStore = Provider.of<CardStore>(context);
@@ -21,9 +20,8 @@ class AddCard extends StatefulWidget {
       const Color.fromARGB(255, 154, 165, 171),
       const Color.fromARGB(255, 246, 247, 248),
     ];
-     return Scaffold(
-  body: CustomScrollView(
-    slivers: <Widget>[
+    return Scaffold(
+        body: CustomScrollView(slivers: <Widget>[
       SliverAppBar(
         centerTitle: false,
         automaticallyImplyLeading: false,
@@ -65,9 +63,10 @@ class AddCard extends StatefulWidget {
       SliverPadding(
             padding:
                 const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+
                  sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
+
+              delegate: SliverChildListDelegate([
                  Padding(
                     padding: const EdgeInsets.only(top: 2.0),
                     child: Container(
@@ -211,35 +210,36 @@ class AddCard extends StatefulWidget {
                     cardStore.saveCard();
                     _formKey.currentState!.reset();
 
-                    Navigator.pushNamed(context, '/cartao');
-                  }
-                }
-              },
-              child: Text('Salvar'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  Colors.green,
-                ),
-                fixedSize: MaterialStateProperty.all<Size>(
-                  Size(
-                    MediaQuery.of(context).size.width * 0.4,
-                    MediaQuery.of(context).size.height * 0.07,
-                  ),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
+                                Navigator.pushNamed(context, '/cartao');
+                              }
+                            }
+                          },
+                          child: Text('Salvar'),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.green,
+                            ),
+                            fixedSize: MaterialStateProperty.all<Size>(
+                              Size(
+                                MediaQuery.of(context).size.width * 0.4,
+                                MediaQuery.of(context).size.height * 0.07,
+                              ),
+                            ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  ),
-)])
-                 )
-      )]
-     ));
-  }}
+            )
+          ])))
+    ]));
+  }
+}

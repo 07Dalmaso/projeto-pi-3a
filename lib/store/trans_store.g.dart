@@ -16,6 +16,13 @@ mixin _$TranStore on _TranStore, Store {
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
               name: '_TranStore.isFormValid'))
           .value;
+  Computed<double>? _$calcularTotalComputed;
+
+  @override
+  double get calcularTotal =>
+      (_$calcularTotalComputed ??= Computed<double>(() => super.calcularTotal,
+              name: '_TranStore.calcularTotal'))
+          .value;
 
   late final _$valorAtom = Atom(name: '_TranStore.valor', context: context);
 
@@ -228,7 +235,8 @@ cartaoT: ${cartaoT},
 trans: ${trans},
 ids: ${ids},
 saldo: ${saldo},
-isFormValid: ${isFormValid}
+isFormValid: ${isFormValid},
+calcularTotal: ${calcularTotal}
     ''';
   }
 }

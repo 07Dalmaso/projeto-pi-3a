@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 //import './common/extensions/CustomInputField.dart';
 import 'package:provider/provider.dart';
-import 'card_store.dart';
-import 'card_model.dart';
+import './store/card_store.dart';
+import './models/card_model.dart';
 
 class EditCard extends StatefulWidget {
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/user_model.dart';
-import 'package:proj_pi/user_store.dart';
+import 'package:proj_pi/models/user_model.dart';
+import 'package:proj_pi/store/user_store.dart';
 import 'package:provider/provider.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
@@ -121,7 +121,6 @@ class UpdateProfileScreen extends StatelessWidget {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 if (userStore.isFormValid) {
-                                  
                                   userStore.saveUser();
                                   _formKey.currentState!.reset();
                                   Navigator.pushReplacementNamed(

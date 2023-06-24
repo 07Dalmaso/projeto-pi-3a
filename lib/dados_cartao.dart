@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/card_model.dart';
+import 'package:proj_pi/models/card_model.dart';
 import 'package:provider/provider.dart';
-import 'card_store.dart';
+import './store/card_store.dart';
 
 class DadosCartaoPage extends StatelessWidget {
   final String cardId;
@@ -10,8 +10,8 @@ class DadosCartaoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final cardStore = Provider.of<CardStore>(context);
-     final CardModel? card = cardStore.getCardById(cardId);
+    final cardStore = Provider.of<CardStore>(context);
+    final CardModel? card = cardStore.getCardById(cardId);
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     List<Color> colors = [
@@ -22,19 +22,20 @@ class DadosCartaoPage extends StatelessWidget {
     ];
 
     void showDeleteSuccessMessage(BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('Cartão deletado com sucesso!'),
-    ),
-  ).closed.then((_) {
-    Navigator.pushNamed(context, '/cartao');
-  });
-}
-     
+      ScaffoldMessenger.of(context)
+          .showSnackBar(
+            SnackBar(
+              content: Text('Cartão deletado com sucesso!'),
+            ),
+          )
+          .closed
+          .then((_) {
+        Navigator.pushNamed(context, '/cartao');
+      });
+    }
+
     return Scaffold(
-  body: CustomScrollView(
-    shrinkWrap: true,
-    slivers: <Widget>[
+        body: CustomScrollView(shrinkWrap: true, slivers: <Widget>[
       SliverAppBar(
         centerTitle: false,
         automaticallyImplyLeading: false,
@@ -136,7 +137,7 @@ class DadosCartaoPage extends StatelessWidget {
     Expanded(
       child: GestureDetector(
         onTap: () {
-            Navigator.pushNamed(context, '/editar_cartao', arguments: card!.cardId);
+          Navigator.pushNamed(context, '/editar_cartao', arguments: card!.cardId);
         },
         child: Container(
           padding: EdgeInsets.all(20.0),
@@ -160,9 +161,10 @@ class DadosCartaoPage extends StatelessWidget {
     Expanded(
       child: GestureDetector(
         onTap: () {
-         cardStore.removeCardById(card!);
+        cardStore.removeCardById(card!);
          showDeleteSuccessMessage(context);
-         Navigator.pushNamed(context, '/cartao', arguments: card!.cardId)
+
+          Navigator.pushNamed(context, '/cartao', arguments: card!.cardId)
           .then((value) => cardStore.updateCardList());
         },
         child: Container(
@@ -191,7 +193,7 @@ class DadosCartaoPage extends StatelessWidget {
        ),
           ],
         ),
-            )
-  ]));
+      )
+    ]));
   }
 }
