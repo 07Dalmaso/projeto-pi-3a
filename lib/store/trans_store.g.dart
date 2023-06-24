@@ -16,6 +16,13 @@ mixin _$TranStore on _TranStore, Store {
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
               name: '_TranStore.isFormValid'))
           .value;
+  Computed<double>? _$calcularTotalComputed;
+
+  @override
+  double get calcularTotal =>
+      (_$calcularTotalComputed ??= Computed<double>(() => super.calcularTotal,
+              name: '_TranStore.calcularTotal'))
+          .value;
 
   late final _$valorAtom = Atom(name: '_TranStore.valor', context: context);
 
@@ -77,19 +84,18 @@ mixin _$TranStore on _TranStore, Store {
     });
   }
 
-  late final _$transCardIdAtom =
-      Atom(name: '_TranStore.transCardId', context: context);
+  late final _$cartaoTAtom = Atom(name: '_TranStore.cartaoT', context: context);
 
   @override
-  String get transCardId {
-    _$transCardIdAtom.reportRead();
-    return super.transCardId;
+  String get cartaoT {
+    _$cartaoTAtom.reportRead();
+    return super.cartaoT;
   }
 
   @override
-  set transCardId(String value) {
-    _$transCardIdAtom.reportWrite(value, super.transCardId, () {
-      super.transCardId = value;
+  set cartaoT(String value) {
+    _$cartaoTAtom.reportWrite(value, super.cartaoT, () {
+      super.cartaoT = value;
     });
   }
 
@@ -120,6 +126,21 @@ mixin _$TranStore on _TranStore, Store {
   set ids(ObservableList<String> value) {
     _$idsAtom.reportWrite(value, super.ids, () {
       super.ids = value;
+    });
+  }
+
+  late final _$saldoAtom = Atom(name: '_TranStore.saldo', context: context);
+
+  @override
+  ObservableList<String> get saldo {
+    _$saldoAtom.reportRead();
+    return super.saldo;
+  }
+
+  @override
+  set saldo(ObservableList<String> value) {
+    _$saldoAtom.reportWrite(value, super.saldo, () {
+      super.saldo = value;
     });
   }
 
@@ -210,10 +231,12 @@ valor: ${valor},
 data: ${data},
 descpt: ${descpt},
 transId: ${transId},
-transCardId: ${transCardId},
+cartaoT: ${cartaoT},
 trans: ${trans},
 ids: ${ids},
-isFormValid: ${isFormValid}
+saldo: ${saldo},
+isFormValid: ${isFormValid},
+calcularTotal: ${calcularTotal}
     ''';
   }
 }

@@ -192,6 +192,17 @@ mixin _$CardStore on _CardStore, Store {
   }
 
   @override
+  void updateCardList() {
+    final _$actionInfo = _$_CardStoreActionController.startAction(
+        name: '_CardStore.updateCardList');
+    try {
+      return super.updateCardList();
+    } finally {
+      _$_CardStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void printAllCards() {
     final _$actionInfo = _$_CardStoreActionController.startAction(
         name: '_CardStore.printAllCards');

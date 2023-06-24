@@ -11,6 +11,7 @@ import 'package:proj_pi/add_card.dart';
 import 'package:proj_pi/add_gastos.dart';
 import 'package:proj_pi/add_gastos_1.dart';
 import 'package:proj_pi/alterar_perfil.dart';
+import 'package:proj_pi/editar_cartao.dart';
 import 'package:proj_pi/dados_cartao.dart';
 import 'package:proj_pi/store/card_store.dart';
 import 'package:proj_pi/store/user_store.dart';
@@ -18,11 +19,12 @@ import 'package:proj_pi/store/trans_store.dart';
 import 'package:proj_pi/models/trans_model.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
+Future<void> main() async {
   final cardStore = CardStore();
   final userStore = UserStore();
   final tranStore = TranStore();
-  runApp(
+ 
+ runApp(
       MyApp(cardStore: cardStore, userStore: userStore, tranStore: tranStore));
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -34,51 +36,49 @@ class MyApp extends StatelessWidget {
   final UserStore userStore;
   final TranStore tranStore;
 
-  const MyApp(
-      {Key? key,
-      required this.cardStore,
-      required this.userStore,
-      required this.tranStore})
+   MyApp({Key? key, required this.cardStore, required this.userStore, required this.tranStore,})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    
     return MultiProvider(
-        providers: [
-          Provider<CardStore>.value(value: cardStore),
-          Provider<UserStore>.value(value: userStore),
-          Provider<TranStore>.value(value: tranStore),
-        ],
+      providers: [
+        Provider<CardStore>.value(value: cardStore),
+        Provider<UserStore>.value(value: userStore),
+        Provider<TranStore>.value(value: tranStore),
+      ],
         child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            initialRoute: '/splash_screen',
-            routes: {
-              '/main': (context) =>
-                  const MyHomePage(title: 'Bem vindo(a), Usuário!'),
-              '/login': (context) => LoginPage(),
-              '/cadastro': (context) => CadastroPage(),
-              '/splash_screen': (context) => SplashScreen(),
-              '/add_Gastos': (context) => Add_Gastos(),
-              '/profile': (context) {
-                final userStore = Provider.of<UserStore>(context);
-                final userId = userStore.isLoggedin;
-                return ProfilePage(userId: userId);
-              },
-              '/alt_perfil': (context) => UpdateProfileScreen(),
-              '/gastos': (context) => GastosPage(),
-              '/cartao': (context) => CartaoPage(),
-              '/dados_cartao': (context) {
-                final cardId =
-                    ModalRoute.of(context)!.settings.arguments as String;
-                return DadosCartaoPage(cardId: cardId);
-              },
-              '/addCard': (context) => AddCard(),
-              '/addGastos': (context) {
-                final cardId =
-                    ModalRoute.of(context)!.settings.arguments as String;
-                return AddGastos(cardId: cardId);
-              },
-            }));
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/splash_screen',
+          routes: {
+            '/main': (context) =>MyHomePage(title: ' '),
+            '/login': (context) => LoginPage(),
+            '/cadastro': (context) => CadastroPage(),
+            '/splash_screen': (context) => SplashScreen(),
+            '/add_Gastos': (context) => Add_Gastos(),
+            '/profile': (context) {
+            final userStore = Provider.of<UserStore>(context);
+            final userId = userStore.isLoggedin;
+            return ProfilePage(userId: userId);
+           },
+            '/alt_perfil': (context) => UpdateProfileScreen(),
+            '/gastos': (context) => GastosPage(),
+            '/cartao': (context) =>CartaoPage(),
+            '/dados_cartao': (context) {
+            final cardId = ModalRoute.of(context)!.settings.arguments as String;
+            return DadosCartaoPage(cardId: cardId);
+          },
+            '/addCard': (context) => AddCard(),
+            '/addGastos': (context) {
+              final cardId = ModalRoute.of(context)!.settings.arguments as String;
+            return AddGastos(cardId: cardId);
+          },
+          '/editar_cartao': (context) {
+            final cardId = ModalRoute.of(context)!.settings.arguments as String;
+            return EditCard(cardId: cardId);
+          },
+  }));
   }
 }
 
@@ -96,6 +96,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final List<Color> colors = [
       const Color.fromARGB(255, 69, 72, 73),
       const Color.fromARGB(255, 97, 104, 107),
@@ -138,8 +139,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+    bool showBalance = true; 
   @override
   Widget build(BuildContext context) {
+     //UserStore userStore = Provider.of<UserStore>(context);
+     TranStore tranStore= Provider.of<TranStore>(context);
+     /*final String identifier= userStore.isLoggedin;
+     final user = userStore.getUserById(identifier);*/
+
     final List<Color> colors = [
       const Color.fromARGB(255, 69, 72, 73),
       const Color.fromARGB(255, 97, 104, 107),
@@ -149,7 +156,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-          title: "Bem-Vindo, Usuário", automaticallyImplyLeading: false),
+        title: 'Bem vindo, Usuário', automaticallyImplyLeading: false),
+         // title: 'Bem vindo(a), ${user?.name}', automaticallyImplyLeading: false), //(funciona p/ mobx)
       body: Center(
         child: Column(
           children: [
@@ -180,7 +188,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Nome do Usuário',
+                        'Usuário',
+                        //user?.name as String, //(funciona p/mobx)
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -188,7 +197,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        'Saldo: R\$ 1.000,00',
+                        'Gasto Total:${showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******'}',
+
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],
@@ -314,7 +324,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  // Ação do botão Voltar
+                  // AÃ§Ã£o do botÃ£o Voltar
                 },
                 icon: Icon(Icons.arrow_back),
                 label: Text('Voltar'),
