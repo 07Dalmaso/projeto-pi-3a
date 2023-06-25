@@ -59,7 +59,11 @@ class MyApp extends StatelessWidget {
                 final userId = userStore.isLoggedin;
                 return ProfilePage(userId: userId);
               },
-              '/alt_perfil': (context) => UpdateProfileScreen(),
+              '/alt_perfil': (context) {
+                final userId =
+                    ModalRoute.of(context)!.settings.arguments as String;
+                return UpdateProfileScreen(userId: userId);
+              },
               '/gastos': (context) => GastosPage(),
               '/cartao': (context) => CartaoPage(),
               '/dados_cartao': (context) {

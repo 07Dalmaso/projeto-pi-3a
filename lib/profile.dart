@@ -10,7 +10,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserStore userStore = Provider.of<UserStore>(context);
+    final UserStore userStore = Provider.of<UserStore>(context);
     final UserModel? user = userStore.getUserById(userId);
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -133,7 +133,7 @@ class ProfilePage extends StatelessWidget {
                               ElevatedButton(
                                 child: Text('Alterar Perfil'),
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/alt_perfil');
+                                  Navigator.pushNamed(context, '/alt_perfil', arguments: user!.userId);
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:

@@ -252,11 +252,11 @@ mixin _$UserStore on _UserStore, Store {
   }
 
   @override
-  void updateUserProfile(UserModel newUser) {
+  void updateUserProfile(String userId) {
     final _$actionInfo = _$_UserStoreActionController.startAction(
         name: '_UserStore.updateUserProfile');
     try {
-      return super.updateUserProfile(newUser);
+      return super.updateUserProfile(userId);
     } finally {
       _$_UserStoreActionController.endAction(_$actionInfo);
     }

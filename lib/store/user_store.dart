@@ -134,13 +134,20 @@ abstract class _UserStore with Store {
   }
 
   @action
-  void updateUserProfile(UserModel newUser) {
-    UserModel? existingUser = getUserById(newUser.userId);
+  void updateUserProfile(String userId) {
+    UserModel? foundUser;
 
-    if (existingUser != null) {
-      existingUser.name = newUser.name;
-      existingUser.cpf = newUser.cpf;
-      existingUser.email = newUser.email;
+    for (var user in registeredUsers) {
+      if (user.userId == userId) {
+        foundUser = user;
+        break;
+      }
+    }
+
+    if (foundUser != null) {
+      foundUser.name = name;
+      foundUser.cpf = cpf;
+      foundUser.email = email;
     }
   }
 }
