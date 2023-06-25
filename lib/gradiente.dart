@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:proj_pi/store/card_store.dart';
+import 'package:proj_pi/store/trans_store.dart';
+import 'package:proj_pi/store/user_store.dart';
 //import 'dart:ui';
 
 class AppGradients{
@@ -19,7 +22,7 @@ class AppGradients{
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required CardStore cardStore, required TranStore tranStore, required UserStore userStore});
 
   @override
   Widget build(BuildContext context) {   
