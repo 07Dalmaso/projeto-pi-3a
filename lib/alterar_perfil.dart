@@ -3,14 +3,22 @@ import 'package:proj_pi/models/user_model.dart';
 import 'package:proj_pi/store/user_store.dart';
 import 'package:provider/provider.dart';
 
-class UpdateProfileScreen extends StatelessWidget {
-  const UpdateProfileScreen({Key? key}) : super(key: key);
+class UpdateProfileScreen extends StatefulWidget {
+  final String userId;
+
+  UpdateProfileScreen({required this.userId});
+
+  @override
+  _UpdateState createState() => _UpdateState();
+}
+
+class _UpdateState extends State<UpdateProfileScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    UserStore userStore = Provider.of<UserStore>(context);
-    //final List<UserModel> registeredUsers = userStore.registeredUsers;
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final UserStore userStore = Provider.of<UserStore>(context);
+    final UserModel? user = userStore.getUserById(widget.userId);
 
     List<Color> colors = [
       Color.fromRGBO(69, 72, 73, 1),
@@ -85,10 +93,7 @@ class UpdateProfileScreen extends StatelessWidget {
                             labelText: 'Nome',
                             prefixIcon: Icon(Icons.person),
                           ),
-                          onChanged: (value) {
-                            // Atualizar o campo 'name' do objeto UserModel
-                            userStore.setName(value);
-                          },
+                          onChanged: (value) => userStore.setName(value),
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -96,10 +101,7 @@ class UpdateProfileScreen extends StatelessWidget {
                             labelText: 'Email',
                             prefixIcon: Icon(Icons.email),
                           ),
-                          onChanged: (value) {
-                            // Atualizar o campo 'email' do objeto UserModel
-                            userStore.setEmail(value);
-                          },
+                          onChanged: (value) => userStore.setEmail(value),
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -107,10 +109,7 @@ class UpdateProfileScreen extends StatelessWidget {
                             labelText: 'CPF',
                             prefixIcon: Icon(Icons.perm_identity),
                           ),
-                          onChanged: (value) {
-                            // Atualizar o campo 'email' do objeto UserModel
-                            userStore.setCPF(value);
-                          },
+                          onChanged: (value) => userStore.setCPF(value),
                         ),
                         const SizedBox(height: 20),
 
@@ -121,22 +120,18 @@ class UpdateProfileScreen extends StatelessWidget {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 if (userStore.isFormValid) {
-                                  userStore.saveUser();
+                                  userStore.updateUserProfile(
+                                      widget.userId as String);
                                   _formKey.currentState!.reset();
+<<<<<<< HEAD
+                                  Navigator.pushNamed(context, '/profile',
+                                      arguments: widget.userId);
+=======
                                   Navigator.pushReplacementNamed(
                                       context, '/profile');
+>>>>>>> 1364ebfc61e2b65da972b09a4bdbabb512f93321
                                 }
                               }
-                              // Chamar o método updateUserProfile passando o objeto UserModel com os dados atualizados
-                              userStore.updateUserProfile(UserModel(
-                                name: userStore.name,
-                                email: userStore.email,
-                                cpf: userStore.cpf,
-                                userId: '',
-                                password: '',
-                              ));
-
-                              Navigator.pushNamed(context, '/profile');
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
