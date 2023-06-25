@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:proj_pi/models/card_model.dart';
 import 'package:proj_pi/models/trans_model.dart';
+import 'package:proj_pi/services/gastos_service.dart';
 import 'package:provider/provider.dart';
 import './store/card_store.dart';
 import './store/trans_store.dart';
@@ -158,12 +159,12 @@ class _AddGastosState extends State<AddGastos> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Insira a data da transação';
-                      } else {
-                        final pattern = r'^\d{2}/\d{2}/\d{4}$';
-                        final regExp = RegExp(pattern);
-                        if (!regExp.hasMatch(value)) {
-                          return 'Insira a data no formato dia/mês/ano';
-                        }
+                      // } else {
+                      //   final pattern = r'^\d{2}/\d{2}/\d{4}$';
+                      //   final regExp = RegExp(pattern);
+                      //   if (!regExp.hasMatch(value)) {
+                      //     return 'Insira a data no formato dia/mês/ano';
+                      //   }
                       }
                       return null;
                     },
@@ -197,9 +198,19 @@ class _AddGastosState extends State<AddGastos> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             if (tranStore.isFormValid) {
+
+                               GastosService gastosService = GastosService();
+                                await gastosService.saveGastos1(
+                                  valor: tranStore.valor,
+                                  data: tranStore.data,
+                                  descpt: tranStore.descpt,
+                                  transId: tranStore.transId,
+                                  cartaoT: tranStore.cartaoT,
+                                );
+
                               tranStore.saveTrasaction();
                               _formKey.currentState!.reset();
 
