@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:proj_pi/firebase_options.dart';
 import 'package:proj_pi/login_screen.dart';
 import 'package:proj_pi/cadastro.dart';
 import 'package:proj_pi/splash_screen.dart';
@@ -9,6 +11,7 @@ import 'package:proj_pi/add_card.dart';
 import 'package:proj_pi/add_gastos.dart';
 import 'package:proj_pi/add_gastos_1.dart';
 import 'package:proj_pi/alterar_perfil.dart';
+import 'package:proj_pi/editar_cartao.dart';
 import 'package:proj_pi/dados_cartao.dart';
 import 'package:proj_pi/store/card_store.dart';
 import 'package:proj_pi/store/user_store.dart';
@@ -16,12 +19,16 @@ import 'package:proj_pi/store/trans_store.dart';
 import 'package:proj_pi/models/trans_model.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
+Future<void> main() async {
   final cardStore = CardStore();
   final userStore = UserStore();
   final tranStore = TranStore();
+
   runApp(
       MyApp(cardStore: cardStore, userStore: userStore, tranStore: tranStore));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -29,12 +36,12 @@ class MyApp extends StatelessWidget {
   final UserStore userStore;
   final TranStore tranStore;
 
-  const MyApp(
-      {Key? key,
-      required this.cardStore,
-      required this.userStore,
-      required this.tranStore})
-      : super(key: key);
+  MyApp({
+    Key? key,
+    required this.cardStore,
+    required this.userStore,
+    required this.tranStore,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +55,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             initialRoute: '/splash_screen',
             routes: {
-              '/main': (context) =>
-                  const MyHomePage(title: 'Bem vindo(a), Usuário!'),
+              '/main': (context) => MyHomePage(title: ' '),
               '/login': (context) => LoginPage(),
               '/cadastro': (context) => CadastroPage(),
               '/splash_screen': (context) => SplashScreen(),
@@ -76,6 +82,11 @@ class MyApp extends StatelessWidget {
                 final cardId =
                     ModalRoute.of(context)!.settings.arguments as String;
                 return AddGastos(cardId: cardId);
+              },
+              '/editar_cartao': (context) {
+                final cardId =
+                    ModalRoute.of(context)!.settings.arguments as String;
+                return EditCard(cardId: cardId);
               },
             }));
   }
@@ -137,8 +148,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool showBalance = true;
   @override
   Widget build(BuildContext context) {
+    //UserStore userStore = Provider.of<UserStore>(context);
+    TranStore tranStore = Provider.of<TranStore>(context);
+    /*final String identifier= userStore.isLoggedin;
+     final user = userStore.getUserById(identifier);*/
+
     final List<Color> colors = [
       const Color.fromARGB(255, 69, 72, 73),
       const Color.fromARGB(255, 97, 104, 107),
@@ -148,7 +165,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-          title: "Bem-Vindo, Usuário", automaticallyImplyLeading: false),
+          title: 'Bem vindo, Usuário', automaticallyImplyLeading: false),
+      // title: 'Bem vindo(a), ${user?.name}', automaticallyImplyLeading: false), //(funciona p/ mobx)
       body: Center(
         child: Column(
           children: [
@@ -179,7 +197,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Nome do Usuário',
+                        'Usuário',
+                        //user?.name as String, //(funciona p/mobx)
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -187,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        'Saldo: R\$ 1.000,00',
+                        'Gasto Total:${showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******'}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],
@@ -309,34 +328,25 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 80,
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Ação do botão Voltar
-                },
-                icon: Icon(Icons.arrow_back),
-                label: Text('Voltar'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  onPrimary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0),
-                  ),
-                ),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/login', (route) => false);
-                },
-                icon: Icon(Icons.exit_to_app),
-                label: Text('Sair'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
-                  onPrimary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (route) => false);
+                  },
+                  icon: Icon(Icons.exit_to_app),
+                  label: Text('Sair'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    minimumSize: Size(150, 50),
                   ),
                 ),
               ),

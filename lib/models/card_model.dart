@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 
 class CardModel with Diagnosticable{
-        String cardId;
-  final String cardNumber;
-  final String cardName;
-  final String cardHolderName;
-  final String expirationDate;
+   String cardId;
+   String cardNumber;
+   String cardName;
+   String cardHolderName;
+   String expirationDate;
 
   CardModel({
     required this.cardId,

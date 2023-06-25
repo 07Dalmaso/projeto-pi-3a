@@ -21,9 +21,9 @@ class _AddGastosState extends State<AddGastos> {
     final cardStore = Provider.of<CardStore>(context);
     final CardModel? card = cardStore.getCardById(widget.cardId);
     final tranStore = Provider.of<TranStore>(context);
-
-    tranStore.setCard(widget.cardId);
-
+    
+    tranStore.setCard(card!.cardName);
+     
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
       Color.fromARGB(255, 97, 104, 107)!,
@@ -124,79 +124,70 @@ class _AddGastosState extends State<AddGastos> {
               key: _formKey,
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Valor da transação',
-                        hintText: 'Ex: R\$100,00',
-                        border: OutlineInputBorder(),
-                      ),
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          color: Color.fromARGB(255, 69, 72, 73)),
-                      initialValue: tranStore.valor,
-                      onChanged: tranStore.setGasto,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Insira o valor da transação';
-                        }
-                        return null;
-                      },
+                   Padding(
+                  padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 8.0),
+                  child: TextFormField(
+                    decoration:const InputDecoration(
+                      labelText: 'Valor da transação',
+                      hintText: 'Ex: 100',
+                      border: OutlineInputBorder(),
                     ),
+                    style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                    //initialValue: tranStore.valor,
+                    onChanged: tranStore.setGasto,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Insira o valor da transação';
+                      }
+                      return null;
+                    },
                   ),
-                  // const SizedBox(height: 10.0),
+              ),
+                 // const SizedBox(height: 10.0),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Data da transação',
-                        hintText: 'Ex: 21/06/2023',
-                        border: OutlineInputBorder(),
-                      ),
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          color: Color.fromARGB(255, 69, 72, 73)),
-                      initialValue: tranStore.data,
-                      onChanged: tranStore.setDate,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Insira a data da transação';
-                        } else {
-                          final pattern = r'^\d{2}/\d{2}/\d{4}$';
-                          final regExp = RegExp(pattern);
-                          if (!regExp.hasMatch(value)) {
-                            return 'Insira a data no formato dia/mês/ano';
-                          }
-                        }
-                        return null;
-                      },
+                  padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 8.0),
+                  child: TextFormField(
+                    decoration:const  InputDecoration(
+                      labelText: 'Data da transação',
+                      hintText: 'Ex: 21/06/2023',
+                      border: OutlineInputBorder(),
                     ),
+                    style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                   // initialValue: tranStore.data,
+                    onChanged: tranStore.setDate,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Insira a data da transação';
+                      } else {
+                        final pattern = r'^\d{2}/\d{2}/\d{4}$';
+                        final regExp = RegExp(pattern);
+                        if (!regExp.hasMatch(value)) {
+                          return 'Insira a data no formato dia/mês/ano';
+                        }
+                      }
+                      return null;
+                    },
+                  ),
                   ),
                   //const SizedBox(height: 10.0),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Descrição da transação',
-                        hintText: 'Ex: Alimentação',
-                        border: OutlineInputBorder(),
-                      ),
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          color: Color.fromARGB(255, 69, 72, 73)),
-                      initialValue: tranStore.descpt,
-                      onChanged: tranStore.setDescricao,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Insira uma descrição para a transação';
-                        }
-                        return null;
-                      },
+                  padding: const EdgeInsets.symmetric(vertical:10.0, horizontal: 8.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Descrição da transação',
+                      hintText: 'Ex: Alimentação',
+                      border: OutlineInputBorder(),
                     ),
+                    style: TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
+                    //initialValue: tranStore.descpt,
+                    onChanged: tranStore.setDescricao,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Insira uma descrição para a transação';
+                      }
+                      return null;
+                    },
+                  ),
                   ),
                   const SizedBox(height: 20.0),
                   SizedBox(

@@ -123,8 +123,13 @@ class _UpdateState extends State<UpdateProfileScreen> {
                                   userStore.updateUserProfile(
                                       widget.userId as String);
                                   _formKey.currentState!.reset();
+<<<<<<< HEAD
                                   Navigator.pushNamed(context, '/profile',
                                       arguments: widget.userId);
+=======
+                                  Navigator.pushReplacementNamed(
+                                      context, '/profile');
+>>>>>>> 1364ebfc61e2b65da972b09a4bdbabb512f93321
                                 }
                               }
                             },
