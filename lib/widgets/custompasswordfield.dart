@@ -6,15 +6,19 @@ class PasswordField extends StatefulWidget {
   final TextInputType keyboardType;
   final String labelText;
   final String hintText;
+  final String initialValue;
+  final void Function(String) onChanged;
 
-  const PasswordField({
-    Key? key,
-    required this.controller,
-    required this.validator,
-    required this.keyboardType,
-    required this.labelText,
-    required this.hintText,
-  }) : super(key: key);
+  const PasswordField(
+      {Key? key,
+      required this.controller,
+      required this.validator,
+      required this.keyboardType,
+      required this.labelText,
+      required this.hintText,
+      required this.onChanged,
+      required this.initialValue})
+      : super(key: key);
 
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
@@ -38,6 +42,8 @@ class _PasswordFieldState extends State<PasswordField> {
           child: TextFormField(
             controller: widget.controller,
             validator: widget.validator,
+            initialValue: widget.initialValue,
+            onChanged: widget.onChanged,
             keyboardType: widget.keyboardType,
             obscureText: !_isPasswordVisible, // Toggle password visibility
             decoration: InputDecoration(
@@ -56,9 +62,6 @@ class _PasswordFieldState extends State<PasswordField> {
                 },
               ),
             ),
-            onChanged: (text) {
-              setState(() {});
-            },
           ),
         ),
       ),

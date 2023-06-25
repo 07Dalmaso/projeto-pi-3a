@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:proj_pi/services/user_service.dart';
-import 'package:proj_pi/widgets/custombutton.dart';
-import 'package:proj_pi/widgets/custompasswordfield.dart';
-import 'package:proj_pi/widgets/formtextfield.dart';
 import 'package:provider/provider.dart';
-import '../store/user_store.dart';
+import 'package:proj_pi/store/user_store.dart';
+import 'package:proj_pi/models/user_model.dart';
 
 class CadastroPage extends StatefulWidget {
-  const CadastroPage({super.key});
-
   @override
-  _CadastroPageState createState() => _CadastroPageState();
+  CadastroPageState createState() => CadastroPageState();
 }
 
-class _CadastroPageState extends State<CadastroPage> {
+class CadastroPageState extends State<CadastroPage> {
   final _form = GlobalKey<FormState>();
-  final _nomeController = TextEditingController();
+  final _nameController = TextEditingController();
   final _cpfController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -24,9 +21,7 @@ class _CadastroPageState extends State<CadastroPage> {
 
   bool agree = false;
 
-  UserStore userTeste = UserStore();
-
-  String? _validateNome(String? value) {
+  String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
       return "O nome é obrigatório";
     }
@@ -36,22 +31,12 @@ class _CadastroPageState extends State<CadastroPage> {
     return null;
   }
 
-  String? _validateCelular(String? value) {
+  String? _validateCpf(String? value) {
     if (value == null || value.isEmpty) {
-      return "O número de celular é obrigatório";
+      return "O CPF é obrigatório";
     }
     if (value.length != 11) {
-      return "O número de celular deve ter exatamente 11 números";
-    }
-    return null;
-  }
-
-  String? _validateMatricula(String? value) {
-    if (value == null || value.isEmpty) {
-      return "A matrícula é obrigatória";
-    }
-    if (value.length != 10) {
-      return "A matrícula deve ter exatamente 10 números";
+      return "O CPF deve ter exatamente 11 números";
     }
     return null;
   }
@@ -66,7 +51,7 @@ class _CadastroPageState extends State<CadastroPage> {
     return null;
   }
 
-  String? _validateSenha(String? value) {
+  String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return "Senha é obrigatória";
     }
@@ -85,7 +70,7 @@ class _CadastroPageState extends State<CadastroPage> {
 
     try {
       UserStore userStore = Provider.of<UserStore>(context, listen: false);
-      userStore.setName(_nomeController.text);
+      userStore.setName(_nameController.text);
       userStore.setCPF(_cpfController.text);
       userStore.setEmail(_emailController.text);
       userStore.setPassword(_passwordController.text);
@@ -161,106 +146,135 @@ class _CadastroPageState extends State<CadastroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(slivers: <Widget>[
-        SliverAppBar(
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          expandedHeight: MediaQuery.of(context).size.height * 0.3,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.bottomRight,
-                colors: colors,
-              ),
-            ),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Adicionar Cartão",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 206, 202, 202),
-                        fontSize: 25.0,
-                      ),
+      appBar: null,
+      body: Consumer<UserStore>(
+        builder: (context, userStore, _) {
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                centerTitle: false,
+                automaticallyImplyLeading: false,
+                expandedHeight: MediaQuery.of(context).size.height * 0.3,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.bottomRight,
+                      colors: colors,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          pinned: true,
-        ),
-        SliverPadding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-            sliver: SliverList(
-                delegate: SliverChildListDelegate([
-              Form(
-                key: _form,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          _errorLogin,
-                          style: const TextStyle(
-                            height: 2,
-                            fontSize: 16.0,
-                            color: Colors.black,
+                      IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
+                      ),
+                      const Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Cadastro",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 206, 202, 202),
+                              fontSize: 25.0,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
-                      FormTextField(
-                          controller: _nomeController,
-                          validator: _validateNome,
-                          keyboardType: TextInputType.text,
-                          labelText: 'Nome',
-                          hintText: 'Nome Completo'),
-                      FormTextField(
-                          controller: _cpfController,
-                          validator: _validateCelular,
-                          keyboardType: TextInputType.phone,
-                          labelText: 'CPF',
-                          hintText: '000.000.000-00'),
-                      FormTextField(
-                          controller: _emailController,
-                          validator: _validateEmail,
-                          keyboardType: TextInputType.emailAddress,
-                          labelText: 'E-mail',
-                          hintText: 'usuario@domínio.com'),
-                      PasswordField(
-                          controller: _passwordController,
-                          validator: _validateSenha,
-                          keyboardType: TextInputType.text,
-                          labelText: 'Senha',
-                          hintText: 'Senha'),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: CustomButton(
-                          text: 'Cadastrar',
-                          onPressed: () => _submitForm(context),
+                    ],
+                  ),
+                ),
+                pinned: true,
+              ),
+              SliverPadding(
+                padding: EdgeInsets.all(16.0),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Form(
+                        key: _form,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            SizedBox(height: 16.0),
+                            TextFormField(
+                              controller: _nameController,
+                              onChanged: userStore.setName,
+                              keyboardType: TextInputType.text,
+                              validator: _validateName,
+                              decoration: InputDecoration(
+                                labelText: 'Nome',
+                                hintText: 'Ex: Sabrina',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            SizedBox(height: 16.0),
+                            TextFormField(
+                              controller: _cpfController,
+                              onChanged: userStore.setCPF,
+                              validator: _validateCpf,
+                              decoration: InputDecoration(
+                                labelText: 'CPF',
+                                hintText: 'Ex: 123.456.789-00',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            SizedBox(height: 16.0),
+                            TextFormField(
+                              controller: _emailController,
+                              onChanged: userStore.setEmail,
+                              validator: _validateEmail,
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                                hintText: 'Ex: exemplo@gmail.com',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            SizedBox(height: 16.0),
+                            TextFormField(
+                              controller: _passwordController,
+                              onChanged: userStore.setPassword,
+                              validator: _validatePassword,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                labelText: 'Senha',
+                                hintText: 'Ex: sua_senha',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            SizedBox(height: 70.0),
+                            ElevatedButton(
+                              onPressed: () {
+                                _submitForm(context);
+                                if (_form.currentState!.validate()) {
+                                  if (userStore.isFormValid) {
+                                    userStore.saveUser();
+                                  }
+                                }
+                              },
+                              child: Text('Cadastrar'),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                minimumSize: Size(150, 60),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-            ])))
-      ]),
+            ],
+          );
+        },
+      ),
     );
   }
 }

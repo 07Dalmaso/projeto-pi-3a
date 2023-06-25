@@ -74,123 +74,137 @@ class DadosCartaoPage extends StatelessWidget {
         ),
         pinned: true,
       ),
-   SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: TextField(
-                          enabled: false,
-                          decoration: const InputDecoration(
-                            labelText: 'Nome do Titular',
-                            border: OutlineInputBorder(),
+      SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: TextField(
+                      enabled: false,
+                      decoration: const InputDecoration(
+                        labelText: 'Nome do Titular',
+                        border: OutlineInputBorder(),
+                      ),
+                      style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 69, 72, 73)),
+                      controller:
+                          TextEditingController(text: card?.cardHolderName),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: TextField(
+                      enabled: false,
+                      decoration: const InputDecoration(
+                        labelText: 'Nome do Cartão',
+                        border: OutlineInputBorder(),
+                      ),
+                      style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 69, 72, 73)),
+                      controller: TextEditingController(text: card?.cardName),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: TextField(
+                      enabled: false,
+                      decoration: const InputDecoration(
+                        labelText: 'Número do Cartão',
+                        border: OutlineInputBorder(),
+                      ),
+                      style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 69, 72, 73)),
+                      controller: TextEditingController(text: card?.cardNumber),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: TextField(
+                      enabled: false,
+                      decoration: const InputDecoration(
+                        labelText: 'Data de validade',
+                        border: OutlineInputBorder(),
+                      ),
+                      style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 69, 72, 73)),
+                      controller:
+                          TextEditingController(text: card?.expirationDate),
+                    ),
+                  ),
+                  const SizedBox(height: 100.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/editar_cartao',
+                                arguments: card!.cardId);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Editar Cartão',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ),
                           ),
-                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                          controller: TextEditingController(text: card?.cardHolderName),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: TextField(
-                          enabled: false,
-                          decoration: const InputDecoration(
-                            labelText: 'Nome do Cartão',
-                            border: OutlineInputBorder(),
-                          ),
-                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                          controller: TextEditingController(text: card?.cardName),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: TextField(
-                          enabled: false,
-                          decoration: const InputDecoration(
-                            labelText: 'Número do Cartão',
-                            border: OutlineInputBorder(),
-                          ),
-                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                          controller: TextEditingController(text: card?.cardNumber),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: TextField(
-                          enabled: false,
-                          decoration: const InputDecoration(
-                            labelText: 'Data de validade',
-                            border: OutlineInputBorder(),
-                          ),
-                          style: const TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                          controller: TextEditingController(text: card?.expirationDate),
-                        ),
-                      ),
-                   const SizedBox(height: 100.0),
-                   Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    Expanded(
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, '/editar_cartao', arguments: card!.cardId);
-        },
-        child: Container(
-          padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: const Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Editar Cartão',
-              style: TextStyle(
-                color: Colors.white, fontSize: 15.0,
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-   const SizedBox(width: 20.0),
-    Expanded(
-      child: GestureDetector(
-        onTap: () {
-        cardStore.removeCardById(card!);
-         showDeleteSuccessMessage(context);
+                      const SizedBox(width: 20.0),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            cardStore.removeCardById(card!);
+                            showDeleteSuccessMessage(context);
 
-          Navigator.pushNamed(context, '/cartao', arguments: card!.cardId)
-          .then((value) => cardStore.updateCardList());
-        },
-        child: Container(
-          padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: const Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Excluir Cartão',
-              style: TextStyle(
-                color: Colors.white, fontSize: 15.0,
+                            Navigator.pushNamed(context, '/cartao',
+                                    arguments: card!.cardId)
+                                .then((value) => cardStore.updateCardList());
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Excluir Cartão',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ), //const Spacer(),
+                ],
               ),
             ),
-          ),
-        ),
-      ),
-    ),
-  ],
-),  //const Spacer(),
-          ],
-        ),
-     
-       ),
           ],
         ),
       )

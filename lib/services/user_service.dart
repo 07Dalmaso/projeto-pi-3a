@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -19,7 +21,7 @@ class UserService {
 
     // Definir os dados do usuário
     await newUserRef.set({
-      'name': name,
+      'nome': name,
       'cpf': cpf,
       'email': email,
       'password': password,
@@ -63,8 +65,8 @@ class UserService {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      // Trate o erro de redefinição de senha aqui
-      print('Erro ao redefinir a senha: $e');
+      // Trate o erro de redefinição de password aqui
+      print('Erro ao redefinir a password: $e');
     }
   }
 
