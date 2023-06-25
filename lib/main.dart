@@ -23,8 +23,8 @@ Future<void> main() async {
   final cardStore = CardStore();
   final userStore = UserStore();
   final tranStore = TranStore();
- 
- runApp(
+
+  runApp(
       MyApp(cardStore: cardStore, userStore: userStore, tranStore: tranStore));
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -36,49 +36,55 @@ class MyApp extends StatelessWidget {
   final UserStore userStore;
   final TranStore tranStore;
 
-   MyApp({Key? key, required this.cardStore, required this.userStore, required this.tranStore,})
-      : super(key: key);
+  MyApp({
+    Key? key,
+    required this.cardStore,
+    required this.userStore,
+    required this.tranStore,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
     return MultiProvider(
-      providers: [
-        Provider<CardStore>.value(value: cardStore),
-        Provider<UserStore>.value(value: userStore),
-        Provider<TranStore>.value(value: tranStore),
-      ],
+        providers: [
+          Provider<CardStore>.value(value: cardStore),
+          Provider<UserStore>.value(value: userStore),
+          Provider<TranStore>.value(value: tranStore),
+        ],
         child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialRoute: '/splash_screen',
-          routes: {
-            '/main': (context) =>MyHomePage(title: ' '),
-            '/login': (context) => LoginPage(),
-            '/cadastro': (context) => CadastroPage(),
-            '/splash_screen': (context) => SplashScreen(),
-            '/add_Gastos': (context) => Add_Gastos(),
-            '/profile': (context) {
-            final userStore = Provider.of<UserStore>(context);
-            final userId = userStore.isLoggedin;
-            return ProfilePage(userId: userId);
-           },
-            '/alt_perfil': (context) => UpdateProfileScreen(),
-            '/gastos': (context) => GastosPage(),
-            '/cartao': (context) =>CartaoPage(),
-            '/dados_cartao': (context) {
-            final cardId = ModalRoute.of(context)!.settings.arguments as String;
-            return DadosCartaoPage(cardId: cardId);
-          },
-            '/addCard': (context) => AddCard(),
-            '/addGastos': (context) {
-              final cardId = ModalRoute.of(context)!.settings.arguments as String;
-            return AddGastos(cardId: cardId);
-          },
-          '/editar_cartao': (context) {
-            final cardId = ModalRoute.of(context)!.settings.arguments as String;
-            return EditCard(cardId: cardId);
-          },
-  }));
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/splash_screen',
+            routes: {
+              '/main': (context) => MyHomePage(title: ' '),
+              '/login': (context) => LoginPage(),
+              '/cadastro': (context) => CadastroPage(),
+              '/splash_screen': (context) => SplashScreen(),
+              '/add_Gastos': (context) => Add_Gastos(),
+              '/profile': (context) {
+                final userStore = Provider.of<UserStore>(context);
+                final userId = userStore.isLoggedin;
+                return ProfilePage(userId: userId);
+              },
+              '/alt_perfil': (context) => UpdateProfileScreen(),
+              '/gastos': (context) => GastosPage(),
+              '/cartao': (context) => CartaoPage(),
+              '/dados_cartao': (context) {
+                final cardId =
+                    ModalRoute.of(context)!.settings.arguments as String;
+                return DadosCartaoPage(cardId: cardId);
+              },
+              '/addCard': (context) => AddCard(),
+              '/addGastos': (context) {
+                final cardId =
+                    ModalRoute.of(context)!.settings.arguments as String;
+                return AddGastos(cardId: cardId);
+              },
+              '/editar_cartao': (context) {
+                final cardId =
+                    ModalRoute.of(context)!.settings.arguments as String;
+                return EditCard(cardId: cardId);
+              },
+            }));
   }
 }
 
@@ -96,7 +102,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final List<Color> colors = [
       const Color.fromARGB(255, 69, 72, 73),
       const Color.fromARGB(255, 97, 104, 107),
@@ -139,12 +144,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-    bool showBalance = true; 
+  bool showBalance = true;
   @override
   Widget build(BuildContext context) {
-     //UserStore userStore = Provider.of<UserStore>(context);
-     TranStore tranStore= Provider.of<TranStore>(context);
-     /*final String identifier= userStore.isLoggedin;
+    //UserStore userStore = Provider.of<UserStore>(context);
+    TranStore tranStore = Provider.of<TranStore>(context);
+    /*final String identifier= userStore.isLoggedin;
      final user = userStore.getUserById(identifier);*/
 
     final List<Color> colors = [
@@ -156,8 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Bem vindo, Usuário', automaticallyImplyLeading: false),
-         // title: 'Bem vindo(a), ${user?.name}', automaticallyImplyLeading: false), //(funciona p/ mobx)
+          title: 'Bem vindo, Usuário', automaticallyImplyLeading: false),
+      // title: 'Bem vindo(a), ${user?.name}', automaticallyImplyLeading: false), //(funciona p/ mobx)
       body: Center(
         child: Column(
           children: [
@@ -198,7 +203,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       const SizedBox(height: 3),
                       Text(
                         'Gasto Total:${showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******'}',
-
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],
@@ -320,34 +324,25 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 80,
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // AÃ§Ã£o do botÃ£o Voltar
-                },
-                icon: Icon(Icons.arrow_back),
-                label: Text('Voltar'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  onPrimary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0),
-                  ),
-                ),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/login', (route) => false);
-                },
-                icon: Icon(Icons.exit_to_app),
-                label: Text('Sair'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
-                  onPrimary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (route) => false);
+                  },
+                  icon: Icon(Icons.exit_to_app),
+                  label: Text('Sair'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    minimumSize: Size(150, 50),
                   ),
                 ),
               ),
