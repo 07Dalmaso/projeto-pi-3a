@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:proj_pi/firebase_options.dart';
@@ -151,10 +152,10 @@ class _MyHomePageState extends State<MyHomePage> {
   bool showBalance = true;
   @override
   Widget build(BuildContext context) {
-    //UserStore userStore = Provider.of<UserStore>(context);
+    UserStore userStore = Provider.of<UserStore>(context);
     TranStore tranStore = Provider.of<TranStore>(context);
-    /*final String identifier= userStore.isLoggedin;
-     final user = userStore.getUserById(identifier);*/
+    final String identifier = userStore.isLoggedin;
+    final user = userStore.getUserById(identifier);
 
     final List<Color> colors = [
       const Color.fromARGB(255, 69, 72, 73),
@@ -165,8 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-          title: 'Bem vindo, Usuário', automaticallyImplyLeading: false),
-      // title: 'Bem vindo(a), ${user?.name}', automaticallyImplyLeading: false), //(funciona p/ mobx)
+          //title: 'Bem vindo, Usuário', automaticallyImplyLeading: false),
+          title: 'Bem vindo(a), ${user?.name}',
+          automaticallyImplyLeading: false), //(funciona p/ mobx)
       body: Center(
         child: Column(
           children: [
@@ -188,17 +190,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundImage: AssetImage('caminho/para/imagem.jpg'),
-                  ),
-                  const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Usuário',
-                        //user?.name as String, //(funciona p/mobx)
+                        user?.name as String, //(funciona p/mobx)
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

@@ -6,15 +6,19 @@ class FormTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final String labelText;
   final String hintText;
+  final String initialValue;
+  final void Function(String) onChanged;
 
-  const FormTextField({
-    Key? key,
-    required this.controller,
-    required this.validator,
-    required this.keyboardType,
-    required this.labelText,
-    required this.hintText,
-  }) : super(key: key);
+  const FormTextField(
+      {Key? key,
+      required this.controller,
+      required this.validator,
+      required this.keyboardType,
+      required this.labelText,
+      required this.hintText,
+      required this.onChanged,
+      required this.initialValue})
+      : super(key: key);
 
   @override
   _FormTextFieldState createState() => _FormTextFieldState();
@@ -36,15 +40,14 @@ class _FormTextFieldState extends State<FormTextField> {
           child: TextFormField(
             controller: widget.controller,
             validator: widget.validator,
+            initialValue: widget.initialValue,
             keyboardType: widget.keyboardType,
+            onChanged: widget.onChanged,
             decoration: InputDecoration(
               hintText: widget.hintText,
               border: OutlineInputBorder(),
               labelText: widget.labelText,
             ),
-            onChanged: (text) {
-              setState(() {});
-            },
           ),
         ),
       ),
