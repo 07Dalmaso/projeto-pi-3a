@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
 import '../models/card_model.dart';
@@ -18,9 +19,8 @@ abstract class _CardStore with Store {
   @observable
   String expirationDate = '';
 
-   @observable
+  @observable
   String cardId = '';
-
 
   @observable
   ObservableList<CardModel> cards = ObservableList<CardModel>();
@@ -53,70 +53,71 @@ abstract class _CardStore with Store {
       expirationDate.isNotEmpty;
 
   @action
-void addCard(CardModel card) {
-  card.cardId = UniqueKey().toString();
-  cards.add(card);
-}
+  void addCard(CardModel card) {
+    card.cardId = UniqueKey().toString();
+    cards.add(card);
+  }
 
-@action
+  @action
   CardModel? getCardById(String cardId) {
     return cards.firstWhere((card) => card.cardId == cardId);
   }
 
- @action
- void removeCardById(CardModel cardToRemove) {
-  cards.removeWhere((element) => element.cardId == cardToRemove.cardId);
-  updateCardList();
-}
+  @action
+  void removeCardById(CardModel cardToRemove) {
+    cards.removeWhere((element) => element.cardId == cardToRemove.cardId);
+    updateCardList();
+  }
 
-@action
-void updateCardList() {
-  cards = ObservableList<CardModel>.of(cards);
-}
-@action
-    void printAllCards() {
+  @action
+  void updateCardList() {
+    cards = ObservableList<CardModel>.of(cards);
+  }
+
+  @action
+  void printAllCards() {
     print('Cartões Salvos:');
     for (var card in cards) {
-    print('Número do Cartão: ${card.cardNumber}');
-    print('Nome do Cartão: ${card.cardName}');
-    print('Nome do Titular: ${card.cardHolderName}');
-    print('Data de Validade: ${card.expirationDate}');
-    print('id do cartao: ${card.cardId}');
+      print('Número do Cartão: ${card.cardNumber}');
+      print('Nome do Cartão: ${card.cardName}');
+      print('Nome do Titular: ${card.cardHolderName}');
+      print('Data de Validade: ${card.expirationDate}');
+      print('id do cartao: ${card.cardId}');
     }
   }
+
   @action
   void saveCard() {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
     // Aqui vocÃª pode implementar a lÃ³gica para salvar o cartÃ£o
     CardModel newCard = CardModel(
-      cardId: cardId,
-      cardNumber: cardNumber,
-      cardName: cardName,
-      cardHolderName: cardHolderName,
-      expirationDate: expirationDate,
-    );
+        cardId: cardId,
+        cardNumber: cardNumber,
+        cardName: cardName,
+        cardHolderName: cardHolderName,
+        expirationDate: expirationDate,
+        userId: _auth.currentUser!.uid);
     addCard(newCard);
     printAllCards();
   }
 
+  void updateCard(String cardId) {
+    CardModel? foundCard;
 
-void updateCard(String cardId) {
-  CardModel? foundCard;
-
-  for (var card in cards) {
-    if (card.cardId == cardId) {
-      foundCard = card;
-      break;
+    for (var card in cards) {
+      if (card.cardId == cardId) {
+        foundCard = card;
+        break;
+      }
     }
+
+    if (foundCard != null) {
+      foundCard.cardNumber = cardNumber;
+      foundCard.cardName = cardName;
+      foundCard.cardHolderName = cardHolderName;
+      foundCard.expirationDate = expirationDate;
+    }
+
+    printAllCards();
   }
-
-  if (foundCard != null) {
-    foundCard.cardNumber = cardNumber;
-    foundCard.cardName = cardName;
-    foundCard.cardHolderName = cardHolderName;
-    foundCard.expirationDate = expirationDate;
-  }
-
-  printAllCards();
-}
-
 }

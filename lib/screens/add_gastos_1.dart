@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/src/api/observable_collections.dart';
+import 'package:proj_pi/models/card_model.dart';
+import 'package:proj_pi/store/card_store.dart';
 //import './common/extensions/CustomInputField.dart';
 import 'package:provider/provider.dart';
-import './store/card_store.dart';
-import './models/card_model.dart';
 
 class Add_Gastos extends StatefulWidget {
   @override

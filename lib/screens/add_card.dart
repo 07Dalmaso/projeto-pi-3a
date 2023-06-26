@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proj_pi/services/card_service.dart';
+import 'package:proj_pi/store/card_store.dart';
 //import './common/extensions/CustomInputField.dart';
 import 'package:provider/provider.dart';
-import './store/card_store.dart';
 
 class AddCard extends StatefulWidget {
   @override
@@ -196,14 +196,14 @@ class _AddCardState extends State<AddCard> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira a data de vencimento';
-                        // } else {
-                        //   // Regular expression pattern for "mm/yyyy" format
-                        //   final pattern = r'^\d{2}/\d{2}$';
-                        //   final regExp = RegExp(pattern);
-                        //   if (!regExp.hasMatch(value)) {
-                        //     return 'Insira a data no formato mês/ano';
-                        //   }
-                        // }
+                          // } else {
+                          //   // Regular expression pattern for "mm/yyyy" format
+                          //   final pattern = r'^\d{2}/\d{2}$';
+                          //   final regExp = RegExp(pattern);
+                          //   if (!regExp.hasMatch(value)) {
+                          //     return 'Insira a data no formato mês/ano';
+                          //   }
+                          // }
                         }
                         return null;
                       },
@@ -217,14 +217,12 @@ class _AddCardState extends State<AddCard> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               if (cardStore.isFormValid) {
-                                
                                 CardService cardService = CardService();
                                 await cardService.saveCard1(
                                   cardNumber: cardStore.cardNumber,
                                   cardName: cardStore.cardName,
                                   cardHolderName: cardStore.cardHolderName,
                                   expirationDate: cardStore.expirationDate,
-
                                 );
                                 cardStore.saveCard();
                                 _formKey.currentState!.reset();

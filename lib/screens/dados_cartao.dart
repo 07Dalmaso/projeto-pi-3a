@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proj_pi/models/card_model.dart';
+import 'package:proj_pi/store/card_store.dart';
 import 'package:provider/provider.dart';
-import './store/card_store.dart';
 
 class DadosCartaoPage extends StatelessWidget {
   final String cardId;

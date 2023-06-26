@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './store/card_store.dart';
-import './models/card_model.dart';
+import 'package:proj_pi/models/card_model.dart';
+import 'package:proj_pi/store/card_store.dart';
 import 'package:provider/provider.dart';
 
 class CartaoPage extends StatelessWidget {

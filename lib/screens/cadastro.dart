@@ -19,8 +19,6 @@ class CadastroPageState extends State<CadastroPage> {
 
   String _errorLogin = '';
 
-  bool agree = false;
-
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
       return "O nome é obrigatório";
