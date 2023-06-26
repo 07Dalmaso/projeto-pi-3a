@@ -32,6 +32,53 @@ class _AddGastosState extends State<Add_Gastos> {
       Color.fromARGB(255, 246, 247, 248),
     ];
 
+   if (cards.isEmpty) {
+  WidgetsBinding.instance!.addPostFrameCallback((_) {
+    Future.delayed(Duration.zero, () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Aviso',
+                textAlign: TextAlign.center,
+              ),
+            ),
+            content: const Text('Não existem cartões disponíveis.'),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/main');
+                    },
+                     child: const Text(
+                      'Voltar',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/addCard');
+                    },
+                    child: const Text(
+                      'Adicionar',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      );
+    });
+  });
+}
+
     return Scaffold(
         body: CustomScrollView(
       slivers: <Widget>[
