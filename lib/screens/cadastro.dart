@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:proj_pi/services/user_service.dart';
 import 'package:provider/provider.dart';
 import 'package:proj_pi/store/user_store.dart';
-import 'package:proj_pi/models/user_model.dart';
 
 class CadastroPage extends StatefulWidget {
   @override

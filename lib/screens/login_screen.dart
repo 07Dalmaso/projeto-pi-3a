@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/models/user_model.dart';
 import 'package:proj_pi/store/user_store.dart';
 import 'package:proj_pi/widgets/formlogin.dart';
 import 'package:provider/provider.dart';

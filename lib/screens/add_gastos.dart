@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:proj_pi/models/card_model.dart';
-import 'package:proj_pi/models/trans_model.dart';
 import 'package:proj_pi/services/gastos_service.dart';
 import 'package:proj_pi/store/card_store.dart';
 import 'package:proj_pi/store/trans_store.dart';

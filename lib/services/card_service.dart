@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:proj_pi/models/card_model.dart';
-import 'package:proj_pi/services/user_service.dart';
 
 class CardService {
   final DatabaseReference _rootRef = FirebaseDatabase.instance.refFromURL(
