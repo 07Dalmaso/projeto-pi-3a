@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 
-class CardModel with Diagnosticable{
-   String cardId;
-   String cardNumber;
-   String cardName;
-   String cardHolderName;
-   String expirationDate;
+class CardModel with Diagnosticable {
+  String cardId;
+  String cardNumber;
+  String cardName;
+  String cardHolderName;
+  String expirationDate;
+  String? userId;
 
   CardModel({
     required this.cardId,
@@ -13,9 +14,10 @@ class CardModel with Diagnosticable{
     required this.cardName,
     required this.cardHolderName,
     required this.expirationDate,
+    required this.userId,
   });
 
-   @override
+  @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(StringProperty('id', cardId));

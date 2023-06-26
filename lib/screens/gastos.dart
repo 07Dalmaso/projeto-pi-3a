@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:proj_pi/common/extensions/sizes.dart';
+import 'package:proj_pi/models/trans_model.dart';
+import 'package:proj_pi/store/trans_store.dart';
 import 'package:provider/provider.dart';
-import './store/trans_store.dart';
-import './models/trans_model.dart';
 
 class GastosPage extends StatefulWidget {
-
   @override
   State<GastosPage> createState() => _GastosPageState();
 }
@@ -22,17 +21,16 @@ class _GastosPageState extends State<GastosPage> {
 
   @override
   Widget build(BuildContext context) {
+    TranStore tranStore = Provider.of<TranStore>(context);
+    final List<TransModel> trans = tranStore.trans;
 
-     TranStore tranStore = Provider.of<TranStore>(context);
-      final List<TransModel> trans = tranStore.trans;
-     
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
       Color.fromARGB(255, 97, 104, 107)!,
       Color.fromARGB(255, 154, 165, 171)!,
       Color.fromARGB(255, 246, 247, 248)!,
     ];
-    
+
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -114,7 +112,9 @@ class _GastosPageState extends State<GastosPage> {
                       ),
                       Expanded(
                         child: Text(
-                          showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******',
+                          showBalance
+                              ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}'
+                              : '******',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,
@@ -262,4 +262,3 @@ class _GastosPageState extends State<GastosPage> {
     );
   }
 }
-
