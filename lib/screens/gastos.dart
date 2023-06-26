@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
 import 'package:proj_pi/common/extensions/sizes.dart';
 import 'package:proj_pi/models/trans_model.dart';
 import 'package:proj_pi/store/trans_store.dart';
