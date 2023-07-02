@@ -59,16 +59,13 @@ class _UpdateState extends State<UpdateProfileScreen> {
     });
   }
 
-  String _errorEdit = '';
 
   Future<void> _submitForm(BuildContext context) async {
     if (!_form.currentState!.validate()) {
       return;
     }
 
-    setState(() => _errorEdit = '');
 
-    try {
       UserStore userStore = Provider.of<UserStore>(context, listen: false);
 
       if (_nameController.text == '') {
@@ -118,9 +115,6 @@ class _UpdateState extends State<UpdateProfileScreen> {
           );
         },
       );
-    } catch (e) {
-      setState(() => _errorEdit = e.toString());
-    }
   }
 
   Future<UserModel?> _getUserData() async {
