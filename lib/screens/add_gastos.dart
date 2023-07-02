@@ -4,24 +4,50 @@ import 'package:proj_pi/services/gastos_service.dart';
 import 'package:proj_pi/store/card_store.dart';
 import 'package:proj_pi/store/trans_store.dart';
 import 'package:provider/provider.dart';
+import 'package:proj_pi/services/card_service.dart';
 
 class AddGastos extends StatefulWidget {
-  final String cardId;
+  final String cardID;
 
-  AddGastos({required this.cardId});
+  AddGastos({required this.cardID});
   @override
   _AddGastosState createState() => _AddGastosState();
 }
 
 class _AddGastosState extends State<AddGastos> {
+
+   String cardName = '';
+  String cardId = '';
+  String cardNumber = '';
+
+  @override
+  void initState() {
+    super.initState();
+    pegarCardId();
+  }
+
+  void pegarCardId() async {
+    CardService cardService = CardService();
+    var cardData = await cardService.getCardById(widget.cardID);
+    print(cardData);
+    String? card_Name = cardData['cardName'];
+    String? card_Id = cardData['cardId'];
+    String? card_Number = cardData['cardNumber'];
+
+    setState(() {
+      cardName = card_Name ?? '';
+      cardId = card_Id ?? '';
+      cardNumber = card_Number ?? '';
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    final cardStore = Provider.of<CardStore>(context);
-    final CardModel? card = cardStore.getCardById(widget.cardId);
+   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+   //final cardStore = Provider.of<CardStore>(context);
+   //final CardModel? card = cardStore.getCardById(widget.cardID);
     final tranStore = Provider.of<TranStore>(context);
 
-    tranStore.setCard(card!.cardName);
+    tranStore.setCard(cardName);
 
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
@@ -102,14 +128,14 @@ class _AddGastosState extends State<AddGastos> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '\t\t\t' + card!.cardName,
+                          '\t\t\t' + cardName!,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Color.fromARGB(255, 69, 72, 73)),
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          '\t\t\t**** **** **** ' + card!.cardNumber,
+                          '\t\t\t**** **** **** ' + cardNumber!,
                           style: TextStyle(fontSize: 16.0, color: Colors.grey),
                         ),
                       ],
@@ -218,7 +244,7 @@ class _AddGastosState extends State<AddGastos> {
                               );
 
                               tranStore.saveTrasaction();
-                              _formKey.currentState!.reset();
+                             // _formKey.currentState!.reset();
 
                               Navigator.pushNamed(context, '/gastos');
                             }

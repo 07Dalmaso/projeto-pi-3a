@@ -16,13 +16,51 @@ class UpdateProfileScreen extends StatefulWidget {
 
 class _UpdateState extends State<UpdateProfileScreen> {
   final _form = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
+  final _nameController= TextEditingController();
   final _cpfController = TextEditingController();
   final _emailController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late final String loggedUserId;
   late final UserModel? user;
   final UserService userService = UserService();
+
+   String? userName;
+  String? userId;
+  String? email;
+  String? cpf;
+
+  @override
+  void initState() {
+    super.initState();
+    pegarUserId();
+    loggedUserId = _auth.currentUser!.uid;
+  }
+
+  void pegarUserId() async {
+    UserService userService = UserService();
+    var userData = await userService.getUser(widget.userId);
+    print(userData);
+     if (userData != null) {
+   /* String? user_Name = userData['name'];
+    String? user_Id = userData['userId'];
+    String? user_email = userData['email'];
+    String? user_Cpf = userData['cpf'];*/
+    
+    // Restante do código
+  }
+
+    setState(() {
+     /* userName = user_Name;
+      userId = user_Id;
+      cpf = user_Cpf;
+      email= user_email;
+*/
+      _nameController.text = userName ?? '';
+      _cpfController.text = cpf ?? '';
+     _emailController.text = email ?? '';
+    });
+  }
+
 
   String _errorEdit = '';
 
@@ -78,12 +116,6 @@ class _UpdateState extends State<UpdateProfileScreen> {
   Future<UserModel?> _getUserData() async {
     final UserModel? user = await userService.getUser(loggedUserId);
     return user;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loggedUserId = _auth.currentUser!.uid;
   }
 
   final colors = [

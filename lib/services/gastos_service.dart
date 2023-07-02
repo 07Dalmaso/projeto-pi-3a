@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:proj_pi/models/trans_model.dart';
 
 class GastosService {
   final DatabaseReference _rootRef = FirebaseDatabase.instance.refFromURL(

@@ -22,11 +22,16 @@ class _ProfilePage extends State<ProfilePage> {
     UserModel? user = await userService.getUser(loggedUserId);
     return user;
   }
-
   @override
   void initState() {
     super.initState();
+       pegarDados();
     loggedUserId = _auth.currentUser!.uid;
+  }
+
+  pegarDados() async {
+    UserService userService = UserService();
+
   }
 
   Widget build(BuildContext context) {
