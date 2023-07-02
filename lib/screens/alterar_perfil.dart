@@ -16,7 +16,7 @@ class UpdateProfileScreen extends StatefulWidget {
 
 class _UpdateState extends State<UpdateProfileScreen> {
   final _form = GlobalKey<FormState>();
-  final _nameController= TextEditingController();
+  final _nameController = TextEditingController();
   final _cpfController = TextEditingController();
   final _emailController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -24,7 +24,7 @@ class _UpdateState extends State<UpdateProfileScreen> {
   late final UserModel? user;
   final UserService userService = UserService();
 
-   String? userName;
+  String? userName;
   String? userId;
   String? email;
   String? cpf;
@@ -39,28 +39,25 @@ class _UpdateState extends State<UpdateProfileScreen> {
   void pegarUserId() async {
     UserService userService = UserService();
     var userData = await userService.getUser(widget.userId);
-    print(userData);
-     if (userData != null) {
-   /* String? user_Name = userData['name'];
-    String? user_Id = userData['userId'];
-    String? user_email = userData['email'];
-    String? user_Cpf = userData['cpf'];*/
-    
-    // Restante do código
-  }
+    String? user_Name;
+    // String? user_Id = userData['userId'];
+    String? user_email;
+    String? user_Cpf;
+    print(userData?.name);
+    if (userData != null) {
+     user_Name = userData?.name;
+     user_email = userData?.email;
+     user_Cpf = userData?.cpf;
+    }
+  
 
     setState(() {
-     /* userName = user_Name;
-      userId = user_Id;
+      userName = user_Name;
       cpf = user_Cpf;
       email= user_email;
-*/
-      _nameController.text = userName ?? '';
-      _cpfController.text = cpf ?? '';
-     _emailController.text = email ?? '';
+
     });
   }
-
 
   String _errorEdit = '';
 
@@ -73,9 +70,22 @@ class _UpdateState extends State<UpdateProfileScreen> {
 
     try {
       UserStore userStore = Provider.of<UserStore>(context, listen: false);
+
+      if (_nameController.text == '') {
+      userStore.setName(userName!);
+      }else{
       userStore.setName(_nameController.text);
+      }
+      if (_cpfController.text == '') {
+        userStore.setCPF(cpf!);
+      }else{
       userStore.setCPF(_cpfController.text);
+      }
+      if (_emailController.text  == '') {
+        userStore.setEmail(email!);
+      }else{
       userStore.setEmail(_emailController.text);
+      }
 
       UserService userService = UserService();
 
@@ -208,15 +218,30 @@ class _UpdateState extends State<UpdateProfileScreen> {
                                         labelText: 'Email',
                                         prefixIcon: Icon(Icons.email),
                                       ),
-                                      controller: _emailController),
+                                      controller: _emailController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return null;
+                                        } else if (!value.contains('@')) {
+                                          return 'E-mail inválido';
+                                        }
+                                        return null;
+                                      }),
                                   const SizedBox(height: 20),
                                   TextFormField(
-                                    decoration: const InputDecoration(
-                                      labelText: 'CPF',
-                                      prefixIcon: Icon(Icons.perm_identity),
-                                    ),
-                                    controller: _cpfController,
-                                  ),
+                                      decoration: const InputDecoration(
+                                        labelText: 'CPF',
+                                        prefixIcon: Icon(Icons.perm_identity),
+                                      ),
+                                      controller: _cpfController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return null;
+                                        }else if (value.length != 11) {
+                                          return "O CPF deve ter exatamente 11 números";
+                                        }
+                                        return null; // Caractere '@' encontrado, validação bem-sucedida
+                                      }),
                                   const SizedBox(height: 20),
 
                                   // -- Form Submit Button
@@ -224,7 +249,19 @@ class _UpdateState extends State<UpdateProfileScreen> {
                                     width: double.infinity,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        _submitForm(context);
+                                        if (_nameController.text.isNotEmpty ||
+                                            _emailController.text.isNotEmpty ||
+                                            _cpfController.text.isNotEmpty) {
+                                          _submitForm(context);
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  'Preencha pelo menos um campo'),
+                                            ),
+                                          );
+                                        }
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.green,
