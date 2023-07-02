@@ -1,15 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:proj_pi/models/card_model.dart';
+import 'package:proj_pi/services/card_service.dart';
 import 'package:proj_pi/store/card_store.dart';
 import 'package:provider/provider.dart';
 
-class CartaoPage extends StatelessWidget {
+class CartaoPage extends StatefulWidget {
+  const CartaoPage({super.key});
+
+  @override
+  _CartaoPageState createState() => _CartaoPageState();
+}
+
+class _CartaoPageState extends State<CartaoPage>{
+
+  List<String> cardNamesList = [];
+  List<String> cardIdList = [];
+  List<String> cardNumberList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    pegarCardUser();
+  }
+
+  void pegarCardUser () async{
+    CardService cardService=CardService();
+    var cardData =await cardService.getCardByUser();
+     List<String> cardNames = [];
+     List<String> cardIds = [];
+     List<String> cardNumbers = [];
+
+  for (var card in cardData) {
+    String cardName = card['cardName'];
+    String cardId = card['cardId'];
+    String cardNumber = card['cardNumber'];
+    cardNames.add(cardName);
+    cardIds.add(cardId);
+    cardNumbers.add(cardNumber);
+  }
+
+  setState(() {
+    cardNamesList = cardNames;
+    cardIdList = cardIds;
+    cardNumberList = cardNumbers;
+
+  });
+}
+
   @override
   Widget build(BuildContext context) {
-    final cardStore = Provider.of<CardStore>(context);
-    final List<CardModel> cards = cardStore.cards;
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    //final cardStore = Provider.of<CardStore>(context);
+   // final List<CardModel> cards = cardStore.cards;
+   // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+    print(cardNamesList);
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73),
       Color.fromARGB(255, 97, 104, 107),
@@ -41,7 +85,7 @@ class CartaoPage extends StatelessWidget {
                       Navigator.pushNamed(context, '/main');
                     },
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -61,13 +105,15 @@ class CartaoPage extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                CardModel card = cards[index];
+                String cardNamee=cardNamesList[index];
+                String cardID=cardIdList[index];
+                String cardNumberr=cardNumberList[index];
                 return Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/dados_cartao',
-                          arguments: card.cardId);
+                          arguments: cardID);
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
@@ -87,7 +133,7 @@ class CartaoPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            card.cardName,
+                            cardNamee,
                             style: TextStyle(
                               fontSize: 20.0,
                               color: Color.fromARGB(255, 69, 72, 73),
@@ -95,7 +141,7 @@ class CartaoPage extends StatelessWidget {
                           ),
                           SizedBox(height: 8.0),
                           Text(
-                            '**** **** **** ' + card.cardNumber,
+                            '**** **** **** '+ cardNumberr,
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.grey,
@@ -107,7 +153,7 @@ class CartaoPage extends StatelessWidget {
                   ),
                 );
               },
-              childCount: cards.length,
+              childCount: cardNamesList.length,
             ),
           ),
         ],

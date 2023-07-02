@@ -58,18 +58,18 @@ class MyApp extends StatelessWidget {
               '/dados_cartao': (context) {
                 final cardId =
                     ModalRoute.of(context)!.settings.arguments as String;
-                return DadosCartaoPage(cardId: cardId);
+                return DadosCartaoPage(cardID: cardId);
               },
               '/addCard': (context) => AddCard(),
               '/addGastos': (context) {
                 final cardId =
                     ModalRoute.of(context)!.settings.arguments as String;
-                return AddGastos(cardId: cardId);
+                return AddGastos(cardID: cardId);
               },
               '/editar_cartao': (context) {
                 final cardId =
                     ModalRoute.of(context)!.settings.arguments as String;
-                return EditCard(cardId: cardId);
+                return EditCard(cardID: cardId);
               },
             }));
   }

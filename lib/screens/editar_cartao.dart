@@ -3,11 +3,12 @@ import 'package:proj_pi/models/card_model.dart';
 import 'package:proj_pi/store/card_store.dart';
 //import './common/extensions/CustomInputField.dart';
 import 'package:provider/provider.dart';
+import 'package:proj_pi/services/card_service.dart';
 
 class EditCard extends StatefulWidget {
-  final String cardId;
+  final String cardID;
 
-  EditCard({required this.cardId});
+  EditCard({required this.cardID});
 
   @override
   _EditState createState() => _EditState();
@@ -16,11 +17,95 @@ class EditCard extends StatefulWidget {
 class _EditState extends State<EditCard> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final _cardNameController= TextEditingController();
+  final _cardHolderController = TextEditingController();
+  final _cardNumberController = TextEditingController();
+  final _cardDateController= TextEditingController();
+  
+
+  String? cardName;
+  String? cardId;
+  String? cardNumber;
+  String? cardHolderName;
+  String? cardExpirationDate;
+
+  @override
+  void initState() {
+    super.initState();
+    pegarCardId();
+  }
+
+  void pegarCardId() async {
+    CardService cardService = CardService();
+    var cardData = await cardService.getCardById(widget.cardID);
+    print(cardData);
+    String? card_Name = cardData['cardName'];
+    String? card_Id = cardData['cardId'];
+    String? card_Number = cardData['cardNumber'];
+    String? card_HolderName = cardData['cardHolderName'];
+    String? card_ExpirationDate = cardData['expirationDate'];
+
+    setState(() {
+      cardName = card_Name;
+      cardId = card_Id;
+      cardNumber = card_Number;
+      cardHolderName = card_HolderName;
+      cardExpirationDate = card_ExpirationDate;
+
+      _cardNameController.text = cardName ?? '';
+    _cardHolderController.text = cardHolderName ?? '';
+    _cardNumberController.text = cardNumber ?? '';
+    _cardDateController.text = cardExpirationDate ?? '';
+    });
+  }
+
+  String _errorEdit = '';
+  
+  Future<void> editCard(BuildContext context, String cardId) async {
+
+    setState(() => _errorEdit = '');
+    try {
+      CardStore cardStore = Provider.of<CardStore>(context, listen: false);
+      cardStore.setCardHolderName(_cardHolderController.text);
+      cardStore.setCardName(_cardNameController.text);
+      cardStore.setCardNumber(_cardNumberController.text);
+      cardStore.setExpirationDate(_cardDateController.text);
+
+      CardService userService = CardService();
+
+      await userService.updateCard(
+
+        cardId,
+        cardHolderName: cardStore.cardHolderName,
+        cardName: cardStore.cardName,
+        cardNumber: cardStore.cardNumber,
+        expirationDate: cardStore.expirationDate,
+      );
+       // ignore: use_build_context_synchronously
+       showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Edição bem-sucedida'),
+            content:
+                const Text('A edição do seu cartão foi realizada com sucesso!'),
+                 actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+          ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      setState(() => _errorEdit = e.toString());
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    final cardStore = Provider.of<CardStore>(context);
-    final CardModel? card = cardStore.getCardById(widget.cardId);
-
     final colors = [
       const Color.fromARGB(255, 69, 72, 73),
       const Color.fromARGB(255, 97, 104, 107),
@@ -78,16 +163,16 @@ class _EditState extends State<EditCard> {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Nome do Titular',
-                    hintText: card?.cardHolderName,
+                    hintText: cardHolderName,
                     border: OutlineInputBorder(),
                   ),
                   style: TextStyle(
                       fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
                   //initialValue: cardStore.cardHolderName,
-                  onChanged: (value) => cardStore.setCardHolderName(value),
+                  onChanged: (value) => _cardHolderController.text=value,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      cardStore.setCardHolderName(card?.cardHolderName ?? '');
+                     cardHolderName ?? '';
                     }
                     return null;
                   },
@@ -96,16 +181,16 @@ class _EditState extends State<EditCard> {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Apelido do Cartão',
-                    hintText: card?.cardName,
+                    hintText: cardName,
                     border: OutlineInputBorder(),
                   ),
                   style: TextStyle(
                       fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
                   //initialValue: cardStore.cardName,
-                  onChanged: (value) => cardStore.setCardName(value),
+                  onChanged: (value) => _cardNameController.text =value,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      cardStore.setCardName(card?.cardName ?? '');
+                      cardName ?? '';
                     }
                     return null;
                   },
@@ -114,16 +199,16 @@ class _EditState extends State<EditCard> {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Últimos 4 dígitos do cartão',
-                    hintText: card?.cardNumber,
+                    hintText: cardNumber,
                     border: OutlineInputBorder(),
                   ),
                   style: const TextStyle(
                       fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
                   //initialValue: cardStore.cardNumber,
-                  onChanged: (value) => cardStore.setCardNumber(value),
+                  onChanged: (value) => _cardNumberController.text =value,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      cardStore.setCardNumber(card?.cardNumber ?? '');
+                      cardNumber ?? '';
                     } else {
                       if (value.length > 4) {
                         return 'Insira apenas os 4 últimos dígitos';
@@ -140,16 +225,16 @@ class _EditState extends State<EditCard> {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Data de Vencimento',
-                    hintText: card?.expirationDate,
+                    hintText: cardExpirationDate,
                     border: OutlineInputBorder(),
                   ),
                   style: TextStyle(
                       fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
                   //initialValue: cardStore.expirationDate,
-                  onChanged: (value) => cardStore.setExpirationDate(value),
+                  onChanged: (value) => _cardDateController.text=value,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      cardStore.setExpirationDate(card?.expirationDate ?? '');
+                      cardExpirationDate ?? '';
                     } else {
                       // Regular expression pattern for "mm/yyyy" format
                       final pattern = r'^\d{2}/\d{2}$';
@@ -167,15 +252,10 @@ class _EditState extends State<EditCard> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          if (cardStore.isFormValid) {
-                            cardStore.updateCard(widget.cardId);
-                            _formKey.currentState!.reset();
-
-                            Navigator.pushNamed(context, '/dados_cartao',
-                                arguments: widget.cardId);
-                          }
-                        }
+                        editCard(context, cardId!);
+                         Navigator.pushNamed(context, '/dados_cartao',
+                                arguments: widget.cardID);
+                                
                       },
                       child: Text('Salvar'),
                       style: ButtonStyle(
