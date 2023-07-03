@@ -57,12 +57,10 @@ class _FormLoginState extends State<FormLogin> {
 
     try {
       await userService.loginUser(email: email, password: password);
-      // O login foi realizado com sucesso, faça a navegação para a próxima tela
       Navigator.of(context).pushReplacementNamed('/main');
     } catch (e) {
-      // Trate o erro de autenticação aqui
       setState(() {
-        _errorLogin = e.toString();
+        _errorLogin = 'Ocorreu um erro de autenticação. Verifique seu e-mail e senha.';
       });
       showDialog(
         context: context,
