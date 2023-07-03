@@ -5,6 +5,7 @@ import 'package:proj_pi/services/user_service.dart';
 import 'package:proj_pi/store/trans_store.dart';
 import 'package:proj_pi/widgets/customappbar.dart';
 import 'package:provider/provider.dart';
+import 'package:proj_pi/services/gastos_service.dart';
 
 final List<Color> colors = [
   const Color.fromARGB(255, 69, 72, 73),
@@ -38,6 +39,17 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     loggedUserId = _auth.currentUser!.uid;
+    calcularTotal();
+  }
+
+    double total = 0.0;
+    void calcularTotal() async {
+     GastosService gastoService=GastosService();
+
+    double result = await gastoService.sumValues();
+    setState(() {
+        total = result;
+    });
   }
 
   @override
@@ -85,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                              
                             Text(
                               '${user?.name}',
                               textAlign: TextAlign.center,
@@ -95,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             const SizedBox(height: 3),
                             Text(
-                              'Gasto Total:${showBalance ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}' : '******'}',
+                              'Gasto Total: ${showBalance ? 'R\$ $total' : '******'}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 14,

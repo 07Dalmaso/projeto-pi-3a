@@ -3,6 +3,7 @@ import 'package:proj_pi/common/extensions/sizes.dart';
 import 'package:proj_pi/models/trans_model.dart';
 import 'package:proj_pi/store/trans_store.dart';
 import 'package:provider/provider.dart';
+import 'package:proj_pi/services/gastos_service.dart';
 
 class GastosPage extends StatefulWidget {
   @override
@@ -12,6 +13,62 @@ class GastosPage extends StatefulWidget {
 class _GastosPageState extends State<GastosPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  List<String> valorList = [];
+  List<String> transIdList = [];
+  List<String> cardNameList = [];
+  List<String> descptList = [];
+  List<String> dataList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    pegarUser();
+    calcularTotal();
+  }
+
+  void pegarUser () async{
+    GastosService gastoService=GastosService();
+    var transData =await gastoService.getGastoByUser();
+
+     List<String> transValors = [];
+     List<String> transIds = [];
+     List<String> cardNames= [];
+     List<String> transDescpts= [];
+    List<String> gastoDatas= [];
+
+  for (var gasto in transData) {
+    String transValor = gasto['valor'];
+    String transId = gasto['transId'];
+    String cardName = gasto['cartaoT'];
+    String transDescpt = gasto ['descpt'];
+    String gastoData = gasto['data'];
+
+    cardNames.add(cardName);
+    transIds.add(transId);
+    transValors.add(transValor);
+    transDescpts.add(transDescpt);
+    gastoDatas.add(gastoData);
+  }
+
+  setState(() {
+    cardNameList = cardNames;
+    transIdList = transIds;
+    descptList = transDescpts;
+    valorList =transValors;
+    dataList= gastoDatas;
+
+  });
+}
+
+  double total = 0.0;
+    void calcularTotal() async {
+     GastosService gastoService=GastosService();
+
+    double result = await gastoService.sumValues();
+    setState(() {
+        total = result;
+    });
+  }
   bool showBalance = true;
 
   double get textScaleFactor =>
@@ -112,7 +169,7 @@ class _GastosPageState extends State<GastosPage> {
                       Expanded(
                         child: Text(
                           showBalance
-                              ? 'R\$ ${tranStore.calcularTotal.toStringAsFixed(2)}'
+                              ? 'R\$ $total'
                               : '******',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -144,8 +201,14 @@ class _GastosPageState extends State<GastosPage> {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  TransModel tran = trans[index];
+                  //TransModel tran = trans[index];
                   //final value =tranStore.valor;
+                  String cardNamee=cardNameList[index];
+               // String cardID=transIdList[index];
+                String data=dataList[index];
+                String valor=valorList[index];
+                String desc=descptList[index];
+
                   return InkWell(
                     onTap: () {
                       showDialog(
@@ -157,10 +220,10 @@ class _GastosPageState extends State<GastosPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text('Cartão: ${tran.cartaoT}'),
-                                Text('Valor: R\$ ${tran.valor}'),
-                                Text('Data: ${tran.data}'),
-                                Text('Detalhes: ${tran.descpt}'),
+                                Text('Cartão: ${cardNamee}'),
+                                Text('Valor: R\$ ${valor}'),
+                                Text('Data: ${data}'),
+                                Text('Detalhes: ${desc}'),
                               ],
                             ),
                             actions: [
@@ -209,7 +272,7 @@ class _GastosPageState extends State<GastosPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  tran.descpt,
+                                  desc,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -217,7 +280,7 @@ class _GastosPageState extends State<GastosPage> {
                                   ),
                                 ),
                                 Text(
-                                  tran.cartaoT,
+                                  cardNamee,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey[600],
@@ -230,7 +293,7 @@ class _GastosPageState extends State<GastosPage> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                'R\$ ${tran.valor}',
+                                'R\$ ${valor}',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -239,7 +302,7 @@ class _GastosPageState extends State<GastosPage> {
                               ),
                               SizedBox(height: 8.0),
                               Text(
-                                tran.data,
+                                data,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey[600],
@@ -252,7 +315,7 @@ class _GastosPageState extends State<GastosPage> {
                     ),
                   );
                 },
-                childCount: trans.length,
+                childCount: transIdList.length,
               ),
             ),
           ),

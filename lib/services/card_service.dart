@@ -70,7 +70,7 @@ class CardService {
       return cards;
     } catch (e) {
       // Handle the data reading error here
-      print('Error retrieving user data: $e');
+      print('Error retrieving cards data: $e');
       return [];
     }
   }

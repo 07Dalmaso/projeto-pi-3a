@@ -61,16 +61,24 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
   }
 
   void showDeleteSuccessMessage(BuildContext context) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-          SnackBar(
-            content: Text('Cartão deletado com sucesso!'),
+   showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Aviso'),
+            content:
+                const Text('Cartão foi deletado com sucesso!'),
+                 actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
           ),
-        )
-        .closed
-        .then((_) {
-      Navigator.pushNamed(context, '/cartao');
-    });
+            ],
+          );
+        },
+      );
   }
 
   @override
