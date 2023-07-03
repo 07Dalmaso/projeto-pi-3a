@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/models/card_model.dart';
 import 'package:proj_pi/services/card_service.dart';
-import 'package:proj_pi/store/card_store.dart';
-import 'package:provider/provider.dart';
 
 class CartaoPage extends StatefulWidget {
   const CartaoPage({super.key});
@@ -61,13 +58,15 @@ class _CartaoPageState extends State<CartaoPage>{
       Color.fromARGB(255, 246, 247, 248),
     ];
 
+    double appBarHeight = MediaQuery.of(context).size.height * 0.25;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
             centerTitle: false,
             automaticallyImplyLeading: false,
-            expandedHeight: MediaQuery.of(context).size.height * 0.3,
+            expandedHeight: appBarHeight,
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
