@@ -106,7 +106,7 @@ class _FormLoginState extends State<FormLogin> {
                   child: TextFormField(
                     controller: _emailController,
                     validator: _validateEmail,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                       labelText: 'E-mail',
