@@ -189,12 +189,12 @@ class _AddGastosState extends State<AddGastos> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira a data da transação';
-                          // } else {
-                          //   final pattern = r'^\d{2}/\d{2}/\d{4}$';
-                          //   final regExp = RegExp(pattern);
-                          //   if (!regExp.hasMatch(value)) {
-                          //     return 'Insira a data no formato dia/mês/ano';
-                          //   }
+                           } else {
+                           final pattern = r'^\d{2}/\d{2}/\d{4}$';
+                          final regExp = RegExp(pattern);
+                          if (!regExp.hasMatch(value)) {
+                              return 'Insira a data no formato dia/mês/ano';
+                           }
                         }
                         return null;
                       },
@@ -240,7 +240,8 @@ class _AddGastosState extends State<AddGastos> {
                                 data: tranStore.data,
                                 descpt: tranStore.descpt,
                                 transId: tranStore.transId,
-                                cartaoT: tranStore.cartaoT,
+                                cartaoT: cardName,
+                                
                               );
 
                               tranStore.saveTrasaction();

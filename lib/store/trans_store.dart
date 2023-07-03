@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:flutter/material.dart';
 import '../models/trans_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 part 'trans_store.g.dart'; // Arquivo gerado pelo MobX
 
 
@@ -30,7 +31,7 @@ abstract class _TranStore with Store {
 
     @observable
   ObservableList<String> saldo = ObservableList<String>();
-
+  
   @action
   void setGasto(String value) {
     valor = value;
@@ -70,6 +71,7 @@ void addTrans(TransModel tran) {
 }
 
   @action
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   void saveTrasaction() {
     // Aqui vocÃª pode implementar a lÃ³gica para salvar o cartÃ£o
     TransModel newTran = TransModel(
@@ -78,6 +80,7 @@ void addTrans(TransModel tran) {
       data: data,
       descpt: descpt,
       cartaoT: cartaoT,
+      userId: _auth.currentUser!.uid
     );
     addTrans(newTran);
   }

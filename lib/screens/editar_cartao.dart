@@ -21,7 +21,7 @@ class _EditState extends State<EditCard> {
   final _cardHolderController = TextEditingController();
   final _cardNumberController = TextEditingController();
   final _cardDateController= TextEditingController();
-  
+
 
   String? cardName;
   String? cardId;
@@ -60,7 +60,7 @@ class _EditState extends State<EditCard> {
   }
 
   String _errorEdit = '';
-  
+
   Future<void> editCard(BuildContext context, String cardId) async {
 
     setState(() => _errorEdit = '');
@@ -251,11 +251,14 @@ class _EditState extends State<EditCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () 
+                         async {
+                            if (_formKey.currentState!.validate()) {
+                              
                         editCard(context, cardId!);
                          Navigator.pushNamed(context, '/dados_cartao',
                                 arguments: widget.cardID);
-                                
+                            } 
                       },
                       child: Text('Salvar'),
                       style: ButtonStyle(
