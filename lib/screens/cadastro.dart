@@ -223,6 +223,7 @@ class CadastroPageState extends State<CadastroPage> {
                               controller: _emailController,
                               onChanged: userStore.setEmail,
                               validator: _validateEmail,
+                              keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 labelText: 'Email',
                                 hintText: 'Ex: exemplo@gmail.com',
