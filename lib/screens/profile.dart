@@ -22,16 +22,16 @@ class _ProfilePage extends State<ProfilePage> {
     UserModel? user = await userService.getUser(loggedUserId);
     return user;
   }
+
   @override
   void initState() {
     super.initState();
-       pegarDados();
+    pegarDados();
     loggedUserId = _auth.currentUser!.uid;
   }
 
   pegarDados() async {
     UserService userService = UserService();
-
   }
 
   Widget build(BuildContext context) {
@@ -58,11 +58,13 @@ class _ProfilePage extends State<ProfilePage> {
                   Color.fromARGB(255, 246, 247, 248)!,
                 ];
 
+                double appBarHeight = MediaQuery.of(context).size.height * 0.25;
+
                 return CustomScrollView(slivers: <Widget>[
                   SliverAppBar(
                     centerTitle: false,
                     automaticallyImplyLeading: false,
-                    expandedHeight: MediaQuery.of(context).size.height * 0.3,
+                    expandedHeight: appBarHeight,
                     flexibleSpace: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(

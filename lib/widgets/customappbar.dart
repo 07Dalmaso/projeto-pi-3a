@@ -10,7 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(150);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +21,34 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       const Color.fromARGB(255, 246, 247, 248),
     ];
 
-    return AppBar(
-      elevation: 0,
-      automaticallyImplyLeading: automaticallyImplyLeading,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: colors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final appBarHeight = constraints.maxHeight * 0.25;
+
+        return AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: automaticallyImplyLeading,
+          toolbarHeight: appBarHeight,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: colors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

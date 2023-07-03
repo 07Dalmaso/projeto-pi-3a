@@ -116,13 +116,15 @@ void aviso() async{
       Color.fromARGB(255, 246, 247, 248),
     ];
 
+    double appBarHeight = MediaQuery.of(context).size.height * 0.25;
+
     return Scaffold(
         body: CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
           centerTitle: false,
           automaticallyImplyLeading: false,
-          expandedHeight: MediaQuery.of(context).size.height * 0.3,
+          expandedHeight: appBarHeight,
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
