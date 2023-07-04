@@ -80,30 +80,30 @@ class _AddCardState extends State<AddCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset(
-                      '../assets/imagem/visa.png',
-                      height: 30.0,
-                    ),
-                    Image.asset(
-                      '../assets/imagem/mastercard.png',
-                      height: 30.0,
-                    ),
-                    Image.asset(
-                      '../assets/imagem/americanExpress.png',
-                      height: 30.0,
-                    ),
-                    Image.asset(
-                      '../assets/imagem/hipercard.png',
-                      height: 30.0,
-                    ),
-                    Image.asset(
-                      '../assets/imagem/elo.png',
-                      height: 30.0,
-                    ),
-                    Image.asset(
-                      '../assets/imagem/hiper.png',
-                      height: 30.0,
-                    ),
+                    // Image.asset(
+                    //   '../assets/imagem/visa.png',
+                    //   height: 30.0,
+                    // ),
+                    // Image.asset(
+                    //   '../assets/imagem/mastercard.png',
+                    //   height: 30.0,
+                    // ),
+                    // Image.asset(
+                    //   '../assets/imagem/americanExpress.png',
+                    //   height: 30.0,
+                    // ),
+                    // Image.asset(
+                    //   '../assets/imagem/hipercard.png',
+                    //   height: 30.0,
+                    // ),
+                    // Image.asset(
+                    //   '../assets/imagem/elo.png',
+                    //   height: 30.0,
+                    // ),
+                    // Image.asset(
+                    //   '../assets/imagem/hiper.png',
+                    //   height: 30.0,
+                    // ),
                   ],
                 ),
               ),
