@@ -10,10 +10,28 @@ class AddCard extends StatefulWidget {
 }
 
 class _AddCardState extends State<AddCard> {
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final _nameHolderController = TextEditingController();
+  final _numberController = TextEditingController();
+  final _nameCardController = TextEditingController();
+  final _dateController = TextEditingController();
+  String? cardId;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+   String generateCardId() {
+  return UniqueKey().toString();
+}
+  
   @override
   Widget build(BuildContext context) {
-    final cardStore = Provider.of<CardStore>(context);
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    //final cardStore = Provider.of<CardStore>(context);
+    //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     final colors = [
       const Color.fromARGB(255, 69, 72, 73),
@@ -22,6 +40,7 @@ class _AddCardState extends State<AddCard> {
       const Color.fromARGB(255, 246, 247, 248),
     ];
     return Scaffold(
+       resizeToAvoidBottomInset: true,
         body: CustomScrollView(slivers: <Widget>[
       SliverAppBar(
         centerTitle: false,
@@ -124,7 +143,7 @@ class _AddCardState extends State<AddCard> {
                           fontSize: 16.0,
                           color: Color.fromARGB(255, 69, 72, 73)),
                       //initialValue: cardStore.cardHolderName,
-                      onChanged: cardStore.setCardHolderName,
+                      controller: _nameHolderController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira o nome do titular do cartão';
@@ -144,7 +163,7 @@ class _AddCardState extends State<AddCard> {
                           fontSize: 16.0,
                           color: Color.fromARGB(255, 69, 72, 73)),
                       //initialValue: cardStore.cardName,
-                      onChanged: cardStore.setCardName,
+                      controller: _nameCardController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira o apelido do cartão';
@@ -155,6 +174,7 @@ class _AddCardState extends State<AddCard> {
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.023),
                     TextFormField(
+                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: 'Últimos 4 dígitos do cartão',
                         hintText: 'Ex: 1111',
@@ -164,7 +184,7 @@ class _AddCardState extends State<AddCard> {
                           fontSize: 16.0,
                           color: Color.fromARGB(255, 69, 72, 73)),
                       //initialValue: cardStore.cardNumber,
-                      onChanged: cardStore.setCardNumber,
+                      controller: _numberController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira o número do cartão';
@@ -183,6 +203,7 @@ class _AddCardState extends State<AddCard> {
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.023),
                     TextFormField(
+                      keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
                         labelText: 'Data de Vencimento',
                         hintText: 'Ex: 06/23',
@@ -192,18 +213,17 @@ class _AddCardState extends State<AddCard> {
                           fontSize: 16.0,
                           color: Color.fromARGB(255, 69, 72, 73)),
                       //initialValue: cardStore.expirationDate,
-                      onChanged: cardStore.setExpirationDate,
+                      controller: _dateController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira a data de vencimento';
-                          // } else {
-                          //   // Regular expression pattern for "mm/yyyy" format
-                          //   final pattern = r'^\d{2}/\d{2}$';
-                          //   final regExp = RegExp(pattern);
-                          //   if (!regExp.hasMatch(value)) {
-                          //     return 'Insira a data no formato mês/ano';
-                          //   }
-                          // }
+                           } else {
+                            // Regular expression pattern for "mm/yyyy" format
+                            final pattern = r'^\d{2}/\d{2}$';
+                           final regExp = RegExp(pattern);
+                           if (!regExp.hasMatch(value)) {
+                             return 'Insira a data no formato mês/ano';
+                           }
                         }
                         return null;
                       },
@@ -216,20 +236,21 @@ class _AddCardState extends State<AddCard> {
                         ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              if (cardStore.isFormValid) {
                                 CardService cardService = CardService();
+                                final String cardId = generateCardId();
+
                                 await cardService.saveCard1(
-                                  cardNumber: cardStore.cardNumber,
-                                  cardName: cardStore.cardName,
-                                  cardHolderName: cardStore.cardHolderName,
-                                  expirationDate: cardStore.expirationDate,
+                                  cardId: cardId,
+                                  cardNumber: _numberController.text,
+                                  cardName: _nameCardController.text,
+                                  cardHolderName: _nameHolderController.text,
+                                  expirationDate: _dateController.text,
                                 );
-                                cardStore.saveCard();
+                                //cardStore.saveCard();
                                 _formKey.currentState!.reset();
 
                                 Navigator.pushNamed(context, '/cartao');
                               }
-                            }
                           },
                           child: Text('Salvar'),
                           style: ButtonStyle(

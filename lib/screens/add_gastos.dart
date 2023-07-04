@@ -16,9 +16,16 @@ class AddGastos extends StatefulWidget {
 
 class _AddGastosState extends State<AddGastos> {
 
+   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
    String cardName = '';
   String cardId = '';
   String cardNumber = '';
+
+  final _valueController = TextEditingController();
+  final _descptController = TextEditingController();
+  final _dateController = TextEditingController();
+  String? transdId;
 
   @override
   void initState() {
@@ -40,14 +47,19 @@ class _AddGastosState extends State<AddGastos> {
       cardNumber = card_Number ?? '';
     });
   }
+
+    String generateGastoId() {
+  return UniqueKey().toString();
+}
+  
   @override
   Widget build(BuildContext context) {
-   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+   //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
    //final cardStore = Provider.of<CardStore>(context);
    //final CardModel? card = cardStore.getCardById(widget.cardID);
-    final tranStore = Provider.of<TranStore>(context);
+   // final tranStore = Provider.of<TranStore>(context);
 
-    tranStore.setCard(cardName);
+   // tranStore.setCard(cardName);
 
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
@@ -56,7 +68,8 @@ class _AddGastosState extends State<AddGastos> {
       Color.fromARGB(255, 246, 247, 248)!,
     ];
     return Scaffold(
-        body: CustomScrollView(shrinkWrap: true, slivers: <Widget>[
+      resizeToAvoidBottomInset: true,
+      body: CustomScrollView( slivers: <Widget>[
       SliverAppBar(
         centerTitle: false,
         automaticallyImplyLeading: false,
@@ -145,14 +158,14 @@ class _AddGastosState extends State<AddGastos> {
               ),
             ),
             const SizedBox(height: 20.0),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
-                    child: TextFormField(
+              Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelText: 'Valor da transação',
                         hintText: 'Ex: 100',
@@ -162,7 +175,7 @@ class _AddGastosState extends State<AddGastos> {
                           fontSize: 16.0,
                           color: Color.fromARGB(255, 69, 72, 73)),
                       //initialValue: tranStore.valor,
-                      onChanged: tranStore.setGasto,
+                      controller: _valueController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira o valor da transação';
@@ -170,12 +183,10 @@ class _AddGastosState extends State<AddGastos> {
                         return null;
                       },
                     ),
-                  ),
-                  // const SizedBox(height: 10.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
-                    child: TextFormField(
+                   SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.023),
+                    TextFormField(
+                       keyboardType: TextInputType.datetime,
                       decoration: const InputDecoration(
                         labelText: 'Data da transação',
                         hintText: 'Ex: 21/06/2023',
@@ -185,7 +196,7 @@ class _AddGastosState extends State<AddGastos> {
                           fontSize: 16.0,
                           color: Color.fromARGB(255, 69, 72, 73)),
                       // initialValue: tranStore.data,
-                      onChanged: tranStore.setDate,
+                      controller: _dateController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira a data da transação';
@@ -199,12 +210,9 @@ class _AddGastosState extends State<AddGastos> {
                         return null;
                       },
                     ),
-                  ),
-                  //const SizedBox(height: 10.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 8.0),
-                    child: TextFormField(
+                 SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.023),
+                    TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Descrição da transação',
                         hintText: 'Ex: Alimentação',
@@ -214,7 +222,7 @@ class _AddGastosState extends State<AddGastos> {
                           fontSize: 16.0,
                           color: Color.fromARGB(255, 69, 72, 73)),
                       //initialValue: tranStore.descpt,
-                      onChanged: tranStore.setDescricao,
+                      controller: _descptController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Insira uma descrição para a transação';
@@ -222,7 +230,6 @@ class _AddGastosState extends State<AddGastos> {
                         return null;
                       },
                     ),
-                  ),
                   const SizedBox(height: 20.0),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.023,
@@ -233,23 +240,25 @@ class _AddGastosState extends State<AddGastos> {
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            if (tranStore.isFormValid) {
+                           
                               GastosService gastosService = GastosService();
+
+                              final String transId = generateGastoId();
+
                               await gastosService.saveGastos1(
-                                valor: tranStore.valor,
-                                data: tranStore.data,
-                                descpt: tranStore.descpt,
-                                transId: tranStore.transId,
+                                valor: _valueController.text,
+                                data: _dateController.text,
+                                descpt: _descptController.text,
+                                transId: transId,
                                 cartaoT: cardName,
                                 
                               );
 
-                              tranStore.saveTrasaction();
+                              //tranStore.saveTrasaction();
                              // _formKey.currentState!.reset();
 
                               Navigator.pushNamed(context, '/gastos');
                             }
-                          }
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.green,
@@ -268,7 +277,7 @@ class _AddGastosState extends State<AddGastos> {
                 ],
               ),
             ),
-          ],
+        )],
         ),
       ),
     ]));

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:proj_pi/models/card_model.dart';
 
 class CardService {
@@ -13,6 +14,7 @@ class CardService {
     required String cardName,
     required String cardHolderName,
     required String expirationDate,
+    required String cardId,
   }) async {
     final newCardRef = _cardRef.push();
     final String? cardId = newCardRef.key;
@@ -27,7 +29,7 @@ class CardService {
     });
   }
 
-  Future<CardModel?> getCard(String firebaseUserId) async {
+  /*Future<CardModel?> getCard(String firebaseUserId) async {
     try {
       final DatabaseEvent snapshot = await _cardRef
           .orderByChild('firebaseUserId')
@@ -52,7 +54,7 @@ class CardService {
     }
 
     return null;
-  }
+  }*/
   Future<List<dynamic>> getCardByUser() async {
     try {
       final User? currentUser = _auth.currentUser;
