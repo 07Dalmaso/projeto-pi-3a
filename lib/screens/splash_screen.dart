@@ -42,10 +42,10 @@ class _SplashScreenState extends State<SplashScreen> {
             //   height: 150,
             // ),
             SizedBox(height: 24),
-            Image.asset(
-              '../assets/imagem/logo.png',
-              height: MediaQuery.of(context).size.height * 0.5,
-            ),
+            // Image.asset(
+            //   '../assets/imagem/logo.png',
+            //   height: MediaQuery.of(context).size.height * 0.5,
+            // ),
           ],
         ),
       ),
