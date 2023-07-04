@@ -21,7 +21,7 @@ class _UpdateState extends State<UpdateProfileScreen> {
   final _emailController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late final String loggedUserId;
-  late final UserModel? user;
+  // late final UserModel? user;
   final UserService userService = UserService();
 
   String? userName;
@@ -40,81 +40,79 @@ class _UpdateState extends State<UpdateProfileScreen> {
     UserService userService = UserService();
     var userData = await userService.getUser(widget.userId);
     String? user_Name;
-    // String? user_Id = userData['userId'];
     String? user_email;
     String? user_Cpf;
     print(userData?.name);
     if (userData != null) {
-     user_Name = userData?.name;
-     user_email = userData?.email;
-     user_Cpf = userData?.cpf;
+      user_Name = userData?.name;
+      user_email = userData?.email;
+      user_Cpf = userData?.cpf;
     }
-  
 
     setState(() {
       userName = user_Name;
       cpf = user_Cpf;
-      email= user_email;
-
+      email = user_email;
+      _nameController.text = user_Name!;
+      _cpfController.text =  user_Cpf!;
+      _emailController.text =  user_email!;
     });
   }
-
 
   Future<void> _submitForm(BuildContext context) async {
     if (!_form.currentState!.validate()) {
       return;
     }
 
+    UserStore userStore = Provider.of<UserStore>(context, listen: false);
 
-      UserStore userStore = Provider.of<UserStore>(context, listen: false);
-
-      if (_nameController.text == '') {
+    if (_nameController.text == '') {
       userStore.setName(userName!);
-      }else{
+    } else {
       userStore.setName(_nameController.text);
-      }
-      if (_cpfController.text == '') {
-        userStore.setCPF(cpf!);
-      }else{
+    }
+    if (_cpfController.text == '') {
+      userStore.setCPF(cpf!);
+    } else {
       userStore.setCPF(_cpfController.text);
-      }
-      if (_emailController.text  == '') {
-        userStore.setEmail(email!);
-      }else{
+    }
+    if (_emailController.text == '') {
+      userStore.setEmail(email!);
+    } else {
       userStore.setEmail(_emailController.text);
-      }
+    }
 
-      UserService userService = UserService();
+    UserService userService = UserService();
 
-      await userService.updateUser(
-        firebaseUserId: loggedUserId,
-        name: userStore.name,
-        cpf: userStore.cpf,
-        email: userStore.email,
-      );
+    await userService.updateUser(
+      firebaseUserId: loggedUserId,
+      name: userStore.name,
+      cpf: userStore.cpf,
+      email: userStore.email,
+    );
 
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, '/profile');
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, '/profile');
 
-      // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Edição bem-sucedida'),
-            content:
-                const Text('A edição do seu perfil foi realizada com sucesso!'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+    // ignore: use_build_context_synchronously
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edição bem-sucedida'),
+          content:
+              const Text('A edição do seu perfil foi realizada com sucesso!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<UserModel?> _getUserData() async {
@@ -143,7 +141,7 @@ class _UpdateState extends State<UpdateProfileScreen> {
               body: Center(child: Text('Error: ${snapshot.error}')),
             );
           } else {
-            user = snapshot.data;
+            // user = snapshot.data;
             return Scaffold(
                 appBar: null,
                 body: CustomScrollView(
@@ -193,83 +191,84 @@ class _UpdateState extends State<UpdateProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 16),
-
-                            // -- Form Fields
-                            Form(
-                              key: _form,
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                      labelText: 'Nome',
-                                      prefixIcon: Icon(Icons.person),
-                                    ),
-                                    controller: _nameController,
-                                  ),
-                                  const SizedBox(height: 20),
-                                  TextFormField(
+                            SingleChildScrollView(
+                              child: Form(
+                                key: _form,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
                                       decoration: const InputDecoration(
-                                        labelText: 'Email',
-                                        prefixIcon: Icon(Icons.email),
+                                        labelText: 'Nome',
+                                        prefixIcon: Icon(Icons.person),
                                       ),
-                                      controller: _emailController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
+                                      controller: _nameController,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    TextFormField(
+                                        decoration: const InputDecoration(
+                                          labelText: 'Email',
+                                          prefixIcon: Icon(Icons.email),
+                                        ),
+                                        controller: _emailController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return null;
+                                          } else if (!value.contains('@')) {
+                                            return 'E-mail inválido';
+                                          }
                                           return null;
-                                        } else if (!value.contains('@')) {
-                                          return 'E-mail inválido';
-                                        }
-                                        return null;
-                                      }),
-                                  const SizedBox(height: 20),
-                                  TextFormField(
-                                      decoration: const InputDecoration(
-                                        labelText: 'CPF',
-                                        prefixIcon: Icon(Icons.perm_identity),
-                                      ),
-                                      controller: _cpfController,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return null;
-                                        }else if (value.length != 11) {
-                                          return "O CPF deve ter exatamente 11 números";
-                                        }
-                                        return null; // Caractere '@' encontrado, validação bem-sucedida
-                                      }),
-                                  const SizedBox(height: 20),
+                                        }),
+                                    const SizedBox(height: 20),
+                                    TextFormField(
+                                        decoration: const InputDecoration(
+                                          labelText: 'CPF',
+                                          prefixIcon: Icon(Icons.perm_identity),
+                                        ),
+                                        controller: _cpfController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return null;
+                                          } else if (value.length != 11) {
+                                            return "O CPF deve ter exatamente 11 números";
+                                          }
+                                          return null; // Caractere '@' encontrado, validação bem-sucedida
+                                        }),
+                                    const SizedBox(height: 20),
 
-                                  // -- Form Submit Button
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        if (_nameController.text.isNotEmpty ||
-                                            _emailController.text.isNotEmpty ||
-                                            _cpfController.text.isNotEmpty) {
-                                          _submitForm(context);
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                  'Preencha pelo menos um campo'),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.green,
-                                        side: BorderSide.none,
-                                        shape: const StadiumBorder(),
-                                      ),
-                                      child: const Text(
-                                        'Salvar Perfil',
-                                        style: TextStyle(color: Colors.white),
+                                    // -- Form Submit Button
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          if (_nameController.text.isNotEmpty ||
+                                              _emailController
+                                                  .text.isNotEmpty ||
+                                              _cpfController.text.isNotEmpty) {
+                                            _submitForm(context);
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    'Preencha pelo menos um campo'),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.green,
+                                          side: BorderSide.none,
+                                          shape: const StadiumBorder(),
+                                        ),
+                                        child: const Text(
+                                          'Salvar Perfil',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 20),
-                                ],
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
