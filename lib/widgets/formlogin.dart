@@ -167,20 +167,41 @@ class _FormLoginState extends State<FormLogin> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: TextButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/cadastro');
-              },
-              style: ElevatedButton.styleFrom(),
-              child: const Text(
-                'Não tem uma conta? Inscreva-se',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 12,
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              // Envolve os botões em um widget Row
+              mainAxisAlignment:
+                  MainAxisAlignment.center, // Alinha os elementos à esquerda
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed('/cadastro');
+                  },
+                  style: ElevatedButton.styleFrom(),
+                  child: const Text(
+                    'Inscreva-se',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
-              ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed('/senha');
+                  },
+                  style: ElevatedButton.styleFrom(),
+                  child: const Text(
+                    'Esqueci a senha',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
