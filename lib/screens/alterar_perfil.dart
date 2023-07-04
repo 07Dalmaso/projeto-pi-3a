@@ -54,8 +54,8 @@ class _UpdateState extends State<UpdateProfileScreen> {
       cpf = user_Cpf;
       email = user_email;
       _nameController.text = user_Name!;
-      _cpfController.text =  user_Cpf!;
-      _emailController.text =  user_email!;
+      _cpfController.text = user_Cpf!;
+      _emailController.text = user_email!;
     });
   }
 
@@ -129,155 +129,158 @@ class _UpdateState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UserModel?>(
-        future: _getUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
-          } else if (snapshot.hasError) {
-            return Scaffold(
-              body: Center(child: Text('Error: ${snapshot.error}')),
-            );
-          } else {
-            // user = snapshot.data;
-            return Scaffold(
-                appBar: null,
-                body: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      centerTitle: false,
-                      automaticallyImplyLeading: false,
-                      expandedHeight: MediaQuery.of(context).size.height * 0.3,
-                      flexibleSpace: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.bottomRight,
-                            colors: colors,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.arrow_back),
-                              color: Colors.white,
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/profile');
-                              },
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Alterar Perfil",
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 206, 202, 202),
-                                    fontSize: 25.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      pinned: true,
+    // return FutureBuilder<UserModel?>(
+    //     future: _getUserData(),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return Scaffold(
+    //           body: Center(child: CircularProgressIndicator()),
+    //         );
+    //       } else if (snapshot.hasError) {
+    //         return Scaffold(
+    //           body: Center(child: Text('Error: ${snapshot.error}')),
+    //         );
+    //       } else {
+    // user = snapshot.data;
+    return Scaffold(
+        appBar: null,
+        resizeToAvoidBottomInset: true,
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              centerTitle: false,
+              automaticallyImplyLeading: false,
+              expandedHeight: MediaQuery.of(context).size.height * 0.3,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.bottomRight,
+                    colors: colors,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/profile');
+                      },
                     ),
-                    SliverFillRemaining(
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 16),
-                            SingleChildScrollView(
-                              child: Form(
-                                key: _form,
-                                child: Column(
-                                  children: [
-                                    TextFormField(
-                                      decoration: const InputDecoration(
-                                        labelText: 'Nome',
-                                        prefixIcon: Icon(Icons.person),
-                                      ),
-                                      controller: _nameController,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    TextFormField(
-                                        decoration: const InputDecoration(
-                                          labelText: 'Email',
-                                          prefixIcon: Icon(Icons.email),
-                                        ),
-                                        controller: _emailController,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return null;
-                                          } else if (!value.contains('@')) {
-                                            return 'E-mail inválido';
-                                          }
-                                          return null;
-                                        }),
-                                    const SizedBox(height: 20),
-                                    TextFormField(
-                                        decoration: const InputDecoration(
-                                          labelText: 'CPF',
-                                          prefixIcon: Icon(Icons.perm_identity),
-                                        ),
-                                        controller: _cpfController,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return null;
-                                          } else if (value.length != 11) {
-                                            return "O CPF deve ter exatamente 11 números";
-                                          }
-                                          return null; // Caractere '@' encontrado, validação bem-sucedida
-                                        }),
-                                    const SizedBox(height: 20),
-
-                                    // -- Form Submit Button
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          if (_nameController.text.isNotEmpty ||
-                                              _emailController
-                                                  .text.isNotEmpty ||
-                                              _cpfController.text.isNotEmpty) {
-                                            _submitForm(context);
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    'Preencha pelo menos um campo'),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.green,
-                                          side: BorderSide.none,
-                                          shape: const StadiumBorder(),
-                                        ),
-                                        child: const Text(
-                                          'Salvar Perfil',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Alterar Perfil",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 206, 202, 202),
+                            fontSize: 25.0,
+                          ),
                         ),
                       ),
                     ),
                   ],
-                ));
-          }
-        });
+                ),
+              ),
+              pinned: true,
+            ),
+            SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+                sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 16),
+                        SingleChildScrollView(
+                          child: Form(
+                            key: _form,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Nome',
+                                    prefixIcon: Icon(Icons.person),
+                                  ),
+                                  controller: _nameController,
+                                ),
+                                const SizedBox(height: 20),
+                                TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Email',
+                                      prefixIcon: Icon(Icons.email),
+                                    ),
+                                    controller: _emailController,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return null;
+                                      } else if (!value.contains('@')) {
+                                        return 'E-mail inválido';
+                                      }
+                                      return null;
+                                    }),
+                                const SizedBox(height: 20),
+                                TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'CPF',
+                                      prefixIcon: Icon(Icons.perm_identity),
+                                    ),
+                                    controller: _cpfController,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return null;
+                                      } else if (value.length != 11) {
+                                        return "O CPF deve ter exatamente 11 números";
+                                      }
+                                      return null; // Caractere '@' encontrado, validação bem-sucedida
+                                    }),
+                                const SizedBox(height: 20),
+
+                                // -- Form Submit Button
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (_nameController.text.isNotEmpty ||
+                                          _emailController.text.isNotEmpty ||
+                                          _cpfController.text.isNotEmpty) {
+                                        _submitForm(context);
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Preencha pelo menos um campo'),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green,
+                                      side: BorderSide.none,
+                                      shape: const StadiumBorder(),
+                                    ),
+                                    child: const Text(
+                                      'Salvar Perfil',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ])))
+          ],
+        ));
   }
+  // });
 }
