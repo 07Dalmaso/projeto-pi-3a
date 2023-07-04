@@ -27,7 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool showBalance = true;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late final String loggedUserId;
-  late final UserModel? user;
+  // late final UserModel? user;
   final UserService userService = UserService();
 
   Future<UserModel?> _getUserData() async {
@@ -67,10 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
             body: Center(child: Text('Error: ${snapshot.error}')),
           );
         } else {
-          user = snapshot.data;
+          // user = snapshot.data;
           return Scaffold(
             appBar: CustomAppBar(
-                title: 'Bem vindo(a) ${user?.name ?? ''}',
+                title: 'Bem vindo(a)',
+                //title: 'Bem vindo(a) ${user?.name ?? ''}',
                 automaticallyImplyLeading: false),
             body: Center(
               child: Column(
@@ -99,7 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                               
                             Text(
-                              '${user?.name}',
+                              '',
+                              //'${user?.name}',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 16,
