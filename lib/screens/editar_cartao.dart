@@ -197,6 +197,7 @@ class _EditState extends State<EditCard> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 TextFormField(
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     labelText: 'Últimos 4 dígitos do cartão',
                     hintText: cardNumber,
@@ -223,6 +224,7 @@ class _EditState extends State<EditCard> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 TextFormField(
+                   keyboardType: TextInputType.datetime,
                   decoration: InputDecoration(
                     labelText: 'Data de Vencimento',
                     hintText: cardExpirationDate,
