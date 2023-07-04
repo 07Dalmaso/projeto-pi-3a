@@ -13,6 +13,7 @@ import 'package:proj_pi/screens/gastos.dart';
 import 'package:proj_pi/screens/home.dart';
 import 'package:proj_pi/screens/login_screen.dart';
 import 'package:proj_pi/screens/profile.dart';
+import 'package:proj_pi/screens/senha.dart';
 import 'package:proj_pi/screens/splash_screen.dart';
 import 'package:proj_pi/store/card_store.dart';
 import 'package:proj_pi/store/user_store.dart';
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
                     ModalRoute.of(context)!.settings.arguments as String;
                 return EditCard(cardID: cardId);
               },
+              '/senha': (context) => SenhaPage(),
             }));
   }
 }
