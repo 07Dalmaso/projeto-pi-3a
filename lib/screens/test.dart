@@ -49,7 +49,7 @@ class TestPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: AssetImage("assets/imagem/foto.jpg"),
+                            image: AssetImage("assets/images/foto.jpg"),
                             fit: BoxFit.cover,
                           ),
                         ),

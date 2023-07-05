@@ -37,15 +37,11 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Image.asset(
-            //   'assets/logo.png', // substitua 'logo.png' pelo nome do seu arquivo de imagem
-            //   height: 150,
-            // ),
             SizedBox(height: 24),
-            // Image.asset(
-            //   '../assets/imagem/logo.png',
-            //   height: MediaQuery.of(context).size.height * 0.5,
-            // ),
+            Image.asset(
+              'assets/images/logo.png',
+              height: MediaQuery.of(context).size.height * 0.5,
+            ),
           ],
         ),
       ),
