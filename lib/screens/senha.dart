@@ -78,6 +78,7 @@ class SenhaPageState extends State<SenhaPage> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.email),
                     labelText: 'Email de recuperação',
                   ),
                   validator: (value) {

@@ -140,6 +140,7 @@ class _AddCardState extends State<AddCard> {
                           decoration: InputDecoration(
                             labelText: 'Nome do Titular',
                             hintText: 'Ex: Sabrina',
+                            prefixIcon: Icon(Icons.person),
                             border: OutlineInputBorder(),
                           ),
                           style: TextStyle(
@@ -160,6 +161,7 @@ class _AddCardState extends State<AddCard> {
                           decoration: InputDecoration(
                             labelText: 'Apelido do Cartão',
                             hintText: 'Ex: Cartão da Nubank',
+                            prefixIcon: Icon(Icons.short_text),
                             border: OutlineInputBorder(),
                           ),
                           style: TextStyle(
@@ -181,6 +183,7 @@ class _AddCardState extends State<AddCard> {
                           decoration: const InputDecoration(
                             labelText: 'Últimos 4 dígitos do cartão',
                             hintText: 'Ex: 1111',
+                            prefixIcon: Icon(Icons.credit_card),
                             border: OutlineInputBorder(),
                           ),
                           style: const TextStyle(
@@ -211,6 +214,7 @@ class _AddCardState extends State<AddCard> {
                           decoration: InputDecoration(
                             labelText: 'Data de Vencimento',
                             hintText: 'Ex: 06/23',
+                            prefixIcon: Icon(Icons.calendar_today),
                             border: OutlineInputBorder(),
                           ),
                           style: TextStyle(
