@@ -211,9 +211,10 @@ class _AddCardState extends State<AddCard> {
                             border: OutlineInputBorder(),
                           ),
                           style: TextStyle(
-                              fontSize: 16.0,
-                              color: Color.fromARGB(255, 69, 72, 73)),
-                          //initialValue: cardStore.expirationDate,
+                            fontSize: 16.0,
+                            color: Color.fromARGB(255, 69, 72, 73),
+                          ),
+                          // initialValue: cardStore.expirationDate,
                           controller: _dateController,
                           onChanged: (value) {
                             if (value.length == 2 &&
@@ -225,12 +226,19 @@ class _AddCardState extends State<AddCard> {
                                     offset: _dateController.text.length),
                               );
                             }
+                            else if (value.length >= 5) {
+                              _dateController.text = value.substring(0, 5);
+                              _dateController.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: _dateController.text.length),
+                              );
+                            }
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Insira a data de vencimento';
                             } else {
-                              // Regular expression pattern for "mm/yyyy" format
                               final pattern = r'^\d{2}/\d{2}$';
                               final regExp = RegExp(pattern);
                               if (!regExp.hasMatch(value)) {
