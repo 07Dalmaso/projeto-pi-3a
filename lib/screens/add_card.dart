@@ -17,6 +17,7 @@ class _AddCardState extends State<AddCard> {
   final _nameCardController = TextEditingController();
   final _dateController = TextEditingController();
   String? cardId;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -39,8 +40,10 @@ class _AddCardState extends State<AddCard> {
       const Color.fromARGB(255, 246, 247, 248),
     ];
     return Scaffold(
+      appBar: null,
         resizeToAvoidBottomInset: true,
-        body: CustomScrollView(slivers: <Widget>[
+        body: Stack(
+        children : [CustomScrollView(slivers: <Widget>[
           SliverAppBar(
             centerTitle: false,
             automaticallyImplyLeading: false,
@@ -256,6 +259,10 @@ class _AddCardState extends State<AddCard> {
                             ElevatedButton(
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                            _isLoading = true;
+                                          });
+                                          
                                   CardService cardService = CardService();
                                   final String cardId = generateCardId();
 
@@ -299,6 +306,18 @@ class _AddCardState extends State<AddCard> {
                   ),
                 )
               ])))
-        ]));
+        ]),
+         if (_isLoading)
+            Container(
+              color: Colors.black54,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+            ),
+        ]
+        )
+        );
   }
 }

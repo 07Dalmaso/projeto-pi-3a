@@ -25,6 +25,7 @@ class _AddGastosState extends State<AddGastos> {
   final _descptController = TextEditingController();
   final _dateController = TextEditingController();
   String? transdId;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -67,8 +68,10 @@ class _AddGastosState extends State<AddGastos> {
       Color.fromARGB(255, 246, 247, 248)!,
     ];
     return Scaffold(
+        appBar: null,
         resizeToAvoidBottomInset: true,
-        body: CustomScrollView(slivers: <Widget>[
+        body: Stack(
+        children : [ CustomScrollView(slivers: <Widget>[
           SliverAppBar(
             centerTitle: false,
             automaticallyImplyLeading: false,
@@ -269,6 +272,9 @@ class _AddGastosState extends State<AddGastos> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   GastosService gastosService = GastosService();
+                                  setState(() {
+                                            _isLoading = true;
+                                          });
 
                                   final String transId = generateGastoId();
 
@@ -307,6 +313,16 @@ class _AddGastosState extends State<AddGastos> {
               ],
             ),
           ),
+        ]),
+        if (_isLoading)
+            Container(
+              color: Colors.black54,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+            ),
         ]));
   }
 }

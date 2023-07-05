@@ -32,7 +32,6 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
   void pegarCardId() async {
     CardService cardService = CardService();
     var cardData = await cardService.getCardById(widget.cardID);
-    print(cardData);
     String? card_Name = cardData['cardName'];
     String? card_Id = cardData['cardId'];
     String? card_Number = cardData['cardNumber'];
@@ -83,12 +82,6 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(cardId);
-    print(widget.cardID);
-    print(cardName);
-    print(cardExpirationDate);
-    print(cardHolderName);
-    print(cardNumber);
     return Scaffold(
       body: CustomScrollView(
         shrinkWrap: true,
@@ -261,7 +254,7 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
                               ),
                             ),
                           ],
-                        ), //const Spacer(),
+                        ),
                       ],
                     ),
                   ),

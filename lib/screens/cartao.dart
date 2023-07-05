@@ -46,8 +46,7 @@ class _CartaoPageState extends State<CartaoPage>{
 
   @override
   Widget build(BuildContext context) {
-
-    print(cardNamesList);
+    
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73),
       Color.fromARGB(255, 97, 104, 107),
