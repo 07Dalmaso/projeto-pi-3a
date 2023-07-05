@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/models/card_model.dart';
-import 'package:proj_pi/store/card_store.dart';
+//import 'package:proj_pi/models/card_model.dart';
+//import 'package:proj_pi/store/card_store.dart';
 //import './common/extensions/CustomInputField.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:proj_pi/services/card_service.dart';
 
 class EditCard extends StatefulWidget {
@@ -65,21 +65,21 @@ class _EditState extends State<EditCard> {
 
     setState(() => _errorEdit = '');
     try {
-      CardStore cardStore = Provider.of<CardStore>(context, listen: false);
+     /* CardStore cardStore = Provider.of<CardStore>(context, listen: false);
       cardStore.setCardHolderName(_cardHolderController.text);
       cardStore.setCardName(_cardNameController.text);
       cardStore.setCardNumber(_cardNumberController.text);
-      cardStore.setExpirationDate(_cardDateController.text);
+      cardStore.setExpirationDate(_cardDateController.text);*/
 
       CardService userService = CardService();
 
       await userService.updateCard(
 
         cardId,
-        cardHolderName: cardStore.cardHolderName,
-        cardName: cardStore.cardName,
-        cardNumber: cardStore.cardNumber,
-        expirationDate: cardStore.expirationDate,
+        cardHolderName: _cardHolderController.text,
+        cardName: _cardNameController.text,
+        cardNumber: _cardNumberController.text,
+        expirationDate: _cardDateController.text,
       );
        // ignore: use_build_context_synchronously
        showDialog(
@@ -132,7 +132,7 @@ class _EditState extends State<EditCard> {
                 icon: Icon(Icons.arrow_back),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/dados_cartao');
+                   Navigator.pushNamed(context, '/dados_cartao',arguments: widget.cardID);
                 },
               ),
               Expanded(
@@ -168,15 +168,15 @@ class _EditState extends State<EditCard> {
                   ),
                   style: TextStyle(
                       fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                  //initialValue: cardStore.cardHolderName,
-                  onChanged: (value) => _cardHolderController.text=value,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                     cardHolderName ?? '';
-                    }
-                    return null;
-                  },
-                ),
+                  //initialValue: cardHolderName,
+                  controller: _cardHolderController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Insira o nome do titular do cartão';
+                            }
+                            return null;
+                          },
+                        ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 TextFormField(
                   decoration: InputDecoration(
@@ -186,15 +186,15 @@ class _EditState extends State<EditCard> {
                   ),
                   style: TextStyle(
                       fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                  //initialValue: cardStore.cardName,
-                  onChanged: (value) => _cardNameController.text =value,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      cardName ?? '';
-                    }
-                    return null;
-                  },
-                ),
+                  //initialValue: cardName,
+                 controller: _cardNameController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Insira o apelido do cartão';
+                            }
+                            return null;
+                          },
+                        ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 TextFormField(
                   keyboardType: TextInputType.number,
@@ -205,23 +205,24 @@ class _EditState extends State<EditCard> {
                   ),
                   style: const TextStyle(
                       fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                  //initialValue: cardStore.cardNumber,
-                  onChanged: (value) => _cardNumberController.text =value,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      cardNumber ?? '';
-                    } else {
-                      if (value.length > 4) {
-                        return 'Insira apenas os 4 últimos dígitos';
-                      }
-                      if (value.length < 4) {
-                        return 'Insira os 4 últimos dígitos';
-                      }
+                  //initialValue: cardNumber,
+                 controller: _cardNumberController,
+                          maxLength: 4,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Insira o número do cartão';
+                            } else {
+                              if (value.length > 4) {
+                                return 'Insira apenas os 4 últimos dígitos';
+                              }
+                              if (value.length < 4) {
+                                return 'Insira os 4 últimos dígitos';
+                              }
 
-                      return null;
-                    }
-                  },
-                ),
+                              return null;
+                            }
+                          },
+                        ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 TextFormField(
                    keyboardType: TextInputType.datetime,
@@ -232,22 +233,40 @@ class _EditState extends State<EditCard> {
                   ),
                   style: TextStyle(
                       fontSize: 16.0, color: Color.fromARGB(255, 69, 72, 73)),
-                  //initialValue: cardStore.expirationDate,
-                  onChanged: (value) => _cardDateController.text=value,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      cardExpirationDate ?? '';
-                    } else {
-                      // Regular expression pattern for "mm/yyyy" format
-                      final pattern = r'^\d{2}/\d{2}$';
-                      final regExp = RegExp(pattern);
-                      if (!regExp.hasMatch(value)) {
-                        return 'Insira a data no formato mês/ano';
-                      }
-                    }
-                    return null;
-                  },
-                ),
+                  //initialValue: cardExpirationDate,
+                  controller: _cardDateController,
+                          onChanged: (value) {
+                            if (value.length == 2 &&
+                                !_cardDateController.text.endsWith('/')) {
+                              _cardDateController.text += '/';
+                              _cardDateController.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: _cardDateController.text.length),
+                              );
+                            }
+                            else if (value.length >= 5) {
+                              _cardDateController.text = value.substring(0, 5);
+                              _cardDateController.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: _cardDateController.text.length),
+                              );
+                            }
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Insira a data de vencimento';
+                            } else {
+                              final pattern = r'^\d{2}/\d{2}$';
+                              final regExp = RegExp(pattern);
+                              if (!regExp.hasMatch(value)) {
+                                return 'Insira a data no formato mês/ano';
+                              }
+                            }
+                            return null;
+                          },
+                        ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
