@@ -99,30 +99,30 @@ class _AddCardState extends State<AddCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // Image.asset(
-                    //   '../assets/imagem/visa.png',
-                    //   height: 30.0,
-                    // ),
-                    // Image.asset(
-                    //   '../assets/imagem/mastercard.png',
-                    //   height: 30.0,
-                    // ),
-                    // Image.asset(
-                    //   '../assets/imagem/americanExpress.png',
-                    //   height: 30.0,
-                    // ),
-                    // Image.asset(
-                    //   '../assets/imagem/hipercard.png',
-                    //   height: 30.0,
-                    // ),
-                    // Image.asset(
-                    //   '../assets/imagem/elo.png',
-                    //   height: 30.0,
-                    // ),
-                    // Image.asset(
-                    //   '../assets/imagem/hiper.png',
-                    //   height: 30.0,
-                    // ),
+                    Image.asset(
+                      'assets/images/visa.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      'assets/images/mastercard.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      'assets/images/americanExpress.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      'assets/images/hipercard.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      'assets/images/elo.png',
+                      height: 30.0,
+                    ),
+                    Image.asset(
+                      'assets/images/hiper.png',
+                      height: 30.0,
+                    ),
                   ],
                 ),
               ),
