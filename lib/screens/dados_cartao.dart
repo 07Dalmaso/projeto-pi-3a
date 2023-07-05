@@ -141,6 +141,7 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
                             enabled: false,
                             decoration: const InputDecoration(
                               labelText: 'Nome do Titular',
+                              prefixIcon: Icon(Icons.person),
                               border: OutlineInputBorder(),
                             ),
                             style: const TextStyle(
@@ -156,6 +157,7 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
                             enabled: false,
                             decoration: const InputDecoration(
                               labelText: 'Nome do Cartão',
+                              prefixIcon: Icon(Icons.short_text),
                               border: OutlineInputBorder(),
                             ),
                             style: const TextStyle(
@@ -171,6 +173,7 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
                             enabled: false,
                             decoration: const InputDecoration(
                               labelText: 'Número do Cartão',
+                              prefixIcon: Icon(Icons.credit_card),
                               border: OutlineInputBorder(),
                             ),
                             style: const TextStyle(
@@ -186,6 +189,7 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
                             enabled: false,
                             decoration: const InputDecoration(
                               labelText: 'Data de validade',
+                              prefixIcon: Icon(Icons.calendar_today),
                               border: OutlineInputBorder(),
                             ),
                             style: const TextStyle(

@@ -206,6 +206,7 @@ class CadastroPageState extends State<CadastroPage> {
                               decoration: InputDecoration(
                                 labelText: 'Nome',
                                 hintText: 'Ex: Sabrina',
+                                prefixIcon: Icon(Icons.person),
                                 border: OutlineInputBorder(),
                               ),
                             ),
@@ -217,6 +218,7 @@ class CadastroPageState extends State<CadastroPage> {
                               decoration: InputDecoration(
                                 labelText: 'CPF',
                                 hintText: 'Ex: 123.456.789-00',
+                                prefixIcon: Icon(Icons.badge),
                                 border: OutlineInputBorder(),
                               ),
                             ),
@@ -229,6 +231,7 @@ class CadastroPageState extends State<CadastroPage> {
                               decoration: InputDecoration(
                                 labelText: 'Email',
                                 hintText: 'Ex: exemplo@gmail.com',
+                                prefixIcon: Icon(Icons.email),
                                 border: OutlineInputBorder(),
                               ),
                             ),
@@ -242,6 +245,7 @@ class CadastroPageState extends State<CadastroPage> {
                               decoration: InputDecoration(
                                 labelText: 'Senha',
                                 hintText: 'Ex: sua_senha',
+                                prefixIcon: Icon(Icons.lock),
                                 border: OutlineInputBorder(),
                                 suffixIcon: IconButton(
                                   onPressed: () {

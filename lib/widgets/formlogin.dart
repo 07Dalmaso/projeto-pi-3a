@@ -108,6 +108,7 @@ class _FormLoginState extends State<FormLogin> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
+                      prefixIcon: Icon(Icons.email),
                       labelText: 'E-mail',
                     ),
                     onChanged: (text) {
@@ -139,6 +140,7 @@ class _FormLoginState extends State<FormLogin> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       labelText: 'Senha',
+                      prefixIcon: Icon(Icons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
                             _isPasswordVisible
@@ -211,7 +213,6 @@ class _FormLoginState extends State<FormLogin> {
           ),
           if (_isLoading)
             Container(
-              color: Colors.black54,
               child: Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),

@@ -166,6 +166,7 @@ class _EditState extends State<EditCard> {
                       TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Nome do Titular',
+                          prefixIcon: Icon(Icons.person),
                           hintText: cardHolderName,
                           border: OutlineInputBorder(),
                         ),
@@ -187,6 +188,7 @@ class _EditState extends State<EditCard> {
                         decoration: InputDecoration(
                           labelText: 'Apelido do Cartão',
                           hintText: cardName,
+                          prefixIcon: Icon(Icons.short_text),
                           border: OutlineInputBorder(),
                         ),
                         style: TextStyle(
@@ -207,6 +209,7 @@ class _EditState extends State<EditCard> {
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: 'Últimos 4 dígitos do cartão',
+                          prefixIcon: Icon(Icons.credit_card),
                           hintText: cardNumber,
                           border: OutlineInputBorder(),
                         ),
@@ -237,6 +240,7 @@ class _EditState extends State<EditCard> {
                         keyboardType: TextInputType.datetime,
                         decoration: InputDecoration(
                           labelText: 'Data de Vencimento',
+                          prefixIcon: Icon(Icons.calendar_today),
                           hintText: cardExpirationDate,
                           border: OutlineInputBorder(),
                         ),

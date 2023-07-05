@@ -114,6 +114,7 @@ class _ProfilePage extends State<ProfilePage> {
                                 enabled: false,
                                 decoration: const InputDecoration(
                                   labelText: 'Nome do Titular',
+                                  prefixIcon: Icon(Icons.person),
                                   border: OutlineInputBorder(),
                                 ),
                                 style: const TextStyle(
@@ -129,6 +130,7 @@ class _ProfilePage extends State<ProfilePage> {
                                 enabled: false,
                                 decoration: const InputDecoration(
                                   labelText: 'CPF',
+                                  prefixIcon: Icon(Icons.badge),
                                   border: OutlineInputBorder(),
                                 ),
                                 style: const TextStyle(
@@ -144,6 +146,7 @@ class _ProfilePage extends State<ProfilePage> {
                                 enabled: false,
                                 decoration: const InputDecoration(
                                   labelText: 'Email',
+                                  prefixIcon: Icon(Icons.email),
                                   border: OutlineInputBorder(),
                                 ),
                                 style: const TextStyle(

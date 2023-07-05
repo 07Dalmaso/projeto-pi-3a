@@ -173,6 +173,9 @@ class _AddGastosState extends State<AddGastos> {
                             labelText: 'Valor da transação',
                             hintText: 'Ex: 100',
                             border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.monetization_on_outlined),
+                            suffix: Text('reais',style: TextStyle(fontSize: 14),
+                            ),
                           ),
                           style: TextStyle(
                               fontSize: 16.0,
@@ -193,6 +196,7 @@ class _AddGastosState extends State<AddGastos> {
                           decoration: const InputDecoration(
                             labelText: 'Data da transação',
                             hintText: 'Ex: 21/06/2023',
+                            prefixIcon: Icon(Icons.calendar_today),
                             border: OutlineInputBorder(),
                           ),
                           style: TextStyle(
@@ -248,6 +252,7 @@ class _AddGastosState extends State<AddGastos> {
                             labelText: 'Descrição da transação',
                             hintText: 'Ex: Alimentação',
                             border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.description),
                           ),
                           style: TextStyle(
                               fontSize: 16.0,
