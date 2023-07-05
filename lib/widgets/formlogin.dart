@@ -15,7 +15,7 @@ class _FormLoginState extends State<FormLogin> {
   final _passwordController = TextEditingController();
 
   bool _isPasswordVisible = false; // Track password visibility
-
+  bool _isLoading = false;
   String _errorLogin = '';
 
   @override
@@ -60,7 +60,8 @@ class _FormLoginState extends State<FormLogin> {
       Navigator.of(context).pushReplacementNamed('/main');
     } catch (e) {
       setState(() {
-        _errorLogin = 'Ocorreu um erro de autenticação. Verifique seu e-mail e senha.';
+        _errorLogin =
+            'Ocorreu um erro de autenticação. Verifique seu e-mail e senha.';
       });
       showDialog(
         context: context,
@@ -162,9 +163,13 @@ class _FormLoginState extends State<FormLogin> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
             child: CustomButton(
-              text: 'Login',
-              onPressed: () => _submitForm(context),
-            ),
+                text: 'Login',
+                onPressed: () => {
+                      setState(() {
+                        _isLoading = true;
+                      }),
+                      _submitForm(context),
+                    }),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 0),
@@ -204,6 +209,15 @@ class _FormLoginState extends State<FormLogin> {
               ],
             ),
           ),
+          if (_isLoading)
+            Container(
+              color: Colors.black54,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+            ),
         ],
       ),
     );
