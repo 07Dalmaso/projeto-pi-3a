@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:proj_pi/widgets/customappbar.dart';
+import 'package:proj_pi/services/user_service.dart';
 
 class SenhaPage extends StatefulWidget {
   @override
   SenhaPageState createState() => SenhaPageState();
 }
 
+
 class SenhaPageState extends State<SenhaPage> {
   final _form = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
 
   final colors = [
     const Color.fromARGB(255, 69, 72, 73),
@@ -21,14 +22,23 @@ class SenhaPageState extends State<SenhaPage> {
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
+  
 
   void _submitForm() {
     if (_form.currentState!.validate()) {
-      // Realize a alteração de senha aqui
-      // Use _emailController.text e _passwordController.text para obter os valores digitados
+     String email = _emailController.text;
+  
+    final UserService userService = UserService();
+
+      userService.resetPassword(email);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Email de redefinição de senha enviado!'),
+      ),
+    );
     }
   }
 
@@ -48,7 +58,7 @@ class SenhaPageState extends State<SenhaPage> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
-                    labelText: 'Email',
+                    labelText: 'Email de recuperação',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -56,22 +66,6 @@ class SenhaPageState extends State<SenhaPage> {
                     }
                     if (!value.contains('@')) {
                       return "E-mail inválido";
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Nova Senha',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Senha é obrigatória";
-                    }
-                    if (value.length < 8) {
-                      return "Sua senha deve ter no mínimo 8 caracters";
                     }
                     return null;
                   },
