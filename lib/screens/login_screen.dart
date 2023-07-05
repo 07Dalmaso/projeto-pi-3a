@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
       Color.fromARGB(255, 154, 165, 171),
       Color.fromARGB(255, 246, 247, 248),
     ];
+
     return Scaffold(
       appBar: null,
       body: Container(
@@ -29,12 +30,17 @@ class _LoginPageState extends State<LoginPage> {
             colors: colors,
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const <Widget>[FormLogin()],
+        child: Center(
+          // Centraliza verticalmente
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: const <Widget>[FormLogin()],
+              ),
+            ),
           ),
         ),
       ),
