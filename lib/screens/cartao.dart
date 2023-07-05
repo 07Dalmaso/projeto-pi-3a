@@ -46,9 +46,6 @@ class _CartaoPageState extends State<CartaoPage>{
 
   @override
   Widget build(BuildContext context) {
-    //final cardStore = Provider.of<CardStore>(context);
-   // final List<CardModel> cards = cardStore.cards;
-   // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     print(cardNamesList);
     List<Color> colors = [

@@ -39,14 +39,34 @@ class SenhaPageState extends State<SenhaPage> {
         content: Text('Email de redefinição de senha enviado!'),
       ),
     );
+     Navigator.pushNamed(context, '/login');
     }
   }
 
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: CustomAppBar(title: 'Alterar senha'),
+    appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushNamed(context, '/login');
+          },
+        ),
+        title: Center(child: Text('Alterar senha')),
+        elevation: 0,
+        toolbarHeight: 80,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: colors,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
-        // Envolve o conteúdo com SingleChildScrollView
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
