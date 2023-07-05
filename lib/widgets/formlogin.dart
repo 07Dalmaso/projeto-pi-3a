@@ -50,6 +50,8 @@ class _FormLoginState extends State<FormLogin> {
       return;
     }
 
+    FocusScope.of(context).unfocus();
+
     String email = _emailController.text;
     String password = _passwordController.text;
 

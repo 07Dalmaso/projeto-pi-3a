@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/models/card_model.dart';
-import 'package:proj_pi/store/card_store.dart';
-import 'package:provider/provider.dart';
+//import 'package:proj_pi/models/card_model.dart';
+//import 'package:proj_pi/store/card_store.dart';
+//import 'package:provider/provider.dart';
 import 'package:proj_pi/services/card_service.dart';
 
 class DadosCartaoPage extends StatefulWidget {
@@ -44,6 +44,16 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
       cardNumber = card_Number;
       cardHolderName = card_HolderName;
       cardExpirationDate = card_ExpirationDate;
+    });
+  }
+
+  void updateCardData(Map<String, String> updatedData) {
+    // Update the state variables with the received updated data
+    setState(() {
+      cardName = updatedData['cardName'];
+      cardNumber = updatedData['cardNumber'];
+      cardHolderName = updatedData['cardHolderName'];
+      cardExpirationDate = updatedData['expirationDate'];
     });
   }
 
@@ -205,10 +215,17 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
                           children: [
                             Expanded(
                               child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/editar_cartao',
-                                      arguments: cardId);
-                                },
+                                onTap: () async {
+                         var updatedData = await Navigator.pushNamed(
+                        context,
+                        '/editar_cartao',
+                        arguments: cardId,
+                        ) as Map<String, String>?;
+
+                        if (updatedData != null) {
+                       updateCardData(updatedData);
+                         }
+                          },
                                 child: Container(
                                   padding: EdgeInsets.all(20.0),
                                   decoration: BoxDecoration(

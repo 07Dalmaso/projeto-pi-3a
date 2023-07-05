@@ -94,18 +94,20 @@ class GastosService {
     return null;
   }
 }
- Future<double> sumValues() async {
+Future<double> sumValues() async {
   double total = 0.0;
 
   List<dynamic> transData = await getGastoByUser();
 
   for (var gasto in transData) {
     String transValor = gasto['valor'];
+    transValor = transValor.replaceAll(',', '.'); // Substitui a vírgula pelo ponto
     double value = double.tryParse(transValor) ?? 0.0;
     total += value;
   }
 
   return total;
 }
+
 
 }
