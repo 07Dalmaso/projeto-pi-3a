@@ -15,6 +15,8 @@ class CadastroPageState extends State<CadastroPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  bool _isPasswordVisible = false;
+
   String _errorLogin = '';
 
   String? _validateName(String? value) {
@@ -235,11 +237,26 @@ class CadastroPageState extends State<CadastroPage> {
                               controller: _passwordController,
                               onChanged: userStore.setPassword,
                               validator: _validatePassword,
-                              obscureText: true,
+                              obscureText:
+                                  _isPasswordVisible, // Adicione essa variável de controle para alternar a visibilidade da senha
                               decoration: InputDecoration(
                                 labelText: 'Senha',
                                 hintText: 'Ex: sua_senha',
                                 border: OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isPasswordVisible =
+                                          !_isPasswordVisible; // Alterna a visibilidade da senha ao pressionar o ícone do olho
+                                    });
+                                  },
+                                  icon: Icon(
+                                    _isPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.grey,
+                                  ),
+                                ),
                               ),
                             ),
                             SizedBox(height: 70.0),
