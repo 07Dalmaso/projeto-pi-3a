@@ -69,7 +69,7 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
      cardService.deleteCardById(id);
   }
 
-  void showDeleteSuccessMessage(BuildContext context) {
+ /* void showDeleteSuccessMessage(BuildContext context) {
    showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -88,10 +88,40 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
           );
         },
       );
+  }*/
+
+   String _errorEdit = '';
+
+  Future<void> showDeleteSuccessMessage(BuildContext context) async {
+    setState(() => _errorEdit = '');
+
+    try {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Deleção bem-sucedida'),
+            content:
+                const Text('A deleção do seu cartão foi realizada com sucesso!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      setState(() => _errorEdit = e.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: CustomScrollView(
         shrinkWrap: true,
@@ -250,10 +280,11 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
                               child: GestureDetector(
                                 onTap: () {
                                   deleteCard(widget.cardID);
-                                  showDeleteSuccessMessage(context);
 
                                   Navigator.pushNamed(context, '/cartao',
                                           arguments: cardId);
+
+                                  showDeleteSuccessMessage(context);
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(20.0),
