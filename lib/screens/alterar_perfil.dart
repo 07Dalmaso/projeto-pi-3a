@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:proj_pi/models/user_model.dart';
 import 'package:proj_pi/services/user_service.dart';
 import 'package:proj_pi/store/user_store.dart';
 import 'package:provider/provider.dart';

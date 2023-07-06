@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proj_pi/models/card_model.dart';
 import 'package:proj_pi/services/gastos_service.dart';
-import 'package:proj_pi/store/card_store.dart';
-import 'package:proj_pi/store/trans_store.dart';
-import 'package:provider/provider.dart';
 import 'package:proj_pi/services/card_service.dart';
 
 class AddGastos extends StatefulWidget {
@@ -54,12 +50,6 @@ class _AddGastosState extends State<AddGastos> {
 
   @override
   Widget build(BuildContext context) {
-    //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    //final cardStore = Provider.of<CardStore>(context);
-    //final CardModel? card = cardStore.getCardById(widget.cardID);
-    // final tranStore = Provider.of<TranStore>(context);
-
-    // tranStore.setCard(cardName);
 
     List<Color> colors = [
       Color.fromARGB(255, 69, 72, 73)!,
@@ -180,7 +170,6 @@ class _AddGastosState extends State<AddGastos> {
                           style: TextStyle(
                               fontSize: 16.0,
                               color: Color.fromARGB(255, 69, 72, 73)),
-                          //initialValue: tranStore.valor,
                           controller: _valueController,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -202,7 +191,6 @@ class _AddGastosState extends State<AddGastos> {
                           style: TextStyle(
                               fontSize: 16.0,
                               color: Color.fromARGB(255, 69, 72, 73)),
-                          // initialValue: tranStore.data,
                           controller: _dateController,
                           onChanged: (value) {
                             if (value.length == 3 &&
@@ -257,7 +245,6 @@ class _AddGastosState extends State<AddGastos> {
                           style: TextStyle(
                               fontSize: 16.0,
                               color: Color.fromARGB(255, 69, 72, 73)),
-                          //initialValue: tranStore.descpt,
                           controller: _descptController,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -290,9 +277,6 @@ class _AddGastosState extends State<AddGastos> {
                                     transId: transId,
                                     cartaoT: cardName,
                                   );
-
-                                  //tranStore.saveTrasaction();
-                                  // _formKey.currentState!.reset();
 
                                   Navigator.pushNamed(context, '/gastos');
                                 }

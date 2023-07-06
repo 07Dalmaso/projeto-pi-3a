@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:proj_pi/models/card_model.dart';
-//import 'package:proj_pi/store/card_store.dart';
-//import './common/extensions/CustomInputField.dart';
-//import 'package:provider/provider.dart';
 import 'package:proj_pi/services/card_service.dart';
 
 class EditCard extends StatefulWidget {
@@ -64,11 +60,6 @@ class _EditState extends State<EditCard> {
   Future<void> editCard(BuildContext context, String cardId) async {
     setState(() => _errorEdit = '');
     try {
-      /* CardStore cardStore = Provider.of<CardStore>(context, listen: false);
-      cardStore.setCardHolderName(_cardHolderController.text);
-      cardStore.setCardName(_cardNameController.text);
-      cardStore.setCardNumber(_cardNumberController.text);
-      cardStore.setExpirationDate(_cardDateController.text);*/
 
       CardService userService = CardService();
 
@@ -173,7 +164,6 @@ class _EditState extends State<EditCard> {
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Color.fromARGB(255, 69, 72, 73)),
-                        //initialValue: cardHolderName,
                         controller: _cardHolderController,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -194,7 +184,6 @@ class _EditState extends State<EditCard> {
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Color.fromARGB(255, 69, 72, 73)),
-                        //initialValue: cardName,
                         controller: _cardNameController,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -216,7 +205,6 @@ class _EditState extends State<EditCard> {
                         style: const TextStyle(
                             fontSize: 16.0,
                             color: Color.fromARGB(255, 69, 72, 73)),
-                        //initialValue: cardNumber,
                         controller: _cardNumberController,
                         maxLength: 4,
                         validator: (value) {
@@ -247,7 +235,6 @@ class _EditState extends State<EditCard> {
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Color.fromARGB(255, 69, 72, 73)),
-                        //initialValue: cardExpirationDate,
                         controller: _cardDateController,
                         onChanged: (value) {
                           if (value.length == 2 &&

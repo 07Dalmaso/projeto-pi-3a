@@ -1,10 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:proj_pi/models/user_model.dart';
 import 'package:proj_pi/services/user_service.dart';
-import 'package:proj_pi/store/trans_store.dart';
 import 'package:proj_pi/widgets/customappbar.dart';
-import 'package:provider/provider.dart';
 import 'package:proj_pi/services/gastos_service.dart';
 
 final List<Color> colors = [

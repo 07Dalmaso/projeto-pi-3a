@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:mobx/src/api/observable_collections.dart';
-//import 'package:proj_pi/models/card_model.dart';
-//import 'package:proj_pi/store/card_store.dart';
-//import './common/extensions/CustomInputField.dart';
-//import 'package:provider/provider.dart';
 import 'package:proj_pi/services/card_service.dart';
 
 class Add_Gastos extends StatefulWidget {
@@ -12,14 +7,8 @@ class Add_Gastos extends StatefulWidget {
 }
 
 class _AddGastosState extends State<Add_Gastos> {
-  //final TextEditingController _nameController = TextEditingController();
 
- /* @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }*/
-   List<String> cardNamesList = [];
+  List<String> cardNamesList = [];
   List<String> cardIdList = [];
   List<String> cardNumberList = [];
 

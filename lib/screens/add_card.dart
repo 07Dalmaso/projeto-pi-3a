@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proj_pi/services/card_service.dart';
-import 'package:proj_pi/store/card_store.dart';
-//import './common/extensions/CustomInputField.dart';
-import 'package:provider/provider.dart';
 
 class AddCard extends StatefulWidget {
   @override
@@ -30,8 +27,6 @@ class _AddCardState extends State<AddCard> {
 
   @override
   Widget build(BuildContext context) {
-    //final cardStore = Provider.of<CardStore>(context);
-    //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     final colors = [
       const Color.fromARGB(255, 69, 72, 73),
@@ -167,7 +162,6 @@ class _AddCardState extends State<AddCard> {
                           style: TextStyle(
                               fontSize: 16.0,
                               color: Color.fromARGB(255, 69, 72, 73)),
-                          //initialValue: cardStore.cardName,
                           controller: _nameCardController,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -189,7 +183,6 @@ class _AddCardState extends State<AddCard> {
                           style: const TextStyle(
                               fontSize: 16.0,
                               color: Color.fromARGB(255, 69, 72, 73)),
-                          //initialValue: cardStore.cardNumber,
                           controller: _numberController,
                           maxLength: 4,
                           validator: (value) {
@@ -221,7 +214,6 @@ class _AddCardState extends State<AddCard> {
                             fontSize: 16.0,
                             color: Color.fromARGB(255, 69, 72, 73),
                           ),
-                          // initialValue: cardStore.expirationDate,
                           controller: _dateController,
                           onChanged: (value) {
                             if (value.length == 2 &&
@@ -277,7 +269,6 @@ class _AddCardState extends State<AddCard> {
                                     cardHolderName: _nameHolderController.text,
                                     expirationDate: _dateController.text,
                                   );
-                                  //cardStore.saveCard();
                                   _formKey.currentState!.reset();
 
                                   Navigator.pushNamed(context, '/cartao');
