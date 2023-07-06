@@ -203,10 +203,8 @@ class _GastosPageState extends State<GastosPage> {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  //TransModel tran = trans[index];
-                  //final value =tranStore.valor;
-                  String cardNamee=cardNameList[index];
-               // String cardID=transIdList[index];
+
+                String cardNamee=cardNameList[index];
                 String data=dataList[index];
                 String valor=valorList[index];
                 String desc=descptList[index];

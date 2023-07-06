@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:proj_pi/models/card_model.dart';
-//import 'package:proj_pi/store/card_store.dart';
-//import 'package:provider/provider.dart';
 import 'package:proj_pi/services/card_service.dart';
 
 class DadosCartaoPage extends StatefulWidget {
@@ -15,7 +12,6 @@ class DadosCartaoPage extends StatefulWidget {
 
 class _DadosCartaoPageState extends State<DadosCartaoPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  //late CardModel? card;
 
   String? cardName;
   String? cardId;
@@ -69,26 +65,6 @@ class _DadosCartaoPageState extends State<DadosCartaoPage> {
      cardService.deleteCardById(id);
   }
 
- /* void showDeleteSuccessMessage(BuildContext context) {
-   showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Aviso'),
-            content:
-                const Text('Cartão foi deletado com sucesso!'),
-                 actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-          ),
-            ],
-          );
-        },
-      );
-  }*/
 
    String _errorEdit = '';
 
