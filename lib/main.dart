@@ -19,7 +19,6 @@ import 'package:proj_pi/store/card_store.dart';
 import 'package:proj_pi/store/user_store.dart';
 import 'package:proj_pi/store/trans_store.dart';
 import 'package:provider/provider.dart';
-import 'package:proj_pi/services/gastos_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
