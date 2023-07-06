@@ -175,7 +175,10 @@ class _AddGastosState extends State<AddGastos> {
                             if (value!.isEmpty) {
                               return 'Insira o valor da transação';
                             }
-                            return null;
+                           else if (!RegExp(r'^\d+(?:[.,]\d{1,2})?$').hasMatch(value)) {
+      return 'Insira um valor válido com até 2 casas decimais';
+                           }
+                              return null;
                           },
                         ),
                         SizedBox(
