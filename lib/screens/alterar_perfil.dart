@@ -4,6 +4,7 @@ import 'package:proj_pi/models/user_model.dart';
 import 'package:proj_pi/services/user_service.dart';
 import 'package:proj_pi/store/user_store.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   final String userId;
@@ -22,6 +23,7 @@ class _UpdateState extends State<UpdateProfileScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late final String loggedUserId;
   final UserService userService = UserService();
+  TextInputFormatter _digitsOnlyFormatter = FilteringTextInputFormatter.digitsOnly;
 
   String? userName;
   String? userId;
@@ -34,6 +36,24 @@ class _UpdateState extends State<UpdateProfileScreen> {
     super.initState();
     pegarUserId();
     loggedUserId = _auth.currentUser!.uid;
+  }
+
+  String _formatCPF(String cpf) {
+    cpf = cpf.replaceAll(
+        RegExp(r'\D'), '');
+    if (cpf.length > 11) {
+      cpf = cpf.substring(0, 11);
+    }
+    if (cpf.length >= 4) {
+      cpf = cpf.substring(0, 3) + '.' + cpf.substring(3);
+    }
+    if (cpf.length >= 8) {
+      cpf = cpf.substring(0, 7) + '.' + cpf.substring(7);
+    }
+    if (cpf.length >= 12) {
+      cpf = cpf.substring(0, 11) + '-' + cpf.substring(11);
+    }
+    return cpf;
   }
 
   void pegarUserId() async {
@@ -199,8 +219,10 @@ class _UpdateState extends State<UpdateProfileScreen> {
                                     controller: _emailController,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
+                                        _isLoading = false;
                                         return null;
                                       } else if (!value.contains('@')) {
+                                        _isLoading = false;
                                         return 'E-mail inválido';
                                       }
                                       return null;
@@ -208,15 +230,28 @@ class _UpdateState extends State<UpdateProfileScreen> {
                                   ),
                                   const SizedBox(height: 20),
                                   TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [_digitsOnlyFormatter],
                                     decoration: const InputDecoration(
                                       labelText: 'CPF',
                                       prefixIcon: Icon(Icons.perm_identity),
                                     ),
                                     controller: _cpfController,
+                                    onChanged: (value) {
+                                      String formattedCPF = _formatCPF(value);
+                                      _cpfController.value =
+                                          _cpfController.value.copyWith(
+                                        text: formattedCPF,
+                                        selection: TextSelection.collapsed(
+                                            offset: formattedCPF.length),
+                                      );
+                                    },
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
+                                        _isLoading = false;
                                         return null;
-                                      } else if (value.length != 11) {
+                                      } else if (value.length != 14) {
+                                        _isLoading = false;
                                         return "O CPF deve ter exatamente 11 números";
                                       }
                                       return null;

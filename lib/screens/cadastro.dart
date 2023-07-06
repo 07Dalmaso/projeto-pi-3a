@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proj_pi/services/user_service.dart';
 import 'package:provider/provider.dart';
 import 'package:proj_pi/store/user_store.dart';
+import 'package:flutter/services.dart';
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -14,10 +15,29 @@ class CadastroPageState extends State<CadastroPage> {
   final _cpfController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  TextInputFormatter _digitsOnlyFormatter = FilteringTextInputFormatter.digitsOnly;
 
   bool _isPasswordVisible = false;
 
   String _errorLogin = '';
+
+  String _formatCPF(String cpf) {
+    cpf = cpf.replaceAll(
+        RegExp(r'\D'), ''); // Remove todos os caracteres não numéricos
+    if (cpf.length > 11) {
+      cpf = cpf.substring(0, 11); // Limita o comprimento do CPF em 11 dígitos
+    }
+    if (cpf.length >= 4) {
+      cpf = cpf.substring(0, 3) + '.' + cpf.substring(3);
+    }
+    if (cpf.length >= 8) {
+      cpf = cpf.substring(0, 7) + '.' + cpf.substring(7);
+    }
+    if (cpf.length >= 12) {
+      cpf = cpf.substring(0, 11) + '-' + cpf.substring(11);
+    }
+    return cpf;
+  }
 
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
@@ -33,7 +53,7 @@ class CadastroPageState extends State<CadastroPage> {
     if (value == null || value.isEmpty) {
       return "O CPF é obrigatório";
     }
-    if (value.length != 11) {
+    if (value.length != 14) {
       return "O CPF deve ter exatamente 11 números";
     }
     return null;
@@ -212,9 +232,19 @@ class CadastroPageState extends State<CadastroPage> {
                             ),
                             SizedBox(height: 16.0),
                             TextFormField(
+                              inputFormatters: [_digitsOnlyFormatter],
                               controller: _cpfController,
-                              onChanged: userStore.setCPF,
+                              onChanged: (value) {
+                                String formattedCPF = _formatCPF(value);
+                                _cpfController.value =
+                                    _cpfController.value.copyWith(
+                                  text: formattedCPF,
+                                  selection: TextSelection.collapsed(
+                                      offset: formattedCPF.length),
+                                );
+                              }, 
                               validator: _validateCpf,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 labelText: 'CPF',
                                 hintText: 'Ex: 123.456.789-00',
