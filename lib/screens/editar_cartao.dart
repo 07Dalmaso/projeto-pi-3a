@@ -279,7 +279,7 @@ class _EditState extends State<EditCard> {
                                             _isLoading = true;
                                           });
                                 editCard(context, cardId!);
-                                Navigator.pushNamed(context, '/dados_cartao',
+                                Navigator.pushNamed(context, '/cartao',
                                     arguments: widget.cardID);
                               }
                             },
