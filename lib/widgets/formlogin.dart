@@ -27,12 +27,15 @@ class _FormLoginState extends State<FormLogin> {
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
+      _isLoading = false;
       return "E-mail é obrigatório";
     }
     if (!value.contains('@')) {
+      _isLoading = false;
       return "E-mail inválido";
     }
     if (value.trim() != value) {
+      _isLoading = false;
     return "O e-mail não pode conter espaços em branco";
     }
     return null;
