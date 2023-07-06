@@ -37,9 +37,11 @@ class _FormLoginState extends State<FormLogin> {
 
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
+      _isLoading = false;
       return "Senha é obrigatória";
     }
     if (value.length < 8) {
+      _isLoading = false;
       return "Sua senha deve ter no mínimo 8 caracteres";
     }
     return null;
