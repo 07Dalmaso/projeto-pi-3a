@@ -29,32 +29,6 @@ class CardService {
     });
   }
 
-  /*Future<CardModel?> getCard(String firebaseUserId) async {
-    try {
-      final DatabaseEvent snapshot = await _cardRef
-          .orderByChild('firebaseUserId')
-          .equalTo(firebaseUserId)
-          .once();
-      final cardMap = snapshot.snapshot.value as Map<dynamic, dynamic>?;
-
-      if (cardMap != null) {
-        final cardData = cardMap.values.first;
-
-        return CardModel(
-            cardId: cardData['cardId'],
-            cardHolderName: cardData['cardHolderName'],
-            cardName: cardData['cardName'],
-            cardNumber: cardData['cardNumber'],
-            expirationDate: cardData['expirationDate'],
-            userId: _auth.currentUser?.uid);
-      }
-    } catch (e) {
-      // Handle error here
-      print('Error getting user data: $e');
-    }
-
-    return null;
-  }*/
   Future<List<dynamic>> getCardByUser() async {
     try {
       final User? currentUser = _auth.currentUser;
@@ -106,45 +80,56 @@ Future<void> deleteCardById(String cardId) async {
     // Trate o erro de exclusão do cartão aqui
   }
 }
-Future<void> updateCard(String cardId, {
-  String? cardNumber,
-  String? cardName,
-  String? cardHolderName,
-  String? expirationDate, 
-}) async {
-  try {
-    final cardRef = _cardRef.child(cardId);
+  List<dynamic> cards = []; // Initialize the cards list
 
-    final DatabaseEvent snapshot = await cardRef.once();
-    final cardData = snapshot.snapshot.value;
-
-    if (cardData != null) {
-      final updatedCardData = <String, dynamic>{};
-
-      if (cardNumber != null) {
-        updatedCardData['cardNumber'] = cardNumber;
-      }
-      if (cardName != null) {
-        updatedCardData['cardName'] = cardName;
-      }
-      if (cardHolderName != null) {
-        updatedCardData['cardHolderName'] = cardHolderName;
-      }
-      if (expirationDate != null) {
-        updatedCardData['expirationDate'] = expirationDate;
-      }
-
-      await cardRef.update(updatedCardData);
-
-      print('Card updated successfully');
-    } else {
-      print('Card not found');
-    }
-  } catch (e) {
-    print('Error updating card: $e');
-    // Handle error here
+  void updateCardList() {
+    cards = List<dynamic>.from(cards); // Make a copy of the cards list
   }
-}
 
+  Future<void> updateCard(String cardId, {
+    String? cardNumber,
+    String? cardName,
+    String? cardHolderName,
+    String? expirationDate,
+  }) async {
+    try {
+      final cardRef = _cardRef.child(cardId);
+
+      final snapshot = await cardRef.once();
+       final cardData = snapshot.snapshot.value as Map<dynamic, dynamic>;
+
+      if (cardData != null) {
+        final updatedCardData = <String, dynamic>{};
+
+        if (cardNumber != null) {
+          updatedCardData['cardNumber'] = cardNumber;
+        }
+        if (cardName != null) {
+          updatedCardData['cardName'] = cardName;
+        }
+        if (cardHolderName != null) {
+          updatedCardData['cardHolderName'] = cardHolderName;
+        }
+        if (expirationDate != null) {
+          updatedCardData['expirationDate'] = expirationDate;
+        }
+
+        await cardRef.update(updatedCardData);
+
+        print('Card updated successfully');
+        
+        // Update the card in the local list if found
+        int cardIndex = cards.indexWhere((card) => card['id'] == cardId);
+        if (cardIndex != -1) {
+          cards[cardIndex] = updatedCardData;
+        }
+      } else {
+        print('Card not found');
+      }
+    } catch (e) {
+      print('Error updating card: $e');
+      // Handle error here
+    }
+  }
 }
 
