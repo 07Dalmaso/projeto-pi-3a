@@ -101,7 +101,7 @@ class CadastroPageState extends State<CadastroPage> {
 
       // Check if the email is already registered
       bool isEmailRegistered =
-          await userService.isEmailRegistered(userStore.email);
+          await userService.isEmailRegistered(_emailController.text);
 
       if (isEmailRegistered) {
         // ignore: use_build_context_synchronously
