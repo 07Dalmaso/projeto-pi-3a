@@ -32,6 +32,9 @@ class _FormLoginState extends State<FormLogin> {
     if (!value.contains('@')) {
       return "E-mail inválido";
     }
+    if (value.trim() != value) {
+    return "O e-mail não pode conter espaços em branco";
+    }
     return null;
   }
 

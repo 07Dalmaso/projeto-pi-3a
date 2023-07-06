@@ -224,6 +224,10 @@ class _UpdateState extends State<UpdateProfileScreen> {
                                         _isLoading = false;
                                         return 'E-mail inválido';
                                       }
+                                      if (value.trim() != value) {
+                                      _isLoading = false;
+                                      return "O e-mail não pode conter espaços em branco";
+                                      }
                                       return null;
                                     },
                                   ),
