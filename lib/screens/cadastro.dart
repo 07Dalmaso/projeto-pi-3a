@@ -15,7 +15,8 @@ class CadastroPageState extends State<CadastroPage> {
   final _cpfController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  TextInputFormatter _digitsOnlyFormatter = FilteringTextInputFormatter.digitsOnly;
+  TextInputFormatter _digitsOnlyFormatter =
+      FilteringTextInputFormatter.digitsOnly;
 
   bool _isPasswordVisible = false;
 
@@ -242,7 +243,7 @@ class CadastroPageState extends State<CadastroPage> {
                                   selection: TextSelection.collapsed(
                                       offset: formattedCPF.length),
                                 );
-                              }, 
+                              },
                               validator: _validateCpf,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
@@ -271,25 +272,25 @@ class CadastroPageState extends State<CadastroPage> {
                               onChanged: userStore.setPassword,
                               validator: _validatePassword,
                               obscureText:
-                                  _isPasswordVisible, // Adicione essa variável de controle para alternar a visibilidade da senha
+                                 ! _isPasswordVisible,
                               decoration: InputDecoration(
                                 labelText: 'Senha',
                                 hintText: 'Ex: sua_senha',
                                 prefixIcon: Icon(Icons.lock),
                                 border: OutlineInputBorder(),
                                 suffixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _isPasswordVisible =
-                                          !_isPasswordVisible; // Alterna a visibilidade da senha ao pressionar o ícone do olho
-                                    });
-                                  },
                                   icon: Icon(
                                     _isPasswordVisible
                                         ? Icons.visibility
                                         : Icons.visibility_off,
                                     color: Colors.grey,
                                   ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isPasswordVisible =
+                                          !_isPasswordVisible;
+                                    });
+                                  },
                                 ),
                               ),
                             ),
