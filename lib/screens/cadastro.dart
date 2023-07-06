@@ -67,6 +67,9 @@ class CadastroPageState extends State<CadastroPage> {
     if (!value.contains('@')) {
       return "E-mail inválido";
     }
+    if (value.trim() != value) {
+    return "O e-mail não pode conter espaços em branco";
+    }
     return null;
   }
 
@@ -272,7 +275,7 @@ class CadastroPageState extends State<CadastroPage> {
                               onChanged: userStore.setPassword,
                               validator: _validatePassword,
                               obscureText:
-                                 ! _isPasswordVisible,
+                              ! _isPasswordVisible,
                               decoration: InputDecoration(
                                 labelText: 'Senha',
                                 hintText: 'Ex: sua_senha',
