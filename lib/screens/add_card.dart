@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proj_pi/services/card_service.dart';
+import 'package:flutter/services.dart';
 
 class AddCard extends StatefulWidget {
   @override
@@ -140,7 +141,6 @@ class _AddCardState extends State<AddCard> {
                             style: TextStyle(
                                 fontSize: 16.0,
                                 color: Color.fromARGB(255, 69, 72, 73)),
-                            //initialValue: cardStore.cardHolderName,
                             controller: _nameHolderController,
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -175,6 +175,7 @@ class _AddCardState extends State<AddCard> {
                                   MediaQuery.of(context).size.height * 0.023),
                           TextFormField(
                             keyboardType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                             decoration: const InputDecoration(
                               labelText: 'Últimos 4 dígitos do cartão',
                               hintText: 'Ex: 1111',
