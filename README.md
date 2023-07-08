@@ -18,7 +18,7 @@ Gerenciamento de cartões: os usuários podem adicionar e armazenar com seguran�
 
 
 
-Contato
+- Contato
 Se você tiver alguma dúvida ou sugestão sobre este projeto, sinta-se à vontade para entrar em contato comigo em [lucassdalmaso25@gmail.com].
 
 Divirta-se gerenciando suas finanças com o app!
