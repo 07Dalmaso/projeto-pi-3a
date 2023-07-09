@@ -45,9 +45,12 @@ class _MyHomePageState extends State<MyHomePage> {
     String? user_email;
     String? user_Cpf;
     if (userData != null) {
-      user_Name = userData.name;
-      user_email = userData.email;
-      user_Cpf = userData.cpf;
+     // user_Name = userData.name;
+      //user_email = userData.email;
+      //user_Cpf = userData.cpf;
+      user_Name = userData['name'];
+    user_email = userData['email'];
+    user_Cpf = userData['cpf'];
     }
 
     setState(() {

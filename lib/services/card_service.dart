@@ -40,7 +40,7 @@ class CardService {
           (snapshot.snapshot.value as Map<dynamic, dynamic>?);
       final List<dynamic> cards = cardData?.values.toList() ?? [];
 
-       print(cards);
+      //print(cards);
       return cards;
     } catch (e) {
       // Handle the data reading error here

@@ -61,11 +61,14 @@ class _UpdateState extends State<UpdateProfileScreen> {
     String? user_Name;
     String? user_email;
     String? user_Cpf;
-    print(userData?.name);
+    print(userData?['name']);
     if (userData != null) {
-      user_Name = userData?.name;
-      user_email = userData?.email;
-      user_Cpf = userData?.cpf;
+      //user_Name = userData?.name;
+      //user_email = userData?.email;
+      //user_Cpf = userData?.cpf;
+      user_Name = userData['name'];
+    user_email = userData['email'];
+    user_Cpf = userData['cpf'];
     }
 
     setState(() {
