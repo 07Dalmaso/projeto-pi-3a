@@ -81,7 +81,7 @@ class UserService {
     }
   }
 
-  Future<UserModel?> getUser(String firebaseUserId) async {
+  Future<Map<String, dynamic>?> getUser(String firebaseUserId) async {
     try {
       final DatabaseEvent snapshot = await _userRef
           .orderByChild('firebaseUserId')
@@ -93,21 +93,20 @@ class UserService {
       if (userMap != null) {
         final userData = userMap.values.first;
 
-        return UserModel(
-          email: userData['email'],
-          userId: userData['firebaseUserId'],
-          password: userData['password'],
-          name: userData['nome'],
-          cpf: userData['cpf'],
-        );
+         return {
+        'email': userData['email'],
+        'userId': userData['firebaseUserId'],
+        'password': userData['password'],
+        'name': userData['nome'],
+        'cpf': userData['cpf'],
+      };
       }
     } catch (e) {
       // Handle error here
       print('Error getting user data: $e');
-    }
-
-    return null;
+      return null;
   }
+}
 
   Future<void> updateUser({
     required String firebaseUserId,

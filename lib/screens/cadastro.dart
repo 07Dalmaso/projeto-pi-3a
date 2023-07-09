@@ -91,11 +91,11 @@ class CadastroPageState extends State<CadastroPage> {
     setState(() => _errorLogin = '');
 
     try {
-      UserStore userStore = Provider.of<UserStore>(context, listen: false);
+      /*UserStore userStore = Provider.of<UserStore>(context, listen: false);
       userStore.setName(_nameController.text);
       userStore.setCPF(_cpfController.text);
       userStore.setEmail(_emailController.text);
-      userStore.setPassword(_passwordController.text);
+      userStore.setPassword(_passwordController.text);*/
 
       UserService userService = UserService();
 
@@ -126,10 +126,10 @@ class CadastroPageState extends State<CadastroPage> {
       }
 
       await userService.saveUser(
-        name: userStore.name,
-        cpf: userStore.cpf,
-        email: userStore.email,
-        password: userStore.password,
+        name: _nameController.text,
+        cpf: _cpfController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
       );
 
       // ignore: use_build_context_synchronously
@@ -169,22 +169,20 @@ class CadastroPageState extends State<CadastroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: null,
-      body: Consumer<UserStore>(
-        builder: (context, userStore, _) {
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                centerTitle: false,
-                automaticallyImplyLeading: false,
-                expandedHeight: MediaQuery.of(context).size.height * 0.3,
-                flexibleSpace: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.bottomRight,
-                      colors: colors,
-                    ),
-                  ),
+        body: Stack(
+        children : [ CustomScrollView(slivers: <Widget>[
+          SliverAppBar(
+            centerTitle: false,
+            automaticallyImplyLeading: false,
+            expandedHeight: MediaQuery.of(context).size.height * 0.3,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.bottomRight,
+                  colors: colors,
+                ),
+              ),
                   child: Row(
                     children: [
                       IconButton(
@@ -202,7 +200,7 @@ class CadastroPageState extends State<CadastroPage> {
                             style: TextStyle(
                               color: Color.fromARGB(255, 206, 202, 202),
                               fontSize: 25.0,
-                            ),
+                             ),
                           ),
                         ),
                       ),
@@ -224,7 +222,7 @@ class CadastroPageState extends State<CadastroPage> {
                             SizedBox(height: 16.0),
                             TextFormField(
                               controller: _nameController,
-                              onChanged: userStore.setName,
+                              //onChanged: _nameController.text,
                               keyboardType: TextInputType.text,
                               validator: _validateName,
                               decoration: InputDecoration(
@@ -259,7 +257,7 @@ class CadastroPageState extends State<CadastroPage> {
                             SizedBox(height: 16.0),
                             TextFormField(
                               controller: _emailController,
-                              onChanged: userStore.setEmail,
+                             // onChanged: userStore.setEmail,
                               validator: _validateEmail,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
@@ -272,7 +270,7 @@ class CadastroPageState extends State<CadastroPage> {
                             SizedBox(height: 16.0),
                             TextFormField(
                               controller: _passwordController,
-                              onChanged: userStore.setPassword,
+                             // onChanged: userStore.setPassword,
                               validator: _validatePassword,
                               obscureText:
                               ! _isPasswordVisible,
@@ -300,11 +298,11 @@ class CadastroPageState extends State<CadastroPage> {
                             SizedBox(height: 70.0),
                             ElevatedButton(
                               onPressed: () {
-                                _submitForm(context);
+                                //_submitForm(context);
                                 if (_form.currentState!.validate()) {
-                                  if (userStore.isFormValid) {
-                                    userStore.saveUser();
-                                  }
+                                  
+                                    //userStore.saveUser();
+                                     _submitForm(context);
                                 }
                               },
                               child: Text('Cadastrar'),
@@ -324,9 +322,6 @@ class CadastroPageState extends State<CadastroPage> {
                 ),
               ),
             ],
-          );
-        },
-      ),
-    );
+        )]));
+        }
   }
-}

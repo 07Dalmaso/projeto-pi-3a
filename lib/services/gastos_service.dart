@@ -66,7 +66,7 @@ class GastosService {
           (snapshot.snapshot.value as Map<dynamic, dynamic>?);
       final List<dynamic> gastos = transData?.values.toList() ?? [];
 
-       print(gastos);
+       //print(gastos);
       return gastos;
     } catch (e) {
       // Handle the data reading error here
