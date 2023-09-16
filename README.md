@@ -12,9 +12,9 @@ Gerenciamento de cartões: os usuários podem adicionar e armazenar com seguran�
 
 - Tecnologias usadas
 
-  - Dart: Dart é uma linguagem de programação desenvolvida pelo Google, conhecida por sua simplicidade e eficiência. Ele fornece a base para criar a lógica e a funcionalidade do aplicativo.
+  - Dart é uma linguagem de programação desenvolvida pelo Google, conhecida por sua simplicidade e eficiência. Ele fornece a base para criar a lógica e a funcionalidade do aplicativo.
 
-  - Flutter: Flutter é uma estrutura poderosa para o desenvolvimento de aplicativos móveis multiplataforma. Ele permite a criação de interfaces de usuário bonitas e de alto desempenho para dispositivos Android e iOS.
+  - Flutter é uma estrutura poderosa para o desenvolvimento de aplicativos móveis multiplataforma. Ele permite a criação de interfaces de usuário bonitas e de alto desempenho para dispositivos Android e iOS.
 
 
 
